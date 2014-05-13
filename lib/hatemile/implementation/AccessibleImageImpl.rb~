@@ -25,7 +25,7 @@ module Hatemile
 				@prefixId = configure.getParameter('prefix-generated-ids')
 				@classListImageAreas = configure.getParameter('class-list-image-areas')
 				@classLongDescriptionLink = configure.getParameter('class-longdescription-link')
-				@sufixLongDescriptionLink = configure.getParameter('sufix-longdescription-link')
+				@textLongDescriptionLink = configure.getParameter('sufix-longdescription-link')
 				@dataListForImage = configure.getParameter('data-list-for-image')
 				@dataLongDescriptionForImage = configure.getParameter('data-longdescription-for-image')
 				@dataIgnore = configure.getParameter('data-ignore')
@@ -85,9 +85,9 @@ module Hatemile
 					if @parser.find("[#{@dataLongDescriptionForImage}=#{element.getAttribute('id')}]").firstResult() == nil
 						text = nil
 						if element.hasAttribute?('alt')
-							text = "#{element.getAttribute('alt')} #{@sufixLongDescriptionLink}"
+							text = "#{element.getAttribute('alt')} #{@textLongDescriptionLink}"
 						else
-							text = @sufixLongDescriptionLink
+							text = @textLongDescriptionLink
 						end
 						longDescription = element.getAttribute('longdesc')
 						anchor = @parser.createElement('a')
