@@ -20,113 +20,29 @@ require File.dirname(__FILE__) + '/NokogiriAuxiliarToString.rb'
 module Hatemile
 	module Util
 		module NokogiriLib
+			
+			##
+			# The class NokogiriHTMLDOMParser is official implementation of HTMLDOMParser
+			# interface for the Nokogiri library.
+			# 
+			# ---
+			# 
+			# Version:
+			# 2014-07-23
 			class NokogiriHTMLDOMParser < Hatemile::Util::HTMLDOMParser
-				
-				def initialize(code, encoding = 'UTF-8')
-					@document = Nokogiri::HTML::Document.parse(code, nil, encoding)
-					@document.encoding = 'UTF-8'
-					@results = nil
-				end
-				def find(selector)
-					if selector.class == NokogiriHTMLDOMElement
-						@results = [selector.getData()]
-					else
-						@results = @document.css(selector)
-					end
-					return self
-				end
-				def findChildren(selector)
-					array = Array.new
-					if selector.class == NokogiriHTMLDOMElement
-						element = selector.getData()
-						@results.each() do |result|
-							if result.children.include?(element)
-								array.push(element)
-								break
-							end
-						end
-					else
-						@results.each() do |result|
-							result.css(selector).each do |element|
-								if element.parent == result
-									array.push(element)
-								end
-							end
-						end
-					end
-					@results = array
-					return self
-				end
-				def findDescendants(selector)
-					array = Array.new
-					if selector.class == NokogiriHTMLDOMElement
-						element = selector.getData()
-						parents = element.ancestors()
-						@results.each() do |result|
-							if parents.include?(result)
-								array.push(element)
-								break
-							end
-						end
-					else
-						@results.each() do |result|
-							array.concat(result.css(selector))
-						end
-					end
-					@results = array
-					return self
-				end
-				def findAncestors(selector)
-					array = Array.new
-					if selector.class == NokogiriHTMLDOMElement
-						element = selector.getData()
-						@results.each() do |result|
-							parents = element.ancestors()
-							if parents.include?(element)
-								array.push(element)
-								break
-							end
-						end
-					else
-						@results.each() do |result|
-							array.concat(result.ancestors(selector))
-						end
-					end
-					@results = array
-					return self
-				end
-				def firstResult()
-					if @results == nil or @results.empty?
-						return nil
-					end
-					return NokogiriHTMLDOMElement.new(@results[0])
-				end
-				def lastResult()
-					if @results == nil or @results.empty?
-						return nil
-					end
-					return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
-				end
-				def listResults()
-					array = Array.new
-					self.orderResults(@results).each() do |result|
-						array.push(NokogiriHTMLDOMElement.new(result))
-					end
-					return array
-				end
-				def createElement(tag) 
-					return NokogiriHTMLDOMElement.new(@document.create_element(tag))
-				end
-				def getHTML()
-					return NokogiriAuxiliarToString.toString(@document)
-				end
-				def clearParser()
-					@document = nil
-					@results.clear()
-					@results = nil
-				end
+				public_class_method :new
 				
 				protected
+				
+				##
+				# Order the results.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. Array(Nokogiri::XML::Node) +results+ The disordened results.
+				# Return:
+				# Array(Nokogiri::XML::Node) The ordened results.
 				def orderResults(results)
 					parents = Array.new()
 					groups = Array.new()
@@ -148,6 +64,139 @@ module Hatemile
 						array = array.concat(col)
 					end
 					return array
+				end
+				
+				public
+				
+				##
+				# Initializes a new object that encapsulate the parser of Jsoup.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. String|Nokogiri::HTML::Document +codeOrParser+
+				#   * String The HTML code.
+				#   * Nokogiri::HTML::Document The parser of Nokogiri.
+				#  2. String +encoding+ The enconding of code.
+				def initialize(codeOrParser, encoding = 'UTF-8')
+					if codeOrParser.class() == String
+						@document = Nokogiri::HTML::Document.parse(codeOrParser, nil, encoding)
+					else
+						@document = codeOrParser
+					end
+					@results = nil
+				end
+				
+				def find(selector)
+					if selector.class() == NokogiriHTMLDOMElement
+						@results = [selector.getData()]
+					else
+						@results = @document.css(selector)
+					end
+					return self
+				end
+				
+				def findChildren(selector)
+					array = Array.new()
+					if selector.class() == NokogiriHTMLDOMElement
+						element = selector.getData()
+						@results.each() do |result|
+							if result.children().include?(element)
+								array.push(element)
+								break
+							end
+						end
+					else
+						@results.each() do |result|
+							result.css(selector).each() do |element|
+								if element.parent() == result
+									array.push(element)
+								end
+							end
+						end
+					end
+					@results = array
+					return self
+				end
+				
+				def findDescendants(selector)
+					array = Array.new()
+					if selector.class() == NokogiriHTMLDOMElement
+						element = selector.getData()
+						parents = element.ancestors()
+						@results.each() do |result|
+							if parents.include?(result)
+								array.push(element)
+								break
+							end
+						end
+					else
+						@results.each() do |result|
+							array = array.concat(result.css(selector))
+						end
+					end
+					@results = array
+					return self
+				end
+				
+				def findAncestors(selector)
+					array = Array.new()
+					if selector.class() == NokogiriHTMLDOMElement
+						element = selector.getData()
+						@results.each() do |result|
+							parents = result.ancestors()
+							if parents.include?(element)
+								array.push(element)
+								break
+							end
+						end
+					else
+						@results.each() do |result|
+							array = array.concat(result.ancestors(selector))
+						end
+					end
+					@results = array
+					return self
+				end
+				
+				def firstResult()
+					if (@results == nil) or (@results.empty?())
+						return nil
+					end
+					return NokogiriHTMLDOMElement.new(@results[0])
+				end
+				
+				def lastResult()
+					if (@results == nil) or (@results.empty?())
+						return nil
+					end
+					return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
+				end
+				
+				def listResults()
+					array = Array.new()
+					self.orderResults(@results).each() do |result|
+						array.push(NokogiriHTMLDOMElement.new(result))
+					end
+					return array
+				end
+				
+				def createElement(tag) 
+					return NokogiriHTMLDOMElement.new(@document.create_element(tag))
+				end
+				
+				def getHTML()
+					return NokogiriAuxiliarToString.toString(@document)
+				end
+				
+				def getParser()
+					return @document
+				end
+				
+				def clearParser()
+					@document = nil
+					@results.clear()
+					@results = nil
 				end
 			end
 		end

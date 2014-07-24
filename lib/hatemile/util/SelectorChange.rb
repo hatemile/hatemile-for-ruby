@@ -11,31 +11,65 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
+
 module Hatemile
 	module Util
+		
+		##
+		# The SelectorChange class store the selector that be attribute change.
+		# 
+		# ---
+		# 
+		# Version:
+		# 2014-07-23
 		class SelectorChange
+			
+			##
+			# Inicializes a new object with the values pre-defineds.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. String +selector+ The selector.
+			#  2. String +attribute+ The attribute.
+			#  3. String +valueForAttribute+ The value of the attribute.
 			def initialize(selector, attribute, valueForAttribute)
 				@selector = selector
 				@attribute = attribute
 				@valueForAttribute = valueForAttribute
 			end
+			
+			##
+			# Returns the selector.
+			# 
+			# ---
+			# 
+			# Return:
+			# String The selector.
 			def getSelector()
 				return @selector
 			end
-			def setSelector(selector)
-				@selector = selector
-			end
+			
+			##
+			# Returns the attribute.
+			# 
+			# ---
+			# 
+			# Return:
+			# String The attribute.
 			def getAttribute()
-				return @atttribute
+				return @attribute
 			end
-			def setAttribute(attribute)
-				@attribute = attribute
-			end
+			
+			##
+			# Returns the value of the attribute.
+			# 
+			# ---
+			# 
+			# Return:
+			# String The value of the attribute.
 			def getValueForAttribute()
 				return @valueForAttribute
-			end
-			def setValueForAttribute(valueForAttribute)
-				@valueForAttribute = valueForAttribute
 			end
 		end
 	end

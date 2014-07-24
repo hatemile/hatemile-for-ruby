@@ -17,162 +17,225 @@ require File.dirname(__FILE__) + '/../util/CommonFunctions.rb'
 
 module Hatemile
 	module Implementation
+		
+		##
+		# The AccessibleFormImpl class is official implementation of AccessibleForm
+		# interface.
+		# 
+		# ---
+		# 
+		# Version:
+		# 2014-07-23
 		class AccessibleFormImpl < AccessibleForm
 			public_class_method :new
 			
+			protected
+			
+			##
+			# Do the label or the aria-label to inform in label that the field is
+			# required.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. Hatemile::Util::HTMLDOMElement +label+ The label.
+			#  2. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
+			def fixLabelRequiredField(label, requiredField)
+				if (requiredField.hasAttribute?('required')) or ((requiredField.hasAttribute?('aria-required')) \
+						and (requiredField.getAttribute('aria-required').downcase() == 'true'))
+					if not label.hasAttribute?(@dataLabelRequiredField)
+						label.setAttribute(@dataLabelRequiredField, 'true')
+					end
+					
+					if requiredField.hasAttribute?('aria-label')
+						contentLabel = requiredField.getAttribute('aria-label')
+						if (not @prefixRequiredField.empty?()) and (not contentLabel.include?(@prefixRequiredField))
+							contentLabel = "#{@prefixRequiredField} #{contentLabel}"
+						end
+						if (not @suffixRequiredField.empty?()) and (not contentLabel.include?(@suffixRequiredField))
+							contentLabel += " #{@suffixRequiredField}"
+						end
+						requiredField.setAttribute('aria-label', contentLabel)
+					end
+				end
+			end
+			
+			##
+			# Fix the control to inform if it has autocomplete and the type.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. Hatemile::Util::HTMLDOMElement +control+ The form control.
+			#  2. Boolean +active+ If the element has autocomplete.
+			def fixControlAutoComplete(control, active)
+				if active
+					control.setAttribute('aria-autocomplete', 'both')
+				elsif not ((active == nil) and (control.hasAttribute?('aria-autocomplete')))
+					if control.hasAttribute?('list')
+						list = @parser.find("datalist[id=#{control.getAttribute('list')}]").firstResult()
+						if list != nil
+							control.setAttribute('aria-autocomplete', 'list')
+						end
+					end
+					if (active == false) and (not control.hasAttribute?('aria-autocomplete') \
+							or (not control.getAttribute('aria-autocomplete') == 'list'))
+						control.setAttribute('aria-autocomplete', 'none')
+					end
+				end
+			end
+			
+			public
+			
+			##
+			# Initializes a new object that manipulate the accessibility of the forms
+			# of parser.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
+			#  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
 			def initialize(parser, configure)
 				@parser = parser
 				@prefixId = configure.getParameter('prefix-generated-ids')
-				@classRequiredField = configure.getParameter('class-required-field')
-				@sufixRequiredField = configure.getParameter('sufix-required-field')
-				@dataIgnore = configure.getParameter('data-ignore')
+				@dataLabelRequiredField = "data-#{configure.getParameter('data-label-required-field')}"
+				@dataIgnore = "data-#{configure.getParameter('data-ignore')}"
+				@prefixRequiredField = configure.getParameter('prefix-required-field')
+				@suffixRequiredField = configure.getParameter('suffix-required-field')
 			end
 			
-			def fixRequiredField element
-				if element.hasAttribute?('required')
-					element.setAttribute('aria-required', 'true')
+			def fixRequiredField(requiredField)
+				if requiredField.hasAttribute?('required')
+					requiredField.setAttribute('aria-required', 'true')
+					
 					labels = nil
-					if element.hasAttribute?('id')
-						labels = @parser.find("label[for=#{element.getAttribute('id')}]").listResults()
+					if requiredField.hasAttribute?('id')
+						labels = @parser.find("label[for=#{requiredField.getAttribute('id')}]").listResults()
 					end
-					if (labels == nil) or (labels.empty?)
-						labels = @parser.find(element).findAncestors('label').listResults()
+					if (labels == nil) or (labels.empty?())
+						labels = @parser.find(requiredField).findAncestors('label').listResults()
 					end
 					labels.each() do |label|
-						label.setAttribute('class', Hatemile::Util::CommonFunctions.increaseInList(label.getAttribute('class'), @classRequiredField))
+						self.fixLabelRequiredField(label, requiredField)
 					end
 				end
 			end
 			
-			def fixRequiredFields
-				elements = @parser.find('[required]').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixRequiredField(element)
+			def fixRequiredFields()
+				requiredFields = @parser.find('[required]').listResults()
+				requiredFields.each() do |requiredField|
+					if not requiredField.hasAttribute?(@dataIgnore)
+						self.fixRequiredField(requiredField)
 					end
 				end
 			end
 			
-			def fixDisabledField element
-				if element.hasAttribute?('disabled')
-					element.setAttribute('aria-disabled', 'true')
+			def fixRangeField(rangeField)
+				if rangeField.hasAttribute?('min')
+					rangeField.setAttribute('aria-valuemin', rangeField.getAttribute('min'))
+				end
+				if rangeField.hasAttribute?('max')
+					rangeField.setAttribute('aria-valuemax', rangeField.getAttribute('max'))
 				end
 			end
 			
-			def fixDisabledFields
-				elements = @parser.find('[disabled]').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixDisabledField(element)
+			def fixRangeFields()
+				rangeFields = @parser.find('[min],[max]').listResults()
+				rangeFields.each() do |rangeField|
+					if not rangeField.hasAttribute?(@dataIgnore)
+						self.fixRangeField(rangeField)
 					end
 				end
 			end
-				
-			def fixReadOnlyField element
-				if element.hasAttribute?('readonly')
-					element.setAttribute('aria-readonly', 'true')
-				end
-			end
-				
-			def fixReadOnlyFields
-				elements = @parser.find('[readonly]').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixReadOnlyField(element)
-					end
-				end
-			end
-				
-			def fixRangeField element
-				if element.hasAttribute?('min')
-					element.setAttribute('aria-valuemin', element.getAttribute('min'))
-				end
-				if element.hasAttribute?('max')
-					element.setAttribute('aria-valuemax', element.getAttribute('max'))
-				end
-			end
-				
-			def fixRangeFields
-				elements = @parser.find('[min],[max]').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixRangeField(element)
-					end
-				end
-			end
-				
-			def fixTextField element
-				if (element.getTagName() == 'INPUT') and (element.hasAttribute?('type'))
-					type = element.getAttribute('type').downcase
-					if (type == 'text') or (type == 'search') or (type == 'email') or (type == 'url') or (type == 'tel') or (type == 'number')
-						element.setAttribute('aria-multiline', 'false')
-					end
-				elsif element.getTagName() == 'TEXTAREA'
-					element.setAttribute('aria-multiline', 'true')
-				end
-			end
-				
-			def fixTextFields
-				elements = @parser.find('input[type=text],input[type=search],input[type=email],input[type=url],input[type=tel],input[type=number],textarea').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixTextField(element)
-					end
-				end
-			end
-				
-			def fixSelectField element
-				if element.getTagName() == 'SELECT'
-					if element.hasAttribute?('multiple')
-						element.setAttribute('aria-multiselectable', 'true')
+			
+			def fixLabel(label)
+				if label.getTagName() == 'LABEL'
+					if label.hasAttribute?('for')
+						field = @parser.find("##{label.getAttribute('for')}").firstResult()
 					else
-						element.setAttribute('aria-multiselectable', 'false')
-					end
-				end
-			end
-				
-			def fixSelectFields
-				elements = @parser.find('select').listResults()
-				elements.each() do |element|
-					if not element.hasAttribute?(@dataIgnore)
-						self.fixSelectField(element)
-					end
-				end
-			end
-				
-			def fixLabel element
-				if element.getTagName() == 'LABEL'
-					input = nil
-					if element.hasAttribute?('for')
-						input = @parser.find("##{element.getAttribute('for')}").firstResult()
-					else
-						input = @parser.find(element).findDescendants('input,select,textarea').firstResult()
-						if input != nil
-							Hatemile::Util::CommonFunctions.generateId(input, @prefixId)
-							element.setAttribute('for', input.getAttribute('id'))
+						field = @parser.find(label).findDescendants('input,select,textarea').firstResult()
+						
+						if field != nil
+							Hatemile::Util::CommonFunctions.generateId(field, @prefixId)
+							label.setAttribute('for', field.getAttribute('id'))
 						end
 					end
-					if input != nil
-						if not input.hasAttribute?('aria-label')
-							label = element.getTextContent().gsub(/[ \n\r\t]+/, ' ')
-							if input.hasAttribute?('aria-required')
-								if (input.getAttribute('aria-required').downcase == 'true') and (not label.include?(@sufixRequiredField))
-									label += ' ' + @sufixRequiredField
+					if field != nil
+						if not field.hasAttribute?('aria-label')
+							field.setAttribute('aria-label', label.getTextContent().gsub(/[ \n\r\t]+/, ' '))
+						end
+						
+						self.fixLabelRequiredField(label, field)
+						
+						Hatemile::Util::CommonFunctions.generateId(label, @prefixId)
+						field.setAttribute('aria-labelledby', Hatemile::Util::CommonFunctions
+								.increaseInList(field.getAttribute('aria-labelledby'), label.getAttribute('id')))
+					end
+				end
+			end
+			
+			def fixLabels()
+				labels = @parser.find('label').listResults()
+				labels.each() do |label|
+					if not label.hasAttribute?(@dataIgnore)
+						self.fixLabel(label)
+					end
+				end
+			end
+			
+			def fixAutoComplete(element)
+				if element.hasAttribute?('autocomplete')
+					value = element.getAttribute('autocomplete')
+					if value == 'on'
+						active = true
+					elsif value == 'off'
+						active = false
+					end
+					if active != nil
+						if element.getTagName() == 'FORM'
+							controls = @parser.find(element).findDescendants('input,textarea').listResults()
+							if element.hasAttribute?('id')
+								id = element.getAttribute('id')
+								controls = controls.concat(@parser.find("input[form=#{id}],textarea[form=#{id}]")
+										.listResults())
+							end
+							controls.each() do |control|
+								fix = true
+								if (control.getTagName() == 'INPUT') and (control.hasAttribute?('type'))
+									type = control.getAttribute('type').downcase()
+									if (type ==	'button') or (type == 'submit') or (type == 'reset') or (type == 'image') \
+											or (type == 'file') or (type == 'checkbox') or (type == 'radio') \
+											or (type == 'password') or (type == 'hidden')
+										fix = false
+									end
+								end
+								if fix
+									autoCompleteControlFormValue = control.getAttribute('autocomplete')
+									if autoCompleteControlFormValue == 'on'
+										self.fixControlAutoComplete(control, true)
+									elsif autoCompleteControlFormValue == 'off'
+										self.fixControlAutoComplete(control, false)
+									else
+										self.fixControlAutoComplete(control, active)
+									end
 								end
 							end
-							input.setAttribute('aria-label', label)
+						else
+							self.fixControlAutoComplete(element, active)
 						end
-						Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
-						input.setAttribute('aria-labelledby', Hatemile::Util::CommonFunctions.increaseInList(input.getAttribute('aria-labelledby'), element.getAttribute('id')))
 					end
 				end
+				if (not element.hasAttribute?('aria-autocomplete')) and (element.hasAttribute?('list'))
+					self.fixControlAutoComplete(element, nil)
+				end
 			end
-				
-			def fixLabels
-				elements = @parser.find('label').listResults()
+			
+			def fixAutoCompletes()
+				elements = @parser.find('[autocomplete],[list]').listResults()
 				elements.each() do |element|
 					if not element.hasAttribute?(@dataIgnore)
-						self.fixLabel(element)
+						self.fixAutoComplete(element)
 					end
 				end
 			end

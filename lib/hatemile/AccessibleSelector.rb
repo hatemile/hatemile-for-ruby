@@ -11,9 +11,21 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
+
 module Hatemile
+	
+	##
+	# The AccessibleSelector interface do changes in selectors.
+	# 
+	# ---
+	# 
+	# Version:
+	# 2014-07-23
 	class AccessibleSelector
 		private_class_method :new
+		
+		##
+		# Fix changes in selectors.
 		def fixSelectors()
 		end
 	end

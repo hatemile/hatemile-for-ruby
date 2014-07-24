@@ -17,97 +17,148 @@ require File.dirname(__FILE__) + '/../HTMLDOMElement.rb'
 module Hatemile
 	module Util
 		module NokogiriLib
+			
+			##
+			# The NokogiriHTMLDOMElement class is official implementation of HTMLDOMElement
+			# interface for the Nokogiri library.
+			# 
+			# ---
+			# 
+			# Version:
+			# 2014-07-23
 			class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
+				public_class_method :new
+				
+				##
+				# Initializes a new object that encapsulate the Nokogiri Node.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. Nokogiri::XML::Node +element+ The Nokogiri Node.
 				def initialize(element)
 					@data = element
 				end
+				
 				def getTagName()
 					return @data.name.upcase()
 				end
+				
 				def getAttribute(name)
 					return @data.get_attribute(name)
 				end
+				
 				def setAttribute(name, value)
 					@data.set_attribute(name, value)
 				end
+				
 				def removeAttribute(name)
-					@data.remove_attribute(name)
+					if self.hasAttribute?(name)
+						@data.remove_attribute(name)
+					end
 				end
+				
 				def hasAttribute?(name)
 					return @data.attributes[name] != nil
 				end
+				
 				def hasAttributes?()
-					return (not @data.attributes.empty?)
+					return (not @data.attributes.empty?())
 				end
+				
 				def getTextContent()
 					return @data.text()
 				end
+				
 				def insertBefore(newElement)
 					@data.before(newElement.getData())
+					return newElement
 				end
+				
 				def insertAfter(newElement)
 					@data.after(newElement.getData())
+					return newElement
 				end
+				
 				def removeElement()
 					@data.remove()
+					return self
 				end
+				
 				def replaceElement(newElement)
 					@data.replace(newElement.getData())
+					return newElement
 				end
+				
 				def appendElement(element)
 					@data.add_child(element.getData())
+					return element
 				end
+				
 				def getChildren()
-					array = Array.new
+					array = Array.new()
 					@data.children() do |child|
-						if child.element?
+						if child.element?()
 							array.push(NokogiriHTMLDOMElement.new(child))
 						end
 					end
 					return array
 				end
+				
 				def appendText(text)
 					@data.add_child(Nokogiri::XML::Text.new(text, @data.document))
 				end
+				
 				def hasChildren?()
-					return @data.children().empty?
+					return @data.children().empty?() == false
 				end
+				
 				def getParentElement()
-					if @data.parent() != nil and @data.parent().element?
-						return NokogiriHTMLDOMElement.new(@data.parent())
+					parent = @data.parent()
+					if (parent != nil) and (parent.element?())
+						return NokogiriHTMLDOMElement.new(parent)
 					else
 						return nil
 					end
 				end
+				
 				def getInnerHTML()
-					return @data.inner_html
+					return @data.inner_html()
 				end
+				
 				def setInnerHTML(html)
 					@data.inner_html = html
 				end
+				
 				def getOuterHTML()
 					return @data.to_s()
 				end
+				
 				def getData()
 					return @data
 				end
+				
 				def setData(data)
 					@data = data
 				end
+				
 				def cloneElement()
 					return NokogiriHTMLDOMElement.new(@data.clone())
 				end
+				
 				def getFirstElementChild()
-					if @data.children().empty?
+					if not self.hasChildren?()
 						return nil
 					end
 					return NokogiriHTMLDOMElement.new(@data.children()[0])
 				end
+				
 				def getLastElementChild()
-					if @data.children().empty?
+					if not self.hasChildren?()
 						return nil
 					end
-					return NokogiriHTMLDOMElement.new(@data.children()[@data.children.length - 1])
+					children = @data.children()
+					return NokogiriHTMLDOMElement.new(children[children.length - 1])
 				end
 			end
 		end

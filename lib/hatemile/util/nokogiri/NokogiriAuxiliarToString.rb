@@ -14,29 +14,51 @@
 module Hatemile
 	module Util
 		module NokogiriLib
+			
+			##
+			# The NokogiriAuxiliarToString class is auxiliary class to convert a Nokogiri Node to
+			# a HTML code.
+			# 
+			# ---
+			# 
+			# Version:
+			# 2014-07-23
 			class NokogiriAuxiliarToString
-				@@self_closing_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr']
 				private_class_method :new
+				
+				##
+				# Array(String) The html tags that has self closing.
+				@@self_closing_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr']
+				
+				##
+				# Convert a Nokogiri Node to a HTML code.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. Nokogiri::XML::Node +node+ The Nokogiri Node.
+				# Return:
+				# String The HTML code of the Nokogiri Node.
 				def self.toString(node)
 					string = ''
-					if node.element?
+					if node.element?()
 						string += "<#{node.name.downcase()}"
 						node.attributes.each() do |attribute, value|
 							string += " #{attribute}=\"#{value}\""
 						end
-						if node.children.empty? and self.self_closing_tag?(node.name)
+						if (node.children.empty?()) and (self.self_closing_tag?(node.name))
 							string += ' />'
 						else
 							string += '>'
 						end
-					elsif node.comment?
+					elsif node.comment?()
 						string += node.to_s()
-					elsif node.cdata?
+					elsif node.cdata?()
 						string += node.to_s()
-					elsif node.html?
+					elsif node.html?()
 						document = node.to_s()
 						string += document.split("\n")[0] + "\n"
-					elsif node.text?
+					elsif node.text?()
 						string += node.text()
 					end
 					
@@ -44,11 +66,21 @@ module Hatemile
 						string += self.toString(child)
 					end
 					
-					if node.element? and not (node.children.empty? and self.self_closing_tag?(node.name))
+					if node.element?() and not ((node.children.empty?()) and (self.self_closing_tag?(node.name)))
 						string += "</#{node.name.downcase()}>"
 					end
 					return string
 				end
+				
+				##
+				# Returns if the tag is self closing.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. String +tag+ The element tag.
+				# Return:
+				# True if the tag is self closing or false if not.
 				def self.self_closing_tag?(tag)
 					return @@self_closing_tags.include?(tag.downcase())
 				end

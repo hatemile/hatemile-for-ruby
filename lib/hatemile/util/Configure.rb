@@ -17,7 +17,23 @@ require File.dirname(__FILE__) + '/SelectorChange.rb'
 
 module Hatemile
 	module Util
+		
+		##
+		# The Configure class contains the configuration of HaTeMiLe.
+		# 
+		# ---
+		# 
+		# Version:
+		# 2014-07-23
 		class Configure
+			
+			##
+			# Initializes a new object that contains the configuration of HaTeMiLe.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. String +fileName+ The full path of file.
 			def initialize(fileName = nil)
 				@parameters = Hash.new()
 				@selectorChanges = Array.new()
@@ -26,19 +42,50 @@ module Hatemile
 				end
 				document = REXML::Document.new(File.read(fileName))
 				document.elements.each('configure/parameters/parameter') do |parameter|
-					@parameters[parameter.attribute('name').value()] = parameter.text()
+					if parameter.text().class() != NilClass
+						@parameters[parameter.attribute('name').value()] = parameter.text()
+					else
+						@parameters[parameter.attribute('name').value()] = ''
+					end
 				end
 				document.elements.each('configure/selector-changes/selector-change') do |selectorChange|
-					@selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector'), selectorChange.attribute('attribute'), selectorChange.attribute('value-attribute')))
+					@selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector').value(), selectorChange.attribute('attribute').value(), selectorChange.attribute('value-attribute').value()))
 				end
 			end
-				
+			
+			##
+			# Returns the parameters of configuration.
+			# 
+			# ---
+			# 
+			# Return:
+			# Hash(String, String) The parameters of configuration.
+			def getParameters()
+				return @parameters.clone()
+			end
+			
+			##
+			# Returns the value of a parameter of configuration.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. String +parameter+ The parameter.
+			# Return:
+			# String The value of the parameter.
 			def getParameter(parameter)
 				return @parameters[parameter]
 			end
-				
+			
+			##
+			# Returns the changes that will be done in selectors.
+			# 
+			# ---
+			# 
+			# Return:
+			# Array(SelectorChange) The changes that will be done in selectors.
 			def getSelectorChanges()
-				return @selectorChanges
+				return @selectorChanges.clone()
 			end
 		end
 	end

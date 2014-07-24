@@ -11,13 +11,42 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
+
 module Hatemile
+	
+	##
+	# The AccessibleShortcut interface fix the problems of accessibility associated
+	# with the shortcuts.
+	# 
+	# ---
+	# 
+	# Version:
+	# 2014-07-23
 	class AccessibleShortcut
 		private_class_method :new
+		
+		##
+		# Returns the browser shortcut prefix.
+		# 
+		# ---
+		# 
+		# Return:
+		# String The browser shortcut prefix.
 		def getPrefix()
 		end
+		
+		##
+		# Fix the element with shortcuts.
+		# 
+		# ---
+		# 
+		# Parameters:
+		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with shortcuts.
 		def fixShortcut(element)
 		end
+		
+		##
+		# Fix the elements with shortcuts.
 		def fixShortcuts()
 		end
 	end
