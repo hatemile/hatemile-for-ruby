@@ -13,6 +13,7 @@
 #limitations under the License.
 
 require File.dirname(__FILE__) + '/../HTMLDOMElement.rb'
+require File.dirname(__FILE__) + '/NokogiriAuxiliarToString.rb'
 
 module Hatemile
 	module Util
@@ -25,7 +26,7 @@ module Hatemile
 			# ---
 			# 
 			# Version:
-			# 2014-07-23
+			# 2014-07-30
 			class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
 				public_class_method :new
 				
@@ -123,7 +124,11 @@ module Hatemile
 				end
 				
 				def getInnerHTML()
-					return @data.inner_html()
+					html = ''
+					@data.children() do |child|
+						html += NokogiriAuxiliarToString.toString(child)
+					end
+					return html
 				end
 				
 				def setInnerHTML(html)
@@ -131,7 +136,7 @@ module Hatemile
 				end
 				
 				def getOuterHTML()
-					return @data.to_s()
+					return NokogiriAuxiliarToString.toString(@data)
 				end
 				
 				def getData()
