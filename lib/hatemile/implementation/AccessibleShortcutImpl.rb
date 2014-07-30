@@ -24,7 +24,7 @@ module Hatemile
 		# ---
 		# 
 		# Version:
-		# 2014-07-23
+		# 2014-07-30
 		class AccessibleShortcutImpl < AccessibleShortcut
 			public_class_method :new
 			
@@ -131,7 +131,7 @@ module Hatemile
 			#  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
 			#  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe. 
 			#  3. String +userAgent+ The user agent of the user.
-			def initialize(parser, configure, userAgent)
+			def initialize(parser, configure, userAgent = nil)
 				@parser = parser
 				@idContainerShortcuts = configure.getParameter('id-container-shortcuts')
 				@idSkipLinkContainerShortcuts = configure.getParameter('id-skip-link-container-shortcuts')
