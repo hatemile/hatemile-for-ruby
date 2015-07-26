@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -18,11 +16,6 @@ module Hatemile
 		##
 		# The HTMLDOMElement interface contains the methods for access of the HTML
 		# element.
-		# 
-		# ---
-		# 
-		# Version:
-		# 2014-07-23
 		class HTMLDOMElement
 			private_class_method :new
 			

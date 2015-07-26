@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -13,7 +11,6 @@
 #limitations under the License.
 
 require File.dirname(__FILE__) + '/../HTMLDOMElement.rb'
-require File.dirname(__FILE__) + '/NokogiriAuxiliarToString.rb'
 
 module Hatemile
 	module Util
@@ -22,13 +19,10 @@ module Hatemile
 			##
 			# The NokogiriHTMLDOMElement class is official implementation of HTMLDOMElement
 			# interface for the Nokogiri library.
-			# 
-			# ---
-			# 
-			# Version:
-			# 2014-07-30
 			class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
 				public_class_method :new
+				
+				@@self_closing_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr']
 				
 				##
 				# Initializes a new object that encapsulate the Nokogiri Node.
@@ -125,8 +119,8 @@ module Hatemile
 				
 				def getInnerHTML()
 					html = ''
-					@data.children() do |child|
-						html += NokogiriAuxiliarToString.toString(child)
+					self.getChildren() do |child|
+						html += child.getOuterHTML()
 					end
 					return html
 				end
@@ -136,7 +130,7 @@ module Hatemile
 				end
 				
 				def getOuterHTML()
-					return NokogiriAuxiliarToString.toString(@data)
+					return self.toString(@data)
 				end
 				
 				def getData()
@@ -164,6 +158,61 @@ module Hatemile
 					end
 					children = @data.children()
 					return NokogiriHTMLDOMElement.new(children[children.length - 1])
+				end
+				
+				##
+				# Convert a Nokogiri Node to a HTML code.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. Nokogiri::XML::Node +node+ The Nokogiri Node.
+				# Return:
+				# String The HTML code of the Nokogiri Node.
+				def toString(node)
+					string = ''
+					if node.element?()
+						string += "<#{node.name.downcase()}"
+						node.attributes.each() do |attribute, value|
+							string += " #{attribute}=\"#{value}\""
+						end
+						if (node.children.empty?()) and (self.self_closing_tag?(node.name))
+							string += ' />'
+						else
+							string += '>'
+						end
+					elsif node.comment?()
+						string += node.to_s()
+					elsif node.cdata?()
+						string += node.to_s()
+					elsif node.html?()
+						document = node.to_s()
+						string += document.split("\n")[0] + "\n"
+					elsif node.text?()
+						string += node.text()
+					end
+					
+					node.children.each() do |child|
+						string += self.toString(child)
+					end
+					
+					if node.element?() and not ((node.children.empty?()) and (self.self_closing_tag?(node.name)))
+						string += "</#{node.name.downcase()}>"
+					end
+					return string
+				end
+				
+				##
+				# Returns if the tag is self closing.
+				# 
+				# ---
+				# 
+				# Parameters:
+				#  1. String +tag+ The element tag.
+				# Return:
+				# True if the tag is self closing or false if not.
+				def self_closing_tag?(tag)
+					return @@self_closing_tags.include?(tag.downcase())
 				end
 			end
 		end

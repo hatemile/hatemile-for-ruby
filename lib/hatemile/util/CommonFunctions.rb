@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -17,11 +15,6 @@ module Hatemile
 		
 		##
 		# The CommonFuncionts class contains the used methods by HaTeMiLe classes.
-		# 
-		# ---
-		# 
-		# Version:
-		# 2014-07-23
 		class CommonFunctions
 			private_class_method :new
 			
@@ -45,6 +38,12 @@ module Hatemile
 			end
 			
 			##
+			# Reset the count number of ids.
+			def self.resetCount()
+				@@count = 0
+			end
+			
+			##
 			# Copy a list of attributes of a element for other element.
 			# 
 			# ---
@@ -63,30 +62,49 @@ module Hatemile
 			end
 			
 			##
-			# Increase a item in a HTML list.
+			# Increase a item in a list.
 			# 
 			# ---
 			# 
 			# Parameters:
-			#  1. String +list+ The HTML list.
+			#  1. String +list+ The list.
 			#  2. String +stringToIncrease+ The value of item.
 			# Return:
-			# String The HTML list with the item added, if the item not was contained
-			# in list.
+			# String True if the list contains the item or false is not contains.
 			def self.increaseInList(list, stringToIncrease)
 				if (list != nil) and (not list.empty?()) and (stringToIncrease != nil) and (not stringToIncrease.empty?())
-					elements = list.split(/[ \n\t\r]+/)
-					elements.each() do |element|
-						if element == stringToIncrease
-							return list
-						end
+					if self.inList(list, stringToIncrease)
+						return list
+					else
+						return "#{list} #{stringToIncrease}"
 					end
-					return "#{list} #{stringToIncrease}"
 				elsif (list != nil) and (not list.empty?())
 					return list
 				else
 					return stringToIncrease
 				end
+			end
+			
+			##
+			# Verify if the list contains the item.
+			# 
+			# ---
+			# 
+			# Parameters:
+			#  1. String +list+ The list.
+			#  2. String +stringToSearch+ The value of item.
+			# Return:
+			# Boolean True if the list contains the item or false is not contains.
+			def self.inList(list, stringToSearch)
+				if (list != nil) and (not list.empty?()) and (stringToSearch != nil) and (not stringToSearch.empty?())
+					elements = list.split(/[ \n\t\r]+/)
+					elements.each() do |element|
+						if element == stringToSearch
+							return true
+						end
+					end
+				end
+				return false
 			end
 		end
 	end

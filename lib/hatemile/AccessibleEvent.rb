@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -15,78 +13,64 @@
 module Hatemile
 	
 	##
-	# The AccessibleEvent interface fix the problems of accessibility associated
-	# with Javascript events in the elements.
-	# 
-	# ---
-	# 
-	# Version:
-	# 2014-07-23
+	# The AccessibleEvent interface fixes accessibility problems associated with
+	# JavaScript events in elements.
 	class AccessibleEvent
 		private_class_method :new
 		
 		##
-		# Fix some problem of accessibility in the events that are called when an
-		# element is hovered.
+		# Provide a solution for the element that has drop events.
 		# 
 		# ---
 		# 
 		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +element+ The element that will be fixed.
-		# See also:
-		#  * {G90: Providing keyboard-triggered event handlers}[http://www.w3.org/TR/WCAG20-TECHS/G90.html]
-		#  * {G202: Ensuring keyboard control for all functionality}[http://www.w3.org/TR/WCAG20-TECHS/G202.html]
-		#  * {SCR2: Using redundant keyboard and mouse event handlers}[http://www.w3.org/TR/WCAG20-TECHS/SCR2.html]
-		#  * {SCR20: Using both keyboard and other device-specific functions}[http://www.w3.org/TR/WCAG20-TECHS/SCR20.html]
-		#  * {SCR29: Adding keyboard-accessible actions to static HTML elements}[http://www.w3.org/TR/WCAG20-TECHS/SCR29.html]
-		def fixOnHover(element)
+		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with drop event.
+		def fixDrop(element)
 		end
 		
 		##
-		# Fix some problem of accessibility in the events that are called when any
-		# element of page is hovered.
-		# 
-		# ---
-		# 
-		# See also:
-		#  * {G90: Providing keyboard-triggered event handlers}[http://www.w3.org/TR/WCAG20-TECHS/G90.html]
-		#  * {G202: Ensuring keyboard control for all functionality}[http://www.w3.org/TR/WCAG20-TECHS/G202.html]
-		#  * {SCR2: Using redundant keyboard and mouse event handlers}[http://www.w3.org/TR/WCAG20-TECHS/SCR2.html]
-		#  * {SCR20: Using both keyboard and other device-specific functions}[http://www.w3.org/TR/WCAG20-TECHS/SCR20.html]
-		#  * {SCR29: Adding keyboard-accessible actions to static HTML elements}[http://www.w3.org/TR/WCAG20-TECHS/SCR29.html]
-		def fixOnHovers()
-		end
-		
-		##
-		# Fix some problem of accessibility in the events that are called when an
-		# element is actived.
+		# Provide a solution for the element that has drag events.
 		# 
 		# ---
 		# 
 		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +element+ The element that will be fixed.
-		# See also:
-		#  * {G90: Providing keyboard-triggered event handlers}[http://www.w3.org/TR/WCAG20-TECHS/G90.html]
-		#  * {G202: Ensuring keyboard control for all functionality}[http://www.w3.org/TR/WCAG20-TECHS/G202.html]
-		#  * {SCR2: Using redundant keyboard and mouse event handlers}[http://www.w3.org/TR/WCAG20-TECHS/SCR2.html]
-		#  * {SCR20: Using both keyboard and other device-specific functions}[http://www.w3.org/TR/WCAG20-TECHS/SCR20.html]
-		#  * {SCR29: Adding keyboard-accessible actions to static HTML elements}[http://www.w3.org/TR/WCAG20-TECHS/SCR29.html]
-		def fixOnActive(element)
+		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with drag event.
+		def fixDrag(element)
 		end
 		
 		##
-		# Fix some problem of accessibility in the events that are called when any
-		# element of page is actived.
+		# Provide a solution for elements that has Drag-and-Drop events.
+		def fixDragsandDrops()
+		end
+		
+		##
+		# Provide a solution for the element that has inaccessible hover events.
 		# 
 		# ---
 		# 
-		# See also:
-		#  * {G90: Providing keyboard-triggered event handlers}[http://www.w3.org/TR/WCAG20-TECHS/G90.html]
-		#  * {G202: Ensuring keyboard control for all functionality}[http://www.w3.org/TR/WCAG20-TECHS/G202.html]
-		#  * {SCR2: Using redundant keyboard and mouse event handlers}[http://www.w3.org/TR/WCAG20-TECHS/SCR2.html]
-		#  * {SCR20: Using both keyboard and other device-specific functions}[http://www.w3.org/TR/WCAG20-TECHS/SCR20.html]
-		#  * {SCR29: Adding keyboard-accessible actions to static HTML elements}[http://www.w3.org/TR/WCAG20-TECHS/SCR29.html]
-		def fixOnActives()
+		# Parameters:
+		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with hover event.
+		def fixHover(element)
+		end
+		
+		##
+		# Provide a solution for elements that has inaccessible hover events.
+		def fixHovers()
+		end
+		
+		##
+		# Provide a solution for the element that has inaccessible active events.
+		# 
+		# ---
+		# 
+		# Parameters:
+		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with active event.
+		def fixActive(element)
+		end
+		
+		##
+		# Provide a solution for elements that has inaccessible active events.
+		def fixActives()
 		end
 	end
 end

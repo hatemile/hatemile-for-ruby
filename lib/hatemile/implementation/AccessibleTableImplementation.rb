@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -19,14 +17,9 @@ module Hatemile
 	module Implementation
 		
 		##
-		# The AccessibleTableImpl class is official implementation of AccessibleTable
-		# interface.
-		# 
-		# ---
-		# 
-		# Version:
-		# 2014-07-23
-		class AccessibleTableImpl < AccessibleTable
+		# The AccessibleTableImplementation class is official implementation of
+		# AccessibleTable interface.
+		class AccessibleTableImplementation < AccessibleTable
 			public_class_method :new
 			
 			protected
@@ -66,7 +59,7 @@ module Hatemile
 					(0..lengthRows - 1).each() do |i|
 						columnIndex = 0
 						cells = [].concat(copy[i])
-						if table[i] == nil
+						if table.size() <= i
 							table[i] = Array.new()
 						end
 						lengthCells = cells.size()
@@ -236,10 +229,10 @@ module Hatemile
 			def initialize(parser, configure)
 				@parser = parser
 				@prefixId = configure.getParameter('prefix-generated-ids')
-				@dataIgnore = "data-#{configure.getParameter('data-ignore')}"
+				@dataIgnore = 'data-ignoreaccessibilityfix'
 			end
 			
-			def fixTable(table)
+			def fixAssociationCellsTable(table)
 				header = @parser.find(table).findChildren('thead').firstResult()
 				body = @parser.find(table).findChildren('tbody').firstResult()
 				footer = @parser.find(table).findChildren('tfoot').firstResult()
@@ -277,11 +270,11 @@ module Hatemile
 				end
 			end
 			
-			def fixTables()
+			def fixAssociationCellsTables()
 				tables = @parser.find('table').listResults()
 				tables.each() do |table|
 					if not table.hasAttribute?(@dataIgnore)
-						self.fixTable(table)
+						self.fixAssociationCellsTable(table)
 					end
 				end
 			end

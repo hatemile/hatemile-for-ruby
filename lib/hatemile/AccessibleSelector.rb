@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -15,17 +13,12 @@
 module Hatemile
 	
 	##
-	# The AccessibleSelector interface do changes in selectors.
-	# 
-	# ---
-	# 
-	# Version:
-	# 2014-07-23
+	# The AccessibleSelector interface perform changes in selectors.
 	class AccessibleSelector
 		private_class_method :new
 		
 		##
-		# Fix changes in selectors.
+		# Change the selectors.
 		def fixSelectors()
 		end
 	end

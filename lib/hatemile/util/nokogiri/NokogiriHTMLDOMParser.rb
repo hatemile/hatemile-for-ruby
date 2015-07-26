@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -15,7 +13,6 @@
 require 'nokogiri'
 require File.dirname(__FILE__) + '/../HTMLDOMParser.rb'
 require File.dirname(__FILE__) + '/NokogiriHTMLDOMElement.rb'
-require File.dirname(__FILE__) + '/NokogiriAuxiliarToString.rb'
 
 module Hatemile
 	module Util
@@ -24,11 +21,6 @@ module Hatemile
 			##
 			# The class NokogiriHTMLDOMParser is official implementation of HTMLDOMParser
 			# interface for the Nokogiri library.
-			# 
-			# ---
-			# 
-			# Version:
-			# 2014-07-23
 			class NokogiriHTMLDOMParser < Hatemile::Util::HTMLDOMParser
 				public_class_method :new
 				
@@ -186,7 +178,7 @@ module Hatemile
 				end
 				
 				def getHTML()
-					return NokogiriAuxiliarToString.toString(@document)
+					return NokogiriHTMLDOMElement.new(@document).getOuterHTML()
 				end
 				
 				def getParser()

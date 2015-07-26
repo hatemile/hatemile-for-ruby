@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -18,14 +16,9 @@ module Hatemile
 	module Implementation
 		
 		##
-		# The AccessibleSelectorImpl class is official implementation of
+		# The AccessibleSelectorImplementation class is official implementation of
 		# AccessibleSelector interface.
-		# 
-		# ---
-		# 
-		# Version:
-		# 2014-07-23
-		class AccessibleSelectorImpl < AccessibleSelector
+		class AccessibleSelectorImplementation < AccessibleSelector
 			public_class_method :new
 			
 			##
@@ -40,12 +33,12 @@ module Hatemile
 			def initialize(parser, configure)
 				@parser = parser
 				@changes = configure.getSelectorChanges()
-				@dataIgnore = "data-#{configure.getParameter('data-ignore')}"
+				@dataIgnore = 'data-ignoreaccessibilityfix'
 			end
 			
 			def fixSelectors()
 				@changes.each() do |change|
-					elements = @parser.find(change.getSelector).listResults()
+					elements = @parser.find(change.getSelector()).listResults()
 					elements.each() do |element|
 						if not element.hasAttribute?(@dataIgnore)
 							element.setAttribute(change.getAttribute(), change.getValueForAttribute())

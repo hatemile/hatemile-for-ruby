@@ -1,5 +1,3 @@
-#Copyright 2014 Carlson Santana Cruz
-#
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
 #You may obtain a copy of the License at
@@ -14,17 +12,13 @@
 
 require 'rexml/document'
 require File.dirname(__FILE__) + '/SelectorChange.rb'
+require File.dirname(__FILE__) + '/Skipper.rb'
 
 module Hatemile
 	module Util
 		
 		##
 		# The Configure class contains the configuration of HaTeMiLe.
-		# 
-		# ---
-		# 
-		# Version:
-		# 2014-07-23
 		class Configure
 			
 			##
@@ -37,8 +31,9 @@ module Hatemile
 			def initialize(fileName = nil)
 				@parameters = Hash.new()
 				@selectorChanges = Array.new()
+				@skippers = Array.new()
 				if (fileName == nil)
-					fileName = './hatemile-configure.xml'
+					fileName = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
 				end
 				document = REXML::Document.new(File.read(fileName))
 				document.elements.each('configure/parameters/parameter') do |parameter|
@@ -50,6 +45,9 @@ module Hatemile
 				end
 				document.elements.each('configure/selector-changes/selector-change') do |selectorChange|
 					@selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector').value(), selectorChange.attribute('attribute').value(), selectorChange.attribute('value-attribute').value()))
+				end
+				document.elements.each('configure/skippers/skipper') do |skipper|
+					@skippers.push(Skipper.new(skipper.attribute('selector').value(), skipper.attribute('default-text').value(), skipper.attribute('shortcut').value()))
 				end
 			end
 			
@@ -86,6 +84,17 @@ module Hatemile
 			# Array(SelectorChange) The changes that will be done in selectors.
 			def getSelectorChanges()
 				return @selectorChanges.clone()
+			end
+			
+			##
+			# Returns the skippers.
+			# 
+			# ---
+			# 
+			# Return:
+			# Array(Skipper) The skippers.
+			def getSkippers()
+				return @skippers.clone()
 			end
 		end
 	end

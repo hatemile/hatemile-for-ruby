@@ -14,8 +14,8 @@ module Hatemile
 	module Util
 		
 		##
-		# The SelectorChange class store the selector that be attribute change.
-		class SelectorChange
+		# The Skipper class store the selector that will be add a skipper.
+		class Skipper
 			
 			##
 			# Inicializes a new object with the values pre-defineds.
@@ -24,12 +24,16 @@ module Hatemile
 			# 
 			# Parameters:
 			#  1. String +selector+ The selector.
-			#  2. String +attribute+ The attribute.
-			#  3. String +valueForAttribute+ The value of the attribute.
-			def initialize(selector, attribute, valueForAttribute)
+			#  2. String +defaultText+ The default text of skipper.
+			#  3. String +shortcuts+ The shortcuts of skipper.
+			def initialize(selector, defaultText, shortcuts)
 				@selector = selector
-				@attribute = attribute
-				@valueForAttribute = valueForAttribute
+				@defaultText = defaultText
+				if shortcuts.empty?()
+					@shortcuts = Array.new()
+				else
+					@shortcuts = shortcuts.split(/[ \n\t\r]+/)
+				end
 			end
 			
 			##
@@ -44,25 +48,25 @@ module Hatemile
 			end
 			
 			##
-			# Returns the attribute.
+			# Returns the default text of skipper.
 			# 
 			# ---
 			# 
 			# Return:
-			# String The attribute.
-			def getAttribute()
-				return @attribute
+			# String The default text of skipper.
+			def getDefaultText()
+				return @defaultText
 			end
 			
 			##
-			# Returns the value of the attribute.
+			# Returns the shortcuts of skipper.
 			# 
 			# ---
 			# 
 			# Return:
-			# String The value of the attribute.
-			def getValueForAttribute()
-				return @valueForAttribute
+			# String The shortcuts of skipper.
+			def getShortcuts()
+				return @shortcuts.clone()
 			end
 		end
 	end
