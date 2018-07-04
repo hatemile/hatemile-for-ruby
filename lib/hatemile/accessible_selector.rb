@@ -11,12 +11,12 @@
 #limitations under the License.
 
 module Hatemile
-  
+
   ##
   # The AccessibleSelector interface perform changes in selectors.
   class AccessibleSelector
     private_class_method :new
-    
+
     ##
     # Change the selectors.
     def fixSelectors()

@@ -17,20 +17,20 @@ require File.dirname(__FILE__) + '/nokogiri_html_dom_element.rb'
 module Hatemile
   module Util
     module NokogiriLib
-      
+
       ##
       # The class NokogiriHTMLDOMParser is official implementation of HTMLDOMParser
       # interface for the Nokogiri library.
       class NokogiriHTMLDOMParser < Hatemile::Util::HTMLDOMParser
         public_class_method :new
-        
+
         protected
-        
+
         ##
         # Order the results.
-        # 
+        #
         # ---
-        # 
+        #
         # Parameters:
         #  1. Array(Nokogiri::XML::Node) +results+ The disordened results.
         # Return:
@@ -57,14 +57,14 @@ module Hatemile
           end
           return array
         end
-        
+
         public
-        
+
         ##
         # Initializes a new object that encapsulate the parser of Jsoup.
-        # 
+        #
         # ---
-        # 
+        #
         # Parameters:
         #  1. String|Nokogiri::HTML::Document +codeOrParser+
         #   * String The HTML code.
@@ -78,7 +78,7 @@ module Hatemile
           end
           @results = nil
         end
-        
+
         def find(selector)
           if selector.class() == NokogiriHTMLDOMElement
             @results = [selector.getData()]
@@ -87,7 +87,7 @@ module Hatemile
           end
           return self
         end
-        
+
         def findChildren(selector)
           array = Array.new()
           if selector.class() == NokogiriHTMLDOMElement
@@ -110,7 +110,7 @@ module Hatemile
           @results = array
           return self
         end
-        
+
         def findDescendants(selector)
           array = Array.new()
           if selector.class() == NokogiriHTMLDOMElement
@@ -130,7 +130,7 @@ module Hatemile
           @results = array
           return self
         end
-        
+
         def findAncestors(selector)
           array = Array.new()
           if selector.class() == NokogiriHTMLDOMElement
@@ -150,21 +150,21 @@ module Hatemile
           @results = array
           return self
         end
-        
+
         def firstResult()
           if (@results == nil) or (@results.empty?())
             return nil
           end
           return NokogiriHTMLDOMElement.new(@results[0])
         end
-        
+
         def lastResult()
           if (@results == nil) or (@results.empty?())
             return nil
           end
           return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
-        
+
         def listResults()
           array = Array.new()
           self.orderResults(@results).each() do |result|
@@ -172,19 +172,19 @@ module Hatemile
           end
           return array
         end
-        
-        def createElement(tag) 
+
+        def createElement(tag)
           return NokogiriHTMLDOMElement.new(@document.create_element(tag))
         end
-        
+
         def getHTML()
           return NokogiriHTMLDOMElement.new(@document).getOuterHTML()
         end
-        
+
         def getParser()
           return @document
         end
-        
+
         def clearParser()
           @document = nil
           @results.clear()

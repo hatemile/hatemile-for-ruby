@@ -11,23 +11,23 @@
 #limitations under the License.
 
 module Hatemile
-  
+
   ##
   # The AccessibleImage interface fixes accessibility problems associated with
   # images.
   class AccessibleImage
     private_class_method :new
-    
+
     ##
     # Provide an alternative way to access the long description of element.
-    # 
+    #
     # ---
-    # 
+    #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with long description.
     def fixLongDescription(element)
     end
-    
+
     ##
     # Provide an alternative way to access the longs descriptions of elements.
     def fixLongDescriptions()

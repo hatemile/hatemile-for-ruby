@@ -12,21 +12,21 @@
 
 module Hatemile
   module Util
-    
+
     ##
     # The CommonFuncionts class contains the used methods by HaTeMiLe classes.
     class CommonFunctions
       private_class_method :new
-      
+
       ##
       # Integer Count the number of ids created.
       @@count = 0
-      
+
       ##
       # Generate a id for a element.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +prefix+ The prefix of id.
@@ -36,23 +36,22 @@ module Hatemile
           @@count += 1
         end
       end
-      
+
       ##
       # Reset the count number of ids.
       def self.resetCount()
         @@count = 0
       end
-      
+
       ##
       # Copy a list of attributes of a element for other element.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element1+ The element that have attributes copied.
       #  2. Hatemile::Util::HTMLDOMElement +element2+ The element that copy the attributes.
       #  3. Array(String) +attributes+ The list of attributes that will be copied.
-      # 
       def self.setListAttributes(element1, element2, attributes)
         attributes.each() do |attribute|
           if element1.hasAttribute?(attribute)
@@ -60,12 +59,12 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Increase a item in a list.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. String +list+ The list.
       #  2. String +stringToIncrease+ The value of item.
@@ -84,12 +83,12 @@ module Hatemile
           return stringToIncrease
         end
       end
-      
+
       ##
       # Verify if the list contains the item.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. String +list+ The list.
       #  2. String +stringToSearch+ The value of item.

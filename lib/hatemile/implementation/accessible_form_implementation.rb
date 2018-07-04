@@ -15,20 +15,20 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleFormImplementation class is official implementation of
     # AccessibleForm interface.
     class AccessibleFormImplementation < AccessibleForm
       public_class_method :new
-      
+
       protected
-      
+
       ##
       # Display in label the information of field.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
       #  2. Hatemile::Util::HTMLDOMElement +field+ The field.
@@ -52,12 +52,12 @@ module Hatemile
         end
         field.setAttribute('aria-label', content)
       end
-      
+
       ##
       # Display in label the information if the field is required.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
       #  2. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
@@ -71,12 +71,12 @@ module Hatemile
               , @dataLabelPrefixRequiredField, @dataLabelSuffixRequiredField)
         end
       end
-      
+
       ##
       # Display in label the information of range of field.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
       #  2. Hatemile::Util::HTMLDOMElement +rangeField+ The range field.
@@ -108,12 +108,12 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Display in label the information if the field has autocomplete.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
       #  2. Hatemile::Util::HTMLDOMElement +autoCompleteField+ The autocomplete field.
@@ -153,12 +153,12 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Returns the appropriate value for attribute aria-autocomplete of field.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +field+ The field.
       # Return:
@@ -192,12 +192,12 @@ module Hatemile
         end
         return nil
       end
-      
+
       ##
       # Returns the labels of field.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +field+ The field.
       # Return:
@@ -212,15 +212,15 @@ module Hatemile
         end
         return labels
       end
-      
+
       public
-      
+
       ##
       # Initializes a new object that manipulate the accessibility of the forms
       # of parser.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
@@ -249,18 +249,18 @@ module Hatemile
         @textAutoCompleteValueInline = configure.getParameter('text-autocomplete-value-inline')
         @textAutoCompleteValueNone = configure.getParameter('text-autocomplete-value-none')
       end
-      
+
       def fixRequiredField(requiredField)
         if requiredField.hasAttribute?('required')
           requiredField.setAttribute('aria-required', 'true')
-          
+
           labels = self.getLabels(requiredField)
           labels.each() do |label|
             self.fixLabelRequiredField(label, requiredField)
           end
         end
       end
-      
+
       def fixRequiredFields()
         requiredFields = @parser.find('[required]').listResults()
         requiredFields.each() do |requiredField|
@@ -269,7 +269,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixRangeField(rangeField)
         if rangeField.hasAttribute?('min')
           rangeField.setAttribute('aria-valuemin', rangeField.getAttribute('min'))
@@ -282,7 +282,7 @@ module Hatemile
           self.fixLabelRequiredField(label, rangeField)
         end
       end
-      
+
       def fixRangeFields()
         rangeFields = @parser.find('[min],[max]').listResults()
         rangeFields.each() do |rangeField|
@@ -291,19 +291,19 @@ module Hatemile
           end
         end
       end
-      
+
       def fixAutoCompleteField(autoCompleteField)
         ariaAutoComplete = self.getARIAAutoComplete(autoCompleteField)
         if ariaAutoComplete != nil
           autoCompleteField.setAttribute('aria-autocomplete', ariaAutoComplete)
-          
+
           labels = self.getLabels(autoCompleteField);
           labels.each() do |label|
             self.fixLabelAutoCompleteField(label, autoCompleteField)
           end
         end
       end
-      
+
       def fixAutoCompleteFields()
         elements = @parser.find('input[autocomplete],textarea[autocomplete],form[autocomplete] input,form[autocomplete] textarea,[list],[form]').listResults()
         elements.each() do |element|
@@ -312,14 +312,14 @@ module Hatemile
           end
         end
       end
-      
+
       def fixLabel(label)
         if label.getTagName() == 'LABEL'
           if label.hasAttribute?('for')
             field = @parser.find("##{label.getAttribute('for')}").firstResult()
           else
             field = @parser.find(label).findDescendants('input,select,textarea').firstResult()
-            
+
             if field != nil
               Hatemile::Util::CommonFunctions.generateId(field, @prefixId)
               label.setAttribute('for', field.getAttribute('id'))
@@ -329,18 +329,18 @@ module Hatemile
             if not field.hasAttribute?('aria-label')
               field.setAttribute('aria-label', label.getTextContent().gsub(/[ \n\r\t]+/, ' '))
             end
-            
+
             self.fixLabelRequiredField(label, field)
             self.fixLabelRangeField(label, field)
             self.fixLabelAutoCompleteField(label, field)
-            
+
             Hatemile::Util::CommonFunctions.generateId(label, @prefixId)
             field.setAttribute('aria-labelledby', Hatemile::Util::CommonFunctions
                 .increaseInList(field.getAttribute('aria-labelledby'), label.getAttribute('id')))
           end
         end
       end
-      
+
       def fixLabels()
         labels = @parser.find('label').listResults()
         labels.each() do |label|

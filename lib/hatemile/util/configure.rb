@@ -16,16 +16,16 @@ require File.dirname(__FILE__) + '/skipper.rb'
 
 module Hatemile
   module Util
-    
+
     ##
     # The Configure class contains the configuration of HaTeMiLe.
     class Configure
-      
+
       ##
       # Initializes a new object that contains the configuration of HaTeMiLe.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. String +fileName+ The full path of file.
       def initialize(fileName = nil)
@@ -50,23 +50,23 @@ module Hatemile
           @skippers.push(Skipper.new(skipper.attribute('selector').value(), skipper.attribute('default-text').value(), skipper.attribute('shortcut').value()))
         end
       end
-      
+
       ##
       # Returns the parameters of configuration.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Hash(String, String) The parameters of configuration.
       def getParameters()
         return @parameters.clone()
       end
-      
+
       ##
       # Returns the value of a parameter of configuration.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. String +parameter+ The parameter.
       # Return:
@@ -74,23 +74,23 @@ module Hatemile
       def getParameter(parameter)
         return @parameters[parameter]
       end
-      
+
       ##
       # Returns the changes that will be done in selectors.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Array(SelectorChange) The changes that will be done in selectors.
       def getSelectorChanges()
         return @selectorChanges.clone()
       end
-      
+
       ##
       # Returns the skippers.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Array(Skipper) The skippers.
       def getSkippers()

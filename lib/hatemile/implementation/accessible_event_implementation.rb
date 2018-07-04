@@ -15,28 +15,28 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleEventImplementation class is official implementation of
     # AccessibleEvent interface.
     class AccessibleEventImplementation < AccessibleEvent
       public_class_method :new
-      
+
       ##
       # The content of eventlistener.js.
       @@eventListenerScriptContent = nil
-  
+
       ##
       # The content of include.js.
       @@includeScriptContent = nil
-      
+
       protected
-      
+
       ##
       # Provide keyboard access for element, if it not has.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def keyboardAccess(element)
@@ -49,7 +49,7 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Include the scripts used by solutions.
       def generateMainScripts()
@@ -63,7 +63,7 @@ module Hatemile
           else
             localEventListenerScriptContent = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
           end
-          
+
           script = @parser.createElement('script')
           script.setAttribute('id', @idScriptEventListener)
           script.setAttribute('type', 'text/javascript')
@@ -96,7 +96,7 @@ module Hatemile
             else
               localIncludeScriptContent = File.read(File.dirname(__FILE__) + '/../../js/include.js')
             end
-            
+
             scriptFunction = @parser.createElement('script')
             scriptFunction.setAttribute('id', @idFunctionScriptFix)
             scriptFunction.setAttribute('type', 'text/javascript')
@@ -106,12 +106,12 @@ module Hatemile
         end
         @mainScriptAdded = true
       end
-      
+
       ##
       # Add a type of event in element.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +event+ The type of event.
@@ -119,25 +119,25 @@ module Hatemile
         if not @mainScriptAdded
           self.generateMainScripts()
         end
-        
+
         if @scriptList != nil
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
           @scriptList.appendText("#{event}Elements.push('#{element.getAttribute('id')}');")
         end
       end
-      
+
       public
-      
+
       ##
       # Initializes a new object that manipulate the accessibility of the
       # Javascript events of elements of parser.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
-      #  3. Boolean +storeScriptsContent+ The state that indicates if the 
+      #  3. Boolean +storeScriptsContent+ The state that indicates if the
       #  scripts used are stored or deleted, after use.
       def initialize(parser, configure, storeScriptsContent)
         @parser = parser
@@ -150,21 +150,21 @@ module Hatemile
         @mainScriptAdded = false
         @scriptList = nil
       end
-      
+
       def fixDrop(element)
         element.setAttribute('aria-dropeffect', 'none')
-        
+
         self.addEventInElement(element, 'drop')
       end
-      
+
       def fixDrag(element)
         self.keyboardAccess(element)
-        
+
         element.setAttribute('aria-grabbed', 'false')
-        
+
         self.addEventInElement(element, 'drag')
       end
-      
+
       def fixDragsandDrops()
         draggableElements = @parser.find('[ondrag],[ondragstart],[ondragend]').listResults()
         draggableElements.each() do |draggableElement|
@@ -179,13 +179,13 @@ module Hatemile
           end
         end
       end
-      
+
       def fixHover(element)
         self.keyboardAccess(element)
-        
+
         self.addEventInElement(element, 'hover')
       end
-      
+
       def fixHovers()
         elements = @parser.find('[onmouseover],[onmouseout]').listResults()
         elements.each() do |element|
@@ -194,13 +194,13 @@ module Hatemile
           end
         end
       end
-      
+
       def fixActive(element)
         self.keyboardAccess(element)
-        
+
         self.addEventInElement(element, 'active')
       end
-      
+
       def fixActives()
         elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults()
         elements.each() do |element|

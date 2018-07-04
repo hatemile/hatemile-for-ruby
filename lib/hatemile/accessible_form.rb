@@ -11,68 +11,68 @@
 #limitations under the License.
 
 module Hatemile
-  
+
   ##
   # The AccessibleForm interface fixes accessibility problems associated with
   # forms.
   class AccessibleForm
     private_class_method :new
-    
+
     ##
     # Display that the field is required.
-    # 
+    #
     # ---
-    # 
+    #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
     def fixRequiredField(requiredField)
     end
-    
+
     ##
     # Display that the fields is required.
     def fixRequiredFields()
     end
-    
+
     ##
     # Display that the field have range.
-    # 
+    #
     # ---
-    # 
+    #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +rangeField+ The range field.
     def fixRangeField(rangeField)
     end
-    
+
     ##
     # Display that the fields have range.
     def fixRangeFields()
     end
-    
+
     ##
     # Display that the field have autocomplete.
-    # 
+    #
     # ---
-    # 
+    #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +autoCompleteField+ The field with autocomplete.
     def fixAutoCompleteField(autoCompleteField)
     end
-    
+
     ##
     # Display that the fields have autocomplete.
     def fixAutoCompleteFields()
     end
-    
+
     ##
     # Associate label with field.
-    # 
+    #
     # ---
-    # 
+    #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
     def fixLabel(label)
     end
-    
+
     ##
     # Associate labels with fields.
     def fixLabels()

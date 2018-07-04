@@ -12,16 +12,16 @@
 
 module Hatemile
   module Util
-    
+
     ##
     # The SelectorChange class store the selector that be attribute change.
     class SelectorChange
-      
+
       ##
       # Inicializes a new object with the values pre-defineds.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. String +selector+ The selector.
       #  2. String +attribute+ The attribute.
@@ -31,34 +31,34 @@ module Hatemile
         @attribute = attribute
         @valueForAttribute = valueForAttribute
       end
-      
+
       ##
       # Returns the selector.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # String The selector.
       def getSelector()
         return @selector
       end
-      
+
       ##
       # Returns the attribute.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # String The attribute.
       def getAttribute()
         return @attribute
       end
-      
+
       ##
       # Returns the value of the attribute.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # String The value of the attribute.
       def getValueForAttribute()

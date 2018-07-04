@@ -15,20 +15,20 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleTableImplementation class is official implementation of
     # AccessibleTable interface.
     class AccessibleTableImplementation < AccessibleTable
       public_class_method :new
-      
+
       protected
-      
+
       ##
       # Returns a list that represents the table.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +part+ The table header, table footer or table body.
       # Return:
@@ -41,12 +41,12 @@ module Hatemile
         end
         return self.generateRowspan(table)
       end
-      
+
       ##
       # Returns a list that represents the table with the rowspans.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +rows+ The list that represents the table without the rowspans.
       # Return:
@@ -89,12 +89,12 @@ module Hatemile
         end
         return table
       end
-      
+
       ##
       # Returns a list that represents the line of table with the colspans.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Array(Hatemile::Util::HTMLDOMElement) +row+ The list that represents the line of table without the
       #  colspans.
@@ -117,12 +117,12 @@ module Hatemile
         end
         return copy
       end
-      
+
       ##
       # Validate the list that represents the table header.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +header+ The list that represents the table header.
       # Return:
@@ -144,12 +144,12 @@ module Hatemile
         end
         return true
       end
-      
+
       ##
       # Returns a list with ids of rows of same column.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +header+ The list that represents the table header.
       #  2. Integer +index+ The index of columns.
@@ -164,12 +164,12 @@ module Hatemile
         end
         return ids
       end
-      
+
       ##
       # Fix the table body or table footer.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
       def fixBodyOrFooter(element)
@@ -181,7 +181,7 @@ module Hatemile
             if cell.getTagName() == 'TH'
               Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
               headersIds.push(cell.getAttribute('id'))
-              
+
               cell.setAttribute('scope', 'row')
             end
           end
@@ -198,31 +198,31 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Fix the table header.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +tableHeader+ The table header.
       def fixHeader(tableHeader)
         cells = @parser.find(tableHeader).findChildren('tr').findChildren('th').listResults()
         cells.each() do |cell|
           Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
-          
+
           cell.setAttribute('scope', 'col')
         end
       end
-      
+
       public
-      
+
       ##
       # Initializes a new object that manipulate the accessibility of the tables
       # of parser.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
@@ -231,14 +231,14 @@ module Hatemile
         @prefixId = configure.getParameter('prefix-generated-ids')
         @dataIgnore = 'data-ignoreaccessibilityfix'
       end
-      
+
       def fixAssociationCellsTable(table)
         header = @parser.find(table).findChildren('thead').firstResult()
         body = @parser.find(table).findChildren('tbody').firstResult()
         footer = @parser.find(table).findChildren('tfoot').firstResult()
         if header != nil
           self.fixHeader(header)
-          
+
           headerCells = self.generatePart(header)
           if (body != nil) and (self.validateHeader(headerCells))
             lengthHeader = headerCells[0].size()
@@ -269,7 +269,7 @@ module Hatemile
           self.fixBodyOrFooter(footer)
         end
       end
-      
+
       def fixAssociationCellsTables()
         tables = @parser.find('table').listResults()
         tables.each() do |table|

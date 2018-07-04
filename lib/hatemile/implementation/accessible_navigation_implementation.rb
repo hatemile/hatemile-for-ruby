@@ -15,20 +15,20 @@ require File.dirname(__FILE__) + '/../util/skipper.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleNavigationImplementation class is official implementation of
     # AccessibleNavigation interface.
     class AccessibleNavigationImplementation < AccessibleNavigation
       public_class_method :new
-      
+
       protected
-      
+
       ##
       # Returns the description of element.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element with description.
       # Return:
@@ -67,31 +67,31 @@ module Hatemile
         end
         return description.gsub(/[ \n\t\r]+/, ' ')
       end
-      
+
       ##
       # Generate the list of shortcuts of page.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Hatemile::Util::HTMLDOMElement The list of shortcuts of page.
       def generateListShortcuts()
         container = @parser.find("##{@idContainerShortcuts}").firstResult()
-        
+
         htmlList = nil
         if container == nil
           local = @parser.find('body').firstResult()
           if local != nil
             container = @parser.createElement('div')
             container.setAttribute('id', @idContainerShortcuts)
-            
+
             textContainer = @parser.createElement('span')
             textContainer.setAttribute('id', @idTextShortcuts)
             textContainer.appendText(@textShortcuts)
-            
+
             container.appendElement(textContainer)
             local.appendElement(container)
-            
+
             self.executeFixSkipper(container)
             self.executeFixSkipper(textContainer)
           end
@@ -105,15 +105,15 @@ module Hatemile
           self.executeFixSkipper(htmlList)
         end
         @listShortcutsAdded = true
-        
+
         return htmlList
       end
-      
+
       ##
       # Generate the list of skippers of page.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Hatemile::Util::HTMLDOMElement The list of skippers of page.
       def generateListSkippers()
@@ -135,15 +135,15 @@ module Hatemile
           end
         end
         @listSkippersAdded = true
-        
+
         return htmlList
       end
-      
+
       ##
       # Generate the list of heading links of page.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Hatemile::Util::HTMLDOMElement The list of heading links of page.
       def generateListHeading()
@@ -154,14 +154,14 @@ module Hatemile
           if local != nil
             container = @parser.createElement('div')
             container.setAttribute('id', @idContainerHeading)
-            
+
             textContainer = @parser.createElement('span')
             textContainer.setAttribute('id', @idTextHeading)
             textContainer.appendText(@textHeading)
-            
+
             container.appendElement(textContainer)
             local.appendElement(container)
-            
+
             self.executeFixSkipper(container)
             self.executeFixSkipper(textContainer)
           end
@@ -176,12 +176,12 @@ module Hatemile
         end
         return htmlList
       end
-      
+
       ##
       # Returns the level of heading.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The heading.
       # Return:
@@ -204,12 +204,12 @@ module Hatemile
           return -1
         end
       end
-      
+
       ##
       # Inform if the headings of page are sintatic correct.
-      # 
+      #
       # ---
-      # 
+      #
       # Return:
       # Boolean True if the headings of page are sintatic correct or false if not.
       def isValidHeading()
@@ -233,12 +233,12 @@ module Hatemile
         end
         return true
       end
-      
+
       ##
       # Generate an anchor for the element.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +dataAttribute+ The name of attribute that links the element with
@@ -265,12 +265,12 @@ module Hatemile
         end
         return anchor
       end
-      
+
       ##
       # Replace the shortcut of elements, that has the shortcut passed.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #   1. String +shortcut+ The shortcut.
       def freeShortcut(shortcut)
@@ -301,13 +301,13 @@ module Hatemile
           end
         end
       end
-      
+
       ##
       # Call fixSkipper method for element, if the page has the container of
       # skippers.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixSkipper(element)
@@ -319,14 +319,13 @@ module Hatemile
           end
         end
       end
-      
-      
+
       ##
       # Call fixShortcut method for element, if the page has the container of
       # shortcuts.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixShortcut(element)
@@ -334,18 +333,18 @@ module Hatemile
           self.fixShortcut(element)
         end
       end
-      
+
       public
-      
+
       ##
       # Initializes a new object that manipulate the accessibility of the
       # navigation of parser.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe. 
+      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
       #  3. String +userAgent+ The user agent of the user.
       def initialize(parser, configure, userAgent = nil)
         @parser = parser
@@ -372,7 +371,7 @@ module Hatemile
         @validHeading = false
         @listSkippers = nil
         @listShortcuts = nil
-        
+
         if userAgent != nil
           userAgent = userAgent.downcase()
           opera = userAgent.include?('opera')
@@ -384,7 +383,7 @@ module Hatemile
           chrome = userAgent.include?('chrome')
           firefox = userAgent.match('firefox/[2-9]|minefield/3') != nil
           ie = userAgent.include?('msie') or userAgent.include?('trident')
-          
+
           if opera
             @prefix = 'SHIFT + ESC'
           elsif chrome and mac and (not spoofer)
@@ -404,18 +403,18 @@ module Hatemile
           @prefix = @standartPrefix
         end
       end
-      
+
       def fixShortcut(element)
         if element.hasAttribute?('accesskey')
           description = self.getDescription(element)
           if not element.hasAttribute?('title')
             element.setAttribute('title', description)
           end
-          
+
           if not @listShortcutsAdded
             @listShortcuts = self.generateListShortcuts()
           end
-          
+
           if @listShortcuts != nil
             keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
             keys.each() do |key|
@@ -430,7 +429,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixShortcuts()
         elements = @parser.find('[accesskey]').listResults()
         elements.each() do |element|
@@ -439,7 +438,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixSkipper(element, skipper)
         if not @listSkippersAdded
           @listSkippers = self.generateListSkippers()
@@ -451,7 +450,7 @@ module Hatemile
             link = @parser.createElement('a')
             link.setAttribute('href', "##{anchor.getAttribute('name')}")
             link.appendText(skipper.getDefaultText())
-            
+
             shortcuts = skipper.getShortcuts()
             if not shortcuts.empty?()
               shortcut = shortcuts[0]
@@ -461,15 +460,15 @@ module Hatemile
               end
             end
             Hatemile::Util::CommonFunctions.generateId(link, @prefixId)
-            
+
             itemLink.appendElement(link)
             @listSkippers.appendElement(itemLink)
-            
+
             self.executeFixShortcut(link)
           end
         end
       end
-      
+
       def fixSkippers()
         @skippers.each() do |skipper|
           elements = @parser.find(skipper.getSelector()).listResults()
@@ -496,7 +495,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixHeading(element)
         if not @validateHeading
           @validHeading = self.isValidHeading()
@@ -532,7 +531,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixHeadings()
         elements = @parser.find('h1,h2,h3,h4,h5,h6').listResults()
         elements.each() do |element|

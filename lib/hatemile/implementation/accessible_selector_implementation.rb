@@ -14,19 +14,19 @@ require File.dirname(__FILE__) + '/../accessible_selector.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleSelectorImplementation class is official implementation of
     # AccessibleSelector interface.
     class AccessibleSelectorImplementation < AccessibleSelector
       public_class_method :new
-      
+
       ##
       # Initializes a new object that manipulate the accessibility through of the
       # selectors of the configuration file.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
@@ -35,7 +35,7 @@ module Hatemile
         @changes = configure.getSelectorChanges()
         @dataIgnore = 'data-ignoreaccessibilityfix'
       end
-      
+
       def fixSelectors()
         @changes.each() do |change|
           elements = @parser.find(change.getSelector()).listResults()

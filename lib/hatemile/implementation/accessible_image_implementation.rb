@@ -15,19 +15,19 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-    
+
     ##
     # The AccessibleImageImplementation class is official implementation of
     # AccessibleImage interface.
     class AccessibleImageImplementation < AccessibleImage
       public_class_method :new
-      
+
       ##
       # Initializes a new object that manipulate the accessibility of the images
       # of parser.
-      # 
+      #
       # ---
-      # 
+      #
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
@@ -40,7 +40,7 @@ module Hatemile
         @prefixLongDescriptionLink = configure.getParameter('prefix-longdescription')
         @suffixLongDescriptionLink = configure.getParameter('suffix-longdescription')
       end
-      
+
       def fixLongDescription(element)
         if element.hasAttribute?('longdesc')
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
@@ -61,7 +61,7 @@ module Hatemile
           end
         end
       end
-      
+
       def fixLongDescriptions()
         elements = @parser.find('[longdesc]').listResults()
         elements.each() do |element|
