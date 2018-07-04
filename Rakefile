@@ -14,9 +14,9 @@ spec = Gem::Specification.new do |s|
   s.author = 'Carlson Santana Cruz'
   s.email = ''
   # s.executables = ['your_executable_here']
-  s.files = %w(LICENSE README Rakefile) + Dir.glob("{bin,lib,spec}/**/*")
-  s.require_path = "lib"
-  s.bindir = "bin"
+  s.files = %w(LICENSE README Rakefile) + Dir.glob('{bin,lib,spec}/**/*')
+  s.require_path = 'lib'
+  s.bindir = 'bin'
 end
 
 Gem::PackageTask.new(spec) do |p|
@@ -26,8 +26,8 @@ Gem::PackageTask.new(spec) do |p|
 end
 
 RDoc::Task.new do |rdoc|
-  rdoc.main = "README.md" # page to start on
-  rdoc.title = "HaTeMiLe for Ruby Docs"
+  rdoc.main = 'README.md' # page to start on
+  rdoc.title = 'HaTeMiLe for Ruby Docs'
   rdoc.rdoc_dir = 'doc/rdoc' # rdoc output folder
   rdoc.options << '--line-numbers'
   rdoc.rdoc_files.add('README.md', 'LICENSE')

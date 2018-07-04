@@ -278,7 +278,7 @@ module Hatemile
         alphaNumbers = '1234567890abcdefghijklmnopqrstuvwxyz'
         elements = @parser.find('[accesskey]').listResults()
         elements.each() do |element|
-          shortcuts = element.getAttribute("accesskey").downcase();
+          shortcuts = element.getAttribute('accesskey').downcase();
           if Hatemile::Util::CommonFunctions.inList(shortcuts, shortcut)
             (0..alphaNumbers.length() - 1).each() do |i|
               key = alphaNumbers[i, i + 1]
@@ -521,7 +521,7 @@ module Hatemile
               item = @parser.createElement('li')
               item.setAttribute(@dataHeadingLevel, level.to_s())
 
-              link = @parser.createElement("a")
+              link = @parser.createElement('a')
               link.setAttribute('href', "##{anchor.getAttribute('name')}")
               link.appendText(element.getTextContent())
 
