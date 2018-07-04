@@ -11,63 +11,63 @@
 #limitations under the License.
 
 module Hatemile
-	module Util
-		
-		##
-		# The Skipper class store the selector that will be add a skipper.
-		class Skipper
-			
-			##
-			# Inicializes a new object with the values pre-defineds.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String +selector+ The selector.
-			#  2. String +defaultText+ The default text of skipper.
-			#  3. String +shortcuts+ The shortcuts of skipper.
-			def initialize(selector, defaultText, shortcuts)
-				@selector = selector
-				@defaultText = defaultText
-				if shortcuts.empty?()
-					@shortcuts = Array.new()
-				else
-					@shortcuts = shortcuts.split(/[ \n\t\r]+/)
-				end
-			end
-			
-			##
-			# Returns the selector.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The selector.
-			def getSelector()
-				return @selector
-			end
-			
-			##
-			# Returns the default text of skipper.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The default text of skipper.
-			def getDefaultText()
-				return @defaultText
-			end
-			
-			##
-			# Returns the shortcuts of skipper.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The shortcuts of skipper.
-			def getShortcuts()
-				return @shortcuts.clone()
-			end
-		end
-	end
+  module Util
+    
+    ##
+    # The Skipper class store the selector that will be add a skipper.
+    class Skipper
+      
+      ##
+      # Inicializes a new object with the values pre-defineds.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String +selector+ The selector.
+      #  2. String +defaultText+ The default text of skipper.
+      #  3. String +shortcuts+ The shortcuts of skipper.
+      def initialize(selector, defaultText, shortcuts)
+        @selector = selector
+        @defaultText = defaultText
+        if shortcuts.empty?()
+          @shortcuts = Array.new()
+        else
+          @shortcuts = shortcuts.split(/[ \n\t\r]+/)
+        end
+      end
+      
+      ##
+      # Returns the selector.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The selector.
+      def getSelector()
+        return @selector
+      end
+      
+      ##
+      # Returns the default text of skipper.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The default text of skipper.
+      def getDefaultText()
+        return @defaultText
+      end
+      
+      ##
+      # Returns the shortcuts of skipper.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The shortcuts of skipper.
+      def getShortcuts()
+        return @shortcuts.clone()
+      end
+    end
+  end
 end

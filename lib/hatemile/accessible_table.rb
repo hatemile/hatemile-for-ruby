@@ -11,26 +11,26 @@
 #limitations under the License.
 
 module Hatemile
-	
-	##
-	# The AccessibleTable interface fixes accessibility problems associated
-	# with tables.
-	class AccessibleTable
-		private_class_method :new
-		
-		##
-		# Associate data cells with header cells of table.
-		# 
-		# ---
-		# 
-		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +table+ The table.
-		def fixAssociationCellsTable(table)
-		end
-		
-		##
-		# Associate data cells with header cells of tables.
-		def fixAssociationCellsTables()
-		end
-	end
+  
+  ##
+  # The AccessibleTable interface fixes accessibility problems associated
+  # with tables.
+  class AccessibleTable
+    private_class_method :new
+    
+    ##
+    # Associate data cells with header cells of table.
+    # 
+    # ---
+    # 
+    # Parameters:
+    #  1. Hatemile::Util::HTMLDOMElement +table+ The table.
+    def fixAssociationCellsTable(table)
+    end
+    
+    ##
+    # Associate data cells with header cells of tables.
+    def fixAssociationCellsTables()
+    end
+  end
 end

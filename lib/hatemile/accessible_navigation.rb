@@ -11,57 +11,57 @@
 #limitations under the License.
 
 module Hatemile
-	
-	##
-	# The AccessibleNavigation interface fixes accessibility problems associated
-	# with navigation.
-	class AccessibleNavigation
-		private_class_method :new
-		
-		##
-		# Display the shortcuts of element.
-		# 
-		# ---
-		# 
-		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +element+ The element with shortcuts.
-		def fixShortcut(element)
-		end
-		
-		##
-		# Display the shortcuts of elements.
-		def fixShortcuts()
-		end
-		
-		##
-		# Provide content skipper for element.
-		# 
-		# ---
-		# 
-		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +element+ The element.
-		#  2. Hatemile::Util::Skipper +skipper+ The skipper.
-		def fixSkipper(element, skipper)
-		end
-		
-		##
-		# Provide content skippers.
-		def fixSkippers()
-		end
-		
-		##
-		# Provide a navigation by heading.
-		# 
-		# ---
-		# 
-		# Parameters:
-		#  1. Hatemile::Util::HTMLDOMElement +element+ The heading element.
-		def fixHeading(element)
-		end
-		
-		##
-		# Provide a navigation by headings.
-		def fixHeadings()
-		end
-	end
+  
+  ##
+  # The AccessibleNavigation interface fixes accessibility problems associated
+  # with navigation.
+  class AccessibleNavigation
+    private_class_method :new
+    
+    ##
+    # Display the shortcuts of element.
+    # 
+    # ---
+    # 
+    # Parameters:
+    #  1. Hatemile::Util::HTMLDOMElement +element+ The element with shortcuts.
+    def fixShortcut(element)
+    end
+    
+    ##
+    # Display the shortcuts of elements.
+    def fixShortcuts()
+    end
+    
+    ##
+    # Provide content skipper for element.
+    # 
+    # ---
+    # 
+    # Parameters:
+    #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
+    #  2. Hatemile::Util::Skipper +skipper+ The skipper.
+    def fixSkipper(element, skipper)
+    end
+    
+    ##
+    # Provide content skippers.
+    def fixSkippers()
+    end
+    
+    ##
+    # Provide a navigation by heading.
+    # 
+    # ---
+    # 
+    # Parameters:
+    #  1. Hatemile::Util::HTMLDOMElement +element+ The heading element.
+    def fixHeading(element)
+    end
+    
+    ##
+    # Provide a navigation by headings.
+    def fixHeadings()
+    end
+  end
 end

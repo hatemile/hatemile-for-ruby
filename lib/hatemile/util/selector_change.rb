@@ -11,59 +11,59 @@
 #limitations under the License.
 
 module Hatemile
-	module Util
-		
-		##
-		# The SelectorChange class store the selector that be attribute change.
-		class SelectorChange
-			
-			##
-			# Inicializes a new object with the values pre-defineds.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String +selector+ The selector.
-			#  2. String +attribute+ The attribute.
-			#  3. String +valueForAttribute+ The value of the attribute.
-			def initialize(selector, attribute, valueForAttribute)
-				@selector = selector
-				@attribute = attribute
-				@valueForAttribute = valueForAttribute
-			end
-			
-			##
-			# Returns the selector.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The selector.
-			def getSelector()
-				return @selector
-			end
-			
-			##
-			# Returns the attribute.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The attribute.
-			def getAttribute()
-				return @attribute
-			end
-			
-			##
-			# Returns the value of the attribute.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The value of the attribute.
-			def getValueForAttribute()
-				return @valueForAttribute
-			end
-		end
-	end
+  module Util
+    
+    ##
+    # The SelectorChange class store the selector that be attribute change.
+    class SelectorChange
+      
+      ##
+      # Inicializes a new object with the values pre-defineds.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String +selector+ The selector.
+      #  2. String +attribute+ The attribute.
+      #  3. String +valueForAttribute+ The value of the attribute.
+      def initialize(selector, attribute, valueForAttribute)
+        @selector = selector
+        @attribute = attribute
+        @valueForAttribute = valueForAttribute
+      end
+      
+      ##
+      # Returns the selector.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The selector.
+      def getSelector()
+        return @selector
+      end
+      
+      ##
+      # Returns the attribute.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The attribute.
+      def getAttribute()
+        return @attribute
+      end
+      
+      ##
+      # Returns the value of the attribute.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The value of the attribute.
+      def getValueForAttribute()
+        return @valueForAttribute
+      end
+    end
+  end
 end

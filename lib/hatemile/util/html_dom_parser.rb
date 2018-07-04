@@ -11,128 +11,128 @@
 #limitations under the License.
 
 module Hatemile
-	module Util
-		
-		##
-		# The HTMLDOMParser interface contains the methods for access a native parser.
-		class HTMLDOMParser
-			private_class_method :new
-			
-			##
-			# Find all elements in the parser by selector.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
-			# Return:
-			# Hatemile::Util::Parser The parser with the elements found.
-			def find(selector)
-			end
-			
-			##
-			# Find all elements in the parser by selector, children of found elements.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
-			# Return:
-			# Hatemile::Util::Parser The parser with the elements found.
-			def findChildren(selector)
-			end
-			
-			##
-			# Find all elements in the parser by selector, descendants of found
-			# elements.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
-			# Return:
-			# Hatemile::Util::Parser The parser with the elements found.
-			def findDescendants(selector)
-			end
-			
-			##
-			# Find all elements in the parser by selector, ancestors of found elements.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
-			# Return:
-			# Hatemile::Util::Parser The parser with the elements found.
-			def findAncestors(selector)
-			end
-			
-			##
-			# Returns the first element found.
-			# 
-			# ---
-			# 
-			# Return:
-			# Hatemile::Util::HTMLDOMElement The first element found or null if not have elements found.
-			def firstResult()
-			end
-			
-			##
-			# Returns the last element found.
-			# 
-			# ---
-			# 
-			# Return:
-			# Hatemile::Util::HTMLDOMElement The last element found or null if not have elements found.
-			def lastResult()
-			end
-			
-			##
-			# Returns a list with all elements found.
-			# 
-			# ---
-			# 
-			# Return:
-			# Array(Hatemile::Util::HTMLDOMElement) The list with all elements found.
-			def listResults()
-			end
-			
-			##
-			# Create a element.
-			# 
-			# ---
-			# 
-			# Parameters:
-			#  1. String +tag+ The tag of element.
-			# Return:
-			# Hatemile::Util::HTMLDOMElement The element created.
-			def createElement(tag)
-			end
-			
-			##
-			# Returns the HTML code of parser.
-			# 
-			# ---
-			# 
-			# Return:
-			# String The HTML code of parser.
-			def getHTML()
-			end
-			
-			##
-			# Returns the parser.
-			# 
-			# ---
-			# 
-			# Return:
-			# Object The parser or root element of the parser.
-			def getParser()
-			end
-			
-			##
-			# Clear the memory of this object.
-			def clearParser()
-			end
-		end
-	end
+  module Util
+    
+    ##
+    # The HTMLDOMParser interface contains the methods for access a native parser.
+    class HTMLDOMParser
+      private_class_method :new
+      
+      ##
+      # Find all elements in the parser by selector.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
+      # Return:
+      # Hatemile::Util::Parser The parser with the elements found.
+      def find(selector)
+      end
+      
+      ##
+      # Find all elements in the parser by selector, children of found elements.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
+      # Return:
+      # Hatemile::Util::Parser The parser with the elements found.
+      def findChildren(selector)
+      end
+      
+      ##
+      # Find all elements in the parser by selector, descendants of found
+      # elements.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
+      # Return:
+      # Hatemile::Util::Parser The parser with the elements found.
+      def findDescendants(selector)
+      end
+      
+      ##
+      # Find all elements in the parser by selector, ancestors of found elements.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
+      # Return:
+      # Hatemile::Util::Parser The parser with the elements found.
+      def findAncestors(selector)
+      end
+      
+      ##
+      # Returns the first element found.
+      # 
+      # ---
+      # 
+      # Return:
+      # Hatemile::Util::HTMLDOMElement The first element found or null if not have elements found.
+      def firstResult()
+      end
+      
+      ##
+      # Returns the last element found.
+      # 
+      # ---
+      # 
+      # Return:
+      # Hatemile::Util::HTMLDOMElement The last element found or null if not have elements found.
+      def lastResult()
+      end
+      
+      ##
+      # Returns a list with all elements found.
+      # 
+      # ---
+      # 
+      # Return:
+      # Array(Hatemile::Util::HTMLDOMElement) The list with all elements found.
+      def listResults()
+      end
+      
+      ##
+      # Create a element.
+      # 
+      # ---
+      # 
+      # Parameters:
+      #  1. String +tag+ The tag of element.
+      # Return:
+      # Hatemile::Util::HTMLDOMElement The element created.
+      def createElement(tag)
+      end
+      
+      ##
+      # Returns the HTML code of parser.
+      # 
+      # ---
+      # 
+      # Return:
+      # String The HTML code of parser.
+      def getHTML()
+      end
+      
+      ##
+      # Returns the parser.
+      # 
+      # ---
+      # 
+      # Return:
+      # Object The parser or root element of the parser.
+      def getParser()
+      end
+      
+      ##
+      # Clear the memory of this object.
+      def clearParser()
+      end
+    end
+  end
 end
