@@ -10,8 +10,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-require File.dirname(__FILE__) + '/../AccessibleTable.rb'
-require File.dirname(__FILE__) + '/../util/CommonFunctions.rb'
+require File.dirname(__FILE__) + '/../accessible_table.rb'
+require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
 	module Implementation

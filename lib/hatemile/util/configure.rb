@@ -11,8 +11,8 @@
 #limitations under the License.
 
 require 'rexml/document'
-require File.dirname(__FILE__) + '/SelectorChange.rb'
-require File.dirname(__FILE__) + '/Skipper.rb'
+require File.dirname(__FILE__) + '/selector_change.rb'
+require File.dirname(__FILE__) + '/skipper.rb'
 
 module Hatemile
 	module Util

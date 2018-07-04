@@ -10,8 +10,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-require File.dirname(__FILE__) + '/../AccessibleEvent.rb'
-require File.dirname(__FILE__) + '/../util/CommonFunctions.rb'
+require File.dirname(__FILE__) + '/../accessible_event.rb'
+require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
 	module Implementation

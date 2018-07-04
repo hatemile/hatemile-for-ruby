@@ -10,7 +10,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-require File.dirname(__FILE__) + '/../AccessibleSelector.rb'
+require File.dirname(__FILE__) + '/../accessible_selector.rb'
 
 module Hatemile
 	module Implementation

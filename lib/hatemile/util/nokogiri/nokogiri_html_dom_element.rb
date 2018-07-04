@@ -10,7 +10,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-require File.dirname(__FILE__) + '/../HTMLDOMElement.rb'
+require File.dirname(__FILE__) + '/../html_dom_element.rb'
 
 module Hatemile
 	module Util

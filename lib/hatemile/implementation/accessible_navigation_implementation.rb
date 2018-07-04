@@ -10,8 +10,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-require File.dirname(__FILE__) + '/../AccessibleNavigation.rb'
-require File.dirname(__FILE__) + '/../util/Skipper.rb'
+require File.dirname(__FILE__) + '/../accessible_navigation.rb'
+require File.dirname(__FILE__) + '/../util/skipper.rb'
 
 module Hatemile
 	module Implementation

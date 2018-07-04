@@ -11,8 +11,8 @@
 #limitations under the License.
 
 require 'nokogiri'
-require File.dirname(__FILE__) + '/../HTMLDOMParser.rb'
-require File.dirname(__FILE__) + '/NokogiriHTMLDOMElement.rb'
+require File.dirname(__FILE__) + '/../html_dom_parser.rb'
+require File.dirname(__FILE__) + '/nokogiri_html_dom_element.rb'
 
 module Hatemile
 	module Util
