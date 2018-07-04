@@ -28,6 +28,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
       def find(selector)
+        # Interface method
       end
 
       ##
@@ -40,6 +41,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
       def findChildren(selector)
+        # Interface method
       end
 
       ##
@@ -53,6 +55,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
       def findDescendants(selector)
+        # Interface method
       end
 
       ##
@@ -65,6 +68,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
       def findAncestors(selector)
+        # Interface method
       end
 
       ##
@@ -75,6 +79,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::HTMLDOMElement The first element found or null if not have elements found.
       def firstResult()
+        # Interface method
       end
 
       ##
@@ -85,6 +90,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::HTMLDOMElement The last element found or null if not have elements found.
       def lastResult()
+        # Interface method
       end
 
       ##
@@ -95,6 +101,7 @@ module Hatemile
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The list with all elements found.
       def listResults()
+        # Interface method
       end
 
       ##
@@ -107,6 +114,7 @@ module Hatemile
       # Return:
       # Hatemile::Util::HTMLDOMElement The element created.
       def createElement(tag)
+        # Interface method
       end
 
       ##
@@ -117,6 +125,7 @@ module Hatemile
       # Return:
       # String The HTML code of parser.
       def getHTML()
+        # Interface method
       end
 
       ##
@@ -127,11 +136,13 @@ module Hatemile
       # Return:
       # Object The parser or root element of the parser.
       def getParser()
+        # Interface method
       end
 
       ##
       # Clear the memory of this object.
       def clearParser()
+        # Interface method
       end
     end
   end

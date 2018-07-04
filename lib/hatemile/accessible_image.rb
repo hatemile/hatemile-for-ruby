@@ -26,11 +26,13 @@ module Hatemile
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with long description.
     def fixLongDescription(element)
+      # Interface method
     end
 
     ##
     # Provide an alternative way to access the longs descriptions of elements.
     def fixLongDescriptions()
+      # Interface method
     end
   end
 end
