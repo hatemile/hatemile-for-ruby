@@ -123,7 +123,7 @@ module Hatemile
             and (!label.hasAttribute?(@dataLabelPrefixAutoCompleteField)) \
             and (!label.hasAttribute?(@dataLabelSuffixAutoCompleteField))
           ariaAutocomplete = self.getARIAAutoComplete(autoCompleteField)
-          if ariaAutocomplete != nil
+          unless ariaAutocomplete.nil?
             if ariaAutocomplete == 'both'
               unless @prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueBoth)
@@ -174,16 +174,16 @@ module Hatemile
             value = field.getAttribute('autocomplete').downcase
           else
             form = @parser.find(field).findAncestors('form').firstResult
-            if (form == nil) and (field.hasAttribute?('form'))
+            if (form.nil?) and (field.hasAttribute?('form'))
               form = @parser.find("##{field.getAttribute('form')}").firstResult
             end
-            if (form != nil) and (form.hasAttribute?('autocomplete'))
+            if (!form.nil?) and (form.hasAttribute?('autocomplete'))
               value = form.getAttribute('autocomplete').downcase
             end
           end
           if 'on' == value
             return 'both'
-          elsif (field.hasAttribute?('list')) and (@parser.find("datalist[id=\"#{field.getAttribute('list')}\"]").firstResult != nil)
+          elsif (field.hasAttribute?('list')) and (!@parser.find("datalist[id=\"#{field.getAttribute('list')}\"]").firstResult.nil?)
             return 'list'
           elsif 'off' == value
             return 'none'
@@ -206,7 +206,7 @@ module Hatemile
         if field.hasAttribute?('id')
           labels = @parser.find("label[for=\"#{field.getAttribute('id')}\"]").listResults
         end
-        if (labels == nil) or (labels.empty?)
+        if (labels.nil?) or (labels.empty?)
           labels = @parser.find(field).findAncestors('label').listResults
         end
         return labels
@@ -293,7 +293,7 @@ module Hatemile
 
       def fixAutoCompleteField(autoCompleteField)
         ariaAutoComplete = self.getARIAAutoComplete(autoCompleteField)
-        if ariaAutoComplete != nil
+        unless ariaAutoComplete.nil?
           autoCompleteField.setAttribute('aria-autocomplete', ariaAutoComplete)
 
           labels = self.getLabels(autoCompleteField);
@@ -319,12 +319,12 @@ module Hatemile
           else
             field = @parser.find(label).findDescendants('input,select,textarea').firstResult
 
-            if field != nil
+            unless field.nil?
               Hatemile::Util::CommonFunctions.generateId(field, @prefixId)
               label.setAttribute('for', field.getAttribute('id'))
             end
           end
-          if field != nil
+          unless field.nil?
             unless field.hasAttribute?('aria-label')
               field.setAttribute('aria-label', label.getTextContent.gsub(/[ \n\r\t]+/, ' '))
             end

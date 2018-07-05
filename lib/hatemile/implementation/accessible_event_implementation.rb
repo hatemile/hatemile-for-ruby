@@ -53,9 +53,9 @@ module Hatemile
       # Include the scripts used by solutions.
       def generateMainScripts
         head = @parser.find('head').firstResult
-        if (head != nil) and (@parser.find("##{@idScriptEventListener}").firstResult == nil)
+        if (!head.nil?) and (@parser.find("##{@idScriptEventListener}").firstResult.nil?)
           if @storeScriptsContent
-            if @@eventListenerScriptContent == nil
+            if @@eventListenerScriptContent.nil?
               @@eventListenerScriptContent = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
             end
             localEventListenerScriptContent = @@eventListenerScriptContent
@@ -74,9 +74,9 @@ module Hatemile
           end
         end
         local = @parser.find('body').firstResult
-        if local != nil
+        unless local.nil?
           @scriptList = @parser.find("##{@idListIdsScript}").firstResult
-          if @scriptList == nil
+          if @scriptList.nil?
             @scriptList = @parser.createElement('script')
             @scriptList.setAttribute('id', @idListIdsScript)
             @scriptList.setAttribute('type', 'text/javascript')
@@ -86,9 +86,9 @@ module Hatemile
             @scriptList.appendText('var dropElements = [];')
             local.appendElement(@scriptList)
           end
-          if @parser.find("##{@idFunctionScriptFix}").firstResult == nil
+          if @parser.find("##{@idFunctionScriptFix}").firstResult.nil?
             if @storeScriptsContent
-              if @@includeScriptContent == nil
+              if @@includeScriptContent.nil?
                 @@includeScriptContent = File.read(File.dirname(__FILE__) + '/../../js/include.js')
               end
               localIncludeScriptContent = @@includeScriptContent
@@ -119,7 +119,7 @@ module Hatemile
           self.generateMainScripts
         end
 
-        if @scriptList != nil
+        unless @scriptList.nil?
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
           @scriptList.appendText("#{event}Elements.push('#{element.getAttribute('id')}');")
         end

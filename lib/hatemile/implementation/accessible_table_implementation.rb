@@ -66,7 +66,7 @@ module Hatemile
               cell = cells[j]
               m = j + columnIndex
               row = table[i]
-              while row[m] != nil
+              until row[m].nil?
                 columnIndex += 1
                 m = j + columnIndex
               end
@@ -76,7 +76,7 @@ module Hatemile
                 if (rowspan > 1)
                   (1..rowspan - 1).each do |k|
                     n = i + k
-                    if table[n] == nil
+                    if table[n].nil?
                       table[n] = []
                     end
                     table[n][m] = cell
@@ -235,14 +235,14 @@ module Hatemile
         header = @parser.find(table).findChildren('thead').firstResult
         body = @parser.find(table).findChildren('tbody').firstResult
         footer = @parser.find(table).findChildren('tfoot').firstResult
-        if header != nil
+        unless header.nil?
           self.fixHeader(header)
 
           headerCells = self.generatePart(header)
-          if (body != nil) and (self.validateHeader(headerCells))
+          if (!body.nil?) and (self.validateHeader(headerCells))
             lengthHeader = headerCells[0].size
             fakeTable = self.generatePart(body)
-            if footer != nil
+            unless footer.nil?
               fakeTable = fakeTable.concat(self.generatePart(footer))
             end
             fakeTable.each do |cells|
@@ -261,10 +261,10 @@ module Hatemile
             end
           end
         end
-        if body != nil
+        unless body.nil?
           self.fixBodyOrFooter(body)
         end
-        if footer != nil
+        unless footer.nil?
           self.fixBodyOrFooter(footer)
         end
       end

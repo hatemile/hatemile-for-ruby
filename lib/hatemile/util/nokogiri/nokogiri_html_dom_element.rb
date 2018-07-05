@@ -53,7 +53,7 @@ module Hatemile
         end
 
         def hasAttribute?(name)
-          return @data.attributes[name] != nil
+          return !@data.attributes[name].nil?
         end
 
         def hasAttributes?
@@ -109,7 +109,7 @@ module Hatemile
 
         def getParentElement
           parent = @data.parent
-          if (parent != nil) and (parent.element?)
+          if (!parent.nil?) and (parent.element?)
             return NokogiriHTMLDOMElement.new(parent)
           else
             return nil

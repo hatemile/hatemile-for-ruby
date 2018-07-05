@@ -30,7 +30,7 @@ module Hatemile
         @parameters = Hash.new
         @selectorChanges = []
         @skippers = []
-        if (fileName == nil)
+        if (fileName.nil?)
           fileName = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
         end
         document = REXML::Document.new(File.read(fileName))

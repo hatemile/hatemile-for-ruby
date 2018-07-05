@@ -50,7 +50,7 @@ module Hatemile
           end
           descriptionIds.each do |descriptionId|
             elementDescription = @parser.find("##{descriptionId}").firstResult
-            if elementDescription != nil
+            unless elementDescription.nil?
               description = elementDescription.getTextContent
               break
             end
@@ -61,7 +61,7 @@ module Hatemile
             description = element.getAttribute('value')
           end
         end
-        if description == nil
+        if description.nil?
           description = element.getTextContent
         end
         return description.gsub(/[ \n\t\r]+/, ' ')
@@ -78,9 +78,9 @@ module Hatemile
         container = @parser.find("##{@idContainerShortcuts}").firstResult
 
         htmlList = nil
-        if container == nil
+        if container.nil?
           local = @parser.find('body').firstResult
-          if local != nil
+          unless local.nil?
             container = @parser.createElement('div')
             container.setAttribute('id', @idContainerShortcuts)
 
@@ -95,9 +95,9 @@ module Hatemile
             self.executeFixSkipper(textContainer)
           end
         end
-        if container != nil
+        unless container.nil?
           htmlList = @parser.find(container).findChildren('ul').firstResult
-          if htmlList == nil
+          if htmlList.nil?
             htmlList = @parser.createElement('ul')
             container.appendElement(htmlList)
           end
@@ -118,17 +118,17 @@ module Hatemile
       def generateListSkippers
         container = @parser.find("##{@idContainerSkippers}").firstResult
         htmlList = nil
-        if container == nil
+        if container.nil?
           local = @parser.find('body').firstResult
-          if local != nil
+          unless local.nil?
             container = @parser.createElement('div')
             container.setAttribute('id', @idContainerSkippers)
             local.getFirstElementChild.insertBefore(container)
           end
         end
-        if container != nil
+        unless container.nil?
           htmlList = @parser.find(container).findChildren('ul').firstResult
-          if htmlList == nil
+          if htmlList.nil?
             htmlList = @parser.createElement('ul')
             container.appendElement(htmlList)
           end
@@ -148,9 +148,9 @@ module Hatemile
       def generateListHeading
         container = @parser.find("##{@idContainerHeading}").firstResult
         htmlList = nil
-        if container == nil
+        if container.nil?
           local = @parser.find('body').firstResult
-          if local != nil
+          unless local.nil?
             container = @parser.createElement('div')
             container.setAttribute('id', @idContainerHeading)
 
@@ -165,9 +165,9 @@ module Hatemile
             self.executeFixSkipper(textContainer)
           end
         end
-        if container != nil
+        unless container.nil?
           htmlList = @parser.find(container).findChildren('ol').firstResult
-          if htmlList == nil
+          if htmlList.nil?
             htmlList = @parser.createElement('ol')
             container.appendElement(htmlList)
           end
@@ -248,7 +248,7 @@ module Hatemile
       def generateAnchorFor(element, dataAttribute, anchorClass)
         Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
         anchor = nil
-        if @parser.find("[#{dataAttribute}=\"#{element.getAttribute('id')}\"]").firstResult == nil
+        if @parser.find("[#{dataAttribute}=\"#{element.getAttribute('id')}\"]").firstResult.nil?
           if element.getTagName == 'A'
             anchor = element
           else
@@ -310,7 +310,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixSkipper(element)
-        if @listSkippers != nil
+        unless @listSkippers.nil?
           @skippers.each do |skipper|
             if @parser.find(skipper.getSelector).listResults.include?(element)
               self.fixSkipper(element, skipper)
@@ -328,7 +328,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixShortcut(element)
-        if @listShortcuts != nil
+        unless @listShortcuts.nil?
           self.fixShortcut(element)
         end
       end
@@ -371,7 +371,7 @@ module Hatemile
         @listSkippers = nil
         @listShortcuts = nil
 
-        if userAgent != nil
+        unless userAgent.nil?
           userAgent = userAgent.downcase
           opera = userAgent.include?('opera')
           mac = userAgent.include?('mac')
@@ -380,7 +380,7 @@ module Hatemile
           safari = userAgent.include?('applewebkit')
           windows = userAgent.include?('windows')
           chrome = userAgent.include?('chrome')
-          firefox = userAgent.match('firefox/[2-9]|minefield/3') != nil
+          firefox = !userAgent.match('firefox/[2-9]|minefield/3').nil?
           ie = userAgent.include?('msie') or userAgent.include?('trident')
 
           if opera
@@ -414,11 +414,11 @@ module Hatemile
             @listShortcuts = self.generateListShortcuts
           end
 
-          if @listShortcuts != nil
+          unless @listShortcuts.nil?
             keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
             keys.each do |key|
               key = key.upcase
-              if @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult == nil
+              if @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult.nil?
                 item = @parser.createElement('li')
                 item.setAttribute(@dataAccessKey, key)
                 item.appendText("#{@prefix} + #{key}: #{description}")
@@ -442,9 +442,9 @@ module Hatemile
         unless @listSkippersAdded
           @listSkippers = self.generateListSkippers
         end
-        if @listSkippers != nil
+        unless @listSkippers.nil?
           anchor = self.generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
-          if anchor != nil
+          unless anchor.nil?
             itemLink = @parser.createElement('li')
             link = @parser.createElement('a')
             link.setAttribute('href', "##{anchor.getAttribute('name')}")
@@ -501,22 +501,22 @@ module Hatemile
         end
         if @validHeading
           anchor = self.generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
-          if anchor != nil
+          unless anchor.nil?
             list = nil
             level = self.getHeadingLevel(element)
             if level == 1
               list = self.generateListHeading
             else
               superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{(level - 1).to_s}\"]").lastResult
-              if superItem != nil
+              unless superItem.nil?
                 list = @parser.find(superItem).findChildren('ol').firstResult
-                if list == nil
+                if list.nil?
                   list = @parser.createElement('ol')
                   superItem.appendElement(list)
                 end
               end
             end
-            if list != nil
+            unless list.nil?
               item = @parser.createElement('li')
               item.setAttribute(@dataHeadingLevel, level.to_s)
 
