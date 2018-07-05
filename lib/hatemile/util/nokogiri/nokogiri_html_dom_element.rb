@@ -57,7 +57,7 @@ module Hatemile
         end
 
         def hasAttributes?
-          return (not @data.attributes.empty?)
+          return (!@data.attributes.empty?)
         end
 
         def getTextContent
@@ -145,14 +145,14 @@ module Hatemile
         end
 
         def getFirstElementChild
-          if not self.hasChildren?
+          if !self.hasChildren?
             return nil
           end
           return NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
         def getLastElementChild
-          if not self.hasChildren?
+          if !self.hasChildren?
             return nil
           end
           children = @data.children
@@ -195,7 +195,7 @@ module Hatemile
             string += self.toString(child)
           end
 
-          if node.element? and not ((node.children.empty?) and (self.self_closing_tag?(node.name)))
+          if node.element? and !((node.children.empty?) and (self.self_closing_tag?(node.name)))
             string += "</#{node.name.downcase}>"
           end
           return string

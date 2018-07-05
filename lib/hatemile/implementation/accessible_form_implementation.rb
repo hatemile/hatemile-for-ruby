@@ -37,15 +37,15 @@ module Hatemile
       #  6. String +dataSuffix+ The name of suffix attribute.
       def addPrefixSuffix(label, field, prefix, suffix, dataPrefix, dataSuffix)
         content = field.getAttribute('aria-label')
-        if not prefix.empty?
+        if !prefix.empty?
           label.setAttribute(dataPrefix, prefix)
-          if not content.include?(prefix)
+          if !content.include?(prefix)
             content = "#{prefix} #{content}"
           end
         end
-        if not suffix.empty?
+        if !suffix.empty?
           label.setAttribute(dataSuffix, suffix)
-          if not content.include?(suffix)
+          if !content.include?(suffix)
             content = "#{content} #{suffix}"
           end
         end
@@ -64,8 +64,8 @@ module Hatemile
         if ((requiredField.hasAttribute?('required')) or ((requiredField.hasAttribute?('aria-required')) \
             and (requiredField.getAttribute('aria-required').downcase == 'true'))) \
             and (requiredField.hasAttribute?('aria-label')) \
-            and (not label.hasAttribute?(@dataLabelPrefixRequiredField)) \
-            and (not label.hasAttribute?(@dataLabelSuffixRequiredField))
+            and (!label.hasAttribute?(@dataLabelPrefixRequiredField)) \
+            and (!label.hasAttribute?(@dataLabelSuffixRequiredField))
           self.addPrefixSuffix(label, requiredField, @prefixRequiredField, @suffixRequiredField \
               , @dataLabelPrefixRequiredField, @dataLabelSuffixRequiredField)
         end
@@ -82,8 +82,8 @@ module Hatemile
       def fixLabelRangeField(label, rangeField)
         if rangeField.hasAttribute?('aria-label')
           if (rangeField.hasAttribute?('min') or rangeField.hasAttribute?('aria-valuemin')) \
-              and (not label.hasAttribute?(@dataLabelPrefixRangeMinField)) \
-              and (not label.hasAttribute?(@dataLabelSuffixRangeMinField))
+              and (!label.hasAttribute?(@dataLabelPrefixRangeMinField)) \
+              and (!label.hasAttribute?(@dataLabelSuffixRangeMinField))
             if rangeField.hasAttribute?('min')
               value = rangeField.getAttribute('min')
             else
@@ -94,8 +94,8 @@ module Hatemile
                 , @dataLabelPrefixRangeMinField, @dataLabelSuffixRangeMinField)
           end
           if (rangeField.hasAttribute?('max') or rangeField.hasAttribute?('aria-valuemax')) \
-              and (not label.hasAttribute?(@dataLabelPrefixRangeMaxField)) \
-              and (not label.hasAttribute?(@dataLabelSuffixRangeMaxField))
+              and (!label.hasAttribute?(@dataLabelPrefixRangeMaxField)) \
+              and (!label.hasAttribute?(@dataLabelSuffixRangeMaxField))
             if rangeField.hasAttribute?('max')
               value = rangeField.getAttribute('max')
             else
@@ -120,29 +120,29 @@ module Hatemile
         prefixAutoCompleteFieldModified = ''
         suffixAutoCompleteFieldModified = ''
         if (autoCompleteField.hasAttribute?('aria-label')) \
-            and (not label.hasAttribute?(@dataLabelPrefixAutoCompleteField)) \
-            and (not label.hasAttribute?(@dataLabelSuffixAutoCompleteField))
+            and (!label.hasAttribute?(@dataLabelPrefixAutoCompleteField)) \
+            and (!label.hasAttribute?(@dataLabelSuffixAutoCompleteField))
           ariaAutocomplete = self.getARIAAutoComplete(autoCompleteField)
           if ariaAutocomplete != nil
             if ariaAutocomplete == 'both'
-              if not @prefixAutoCompleteField.empty?
+              if !@prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueBoth)
               end
-              if not @suffixAutoCompleteField.empty?
+              if !@suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueBoth)
               end
             elsif ariaAutocomplete == 'none'
-              if not @prefixAutoCompleteField.empty?
+              if !@prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueNone)
               end
-              if not @suffixAutoCompleteField.empty?
+              if !@suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueNone)
               end
             elsif ariaAutocomplete == 'list'
-              if not @prefixAutoCompleteField.empty?
+              if !@prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueList)
               end
-              if not @suffixAutoCompleteField.empty?
+              if !@suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueList)
               end
             end
@@ -168,7 +168,7 @@ module Hatemile
         if field.hasAttribute?('type')
           type = field.getAttribute('type').downcase
         end
-        if (tagName == 'TEXTAREA') or ((tagName == 'INPUT') and (not (('button' == type) or ('submit' == type) or ('reset' == type) or ('image' == type) or ('file' == type) or ('checkbox' == type) or ('radio' == type) or ('hidden' == type))))
+        if (tagName == 'TEXTAREA') or ((tagName == 'INPUT') and (!(('button' == type) or ('submit' == type) or ('reset' == type) or ('image' == type) or ('file' == type) or ('checkbox' == type) or ('radio' == type) or ('hidden' == type))))
           value = nil
           if field.hasAttribute?('autocomplete')
             value = field.getAttribute('autocomplete').downcase
@@ -263,7 +263,7 @@ module Hatemile
       def fixRequiredFields
         requiredFields = @parser.find('[required]').listResults
         requiredFields.each do |requiredField|
-          if not requiredField.hasAttribute?(@dataIgnore)
+          if !requiredField.hasAttribute?(@dataIgnore)
             self.fixRequiredField(requiredField)
           end
         end
@@ -285,7 +285,7 @@ module Hatemile
       def fixRangeFields
         rangeFields = @parser.find('[min],[max]').listResults
         rangeFields.each do |rangeField|
-          if not rangeField.hasAttribute?(@dataIgnore)
+          if !rangeField.hasAttribute?(@dataIgnore)
             self.fixRangeField(rangeField)
           end
         end
@@ -306,7 +306,7 @@ module Hatemile
       def fixAutoCompleteFields
         elements = @parser.find('input[autocomplete],textarea[autocomplete],form[autocomplete] input,form[autocomplete] textarea,[list],[form]').listResults
         elements.each do |element|
-          if not element.hasAttribute?(@dataIgnore)
+          if !element.hasAttribute?(@dataIgnore)
             self.fixAutoCompleteField(element)
           end
         end
@@ -325,7 +325,7 @@ module Hatemile
             end
           end
           if field != nil
-            if not field.hasAttribute?('aria-label')
+            if !field.hasAttribute?('aria-label')
               field.setAttribute('aria-label', label.getTextContent.gsub(/[ \n\r\t]+/, ' '))
             end
 
@@ -343,7 +343,7 @@ module Hatemile
       def fixLabels
         labels = @parser.find('label').listResults
         labels.each do |label|
-          if not label.hasAttribute?(@dataIgnore)
+          if !label.hasAttribute?(@dataIgnore)
             self.fixLabel(label)
           end
         end

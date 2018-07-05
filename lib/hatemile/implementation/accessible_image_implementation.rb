@@ -64,7 +64,7 @@ module Hatemile
       def fixLongDescriptions
         elements = @parser.find('[longdesc]').listResults
         elements.each do |element|
-          if not element.hasAttribute?(@dataIgnore)
+          if !element.hasAttribute?(@dataIgnore)
             self.fixLongDescription(element)
           end
         end

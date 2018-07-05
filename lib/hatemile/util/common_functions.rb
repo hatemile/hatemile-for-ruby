@@ -30,7 +30,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +prefix+ The prefix of id.
       def self.generateId(element, prefix)
-        if not element.hasAttribute?('id')
+        if !element.hasAttribute?('id')
           element.setAttribute('id', prefix + @@count.to_s)
           @@count += 1
         end
@@ -70,13 +70,13 @@ module Hatemile
       # Return:
       # String True if the list contains the item or false is not contains.
       def self.increaseInList(list, stringToIncrease)
-        if (list != nil) and (not list.empty?) and (stringToIncrease != nil) and (not stringToIncrease.empty?)
+        if (list != nil) and (!list.empty?) and (stringToIncrease != nil) and (!stringToIncrease.empty?)
           if self.inList(list, stringToIncrease)
             return list
           else
             return "#{list} #{stringToIncrease}"
           end
-        elsif (list != nil) and (not list.empty?)
+        elsif (list != nil) and (!list.empty?)
           return list
         else
           return stringToIncrease
@@ -94,7 +94,7 @@ module Hatemile
       # Return:
       # Boolean True if the list contains the item or false is not contains.
       def self.inList(list, stringToSearch)
-        if (list != nil) and (not list.empty?) and (stringToSearch != nil) and (not stringToSearch.empty?)
+        if (list != nil) and (!list.empty?) and (stringToSearch != nil) and (!stringToSearch.empty?)
           elements = list.split(/[ \n\t\r]+/)
           elements.each do |element|
             if element == stringToSearch

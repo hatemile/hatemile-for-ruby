@@ -38,7 +38,7 @@ module Hatemile
           parents = []
           groups = []
           results.each do |result|
-            if not parents.include?(result.parent)
+            if !parents.include?(result.parent)
               parents.push(result.parent)
               groups.push([])
               groups[groups.size - 1].push(result)
