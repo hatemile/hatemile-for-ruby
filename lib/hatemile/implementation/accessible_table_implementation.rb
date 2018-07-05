@@ -53,7 +53,7 @@ module Hatemile
       def generateRowspan(rows)
         copy = [].concat(rows)
         table = []
-        if !rows.empty?
+        unless rows.empty?
           lengthRows = rows.size
           (0..lengthRows - 1).each do |i|
             columnIndex = 0
@@ -184,7 +184,7 @@ module Hatemile
               cell.setAttribute('scope', 'row')
             end
           end
-          if !headersIds.empty?
+          unless headersIds.empty?
             cells.each do |cell|
               if cell.getTagName == 'TD'
                 headers = cell.getAttribute('headers')
@@ -272,7 +272,7 @@ module Hatemile
       def fixAssociationCellsTables
         tables = @parser.find('table').listResults
         tables.each do |table|
-          if !table.hasAttribute?(@dataIgnore)
+          unless table.hasAttribute?(@dataIgnore)
             self.fixAssociationCellsTable(table)
           end
         end

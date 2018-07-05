@@ -37,15 +37,15 @@ module Hatemile
       #  6. String +dataSuffix+ The name of suffix attribute.
       def addPrefixSuffix(label, field, prefix, suffix, dataPrefix, dataSuffix)
         content = field.getAttribute('aria-label')
-        if !prefix.empty?
+        unless prefix.empty?
           label.setAttribute(dataPrefix, prefix)
-          if !content.include?(prefix)
+          unless content.include?(prefix)
             content = "#{prefix} #{content}"
           end
         end
-        if !suffix.empty?
+        unless suffix.empty?
           label.setAttribute(dataSuffix, suffix)
-          if !content.include?(suffix)
+          unless content.include?(suffix)
             content = "#{content} #{suffix}"
           end
         end
@@ -125,24 +125,24 @@ module Hatemile
           ariaAutocomplete = self.getARIAAutoComplete(autoCompleteField)
           if ariaAutocomplete != nil
             if ariaAutocomplete == 'both'
-              if !@prefixAutoCompleteField.empty?
+              unless @prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueBoth)
               end
-              if !@suffixAutoCompleteField.empty?
+              unless @suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueBoth)
               end
             elsif ariaAutocomplete == 'none'
-              if !@prefixAutoCompleteField.empty?
+              unless @prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueNone)
               end
-              if !@suffixAutoCompleteField.empty?
+              unless @suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueNone)
               end
             elsif ariaAutocomplete == 'list'
-              if !@prefixAutoCompleteField.empty?
+              unless @prefixAutoCompleteField.empty?
                 prefixAutoCompleteFieldModified = @prefixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueList)
               end
-              if !@suffixAutoCompleteField.empty?
+              unless @suffixAutoCompleteField.empty?
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueList)
               end
             end
@@ -263,7 +263,7 @@ module Hatemile
       def fixRequiredFields
         requiredFields = @parser.find('[required]').listResults
         requiredFields.each do |requiredField|
-          if !requiredField.hasAttribute?(@dataIgnore)
+          unless requiredField.hasAttribute?(@dataIgnore)
             self.fixRequiredField(requiredField)
           end
         end
@@ -285,7 +285,7 @@ module Hatemile
       def fixRangeFields
         rangeFields = @parser.find('[min],[max]').listResults
         rangeFields.each do |rangeField|
-          if !rangeField.hasAttribute?(@dataIgnore)
+          unless rangeField.hasAttribute?(@dataIgnore)
             self.fixRangeField(rangeField)
           end
         end
@@ -306,7 +306,7 @@ module Hatemile
       def fixAutoCompleteFields
         elements = @parser.find('input[autocomplete],textarea[autocomplete],form[autocomplete] input,form[autocomplete] textarea,[list],[form]').listResults
         elements.each do |element|
-          if !element.hasAttribute?(@dataIgnore)
+          unless element.hasAttribute?(@dataIgnore)
             self.fixAutoCompleteField(element)
           end
         end
@@ -325,7 +325,7 @@ module Hatemile
             end
           end
           if field != nil
-            if !field.hasAttribute?('aria-label')
+            unless field.hasAttribute?('aria-label')
               field.setAttribute('aria-label', label.getTextContent.gsub(/[ \n\r\t]+/, ' '))
             end
 
@@ -343,7 +343,7 @@ module Hatemile
       def fixLabels
         labels = @parser.find('label').listResults
         labels.each do |label|
-          if !label.hasAttribute?(@dataIgnore)
+          unless label.hasAttribute?(@dataIgnore)
             self.fixLabel(label)
           end
         end

@@ -145,14 +145,14 @@ module Hatemile
         end
 
         def getFirstElementChild
-          if !self.hasChildren?
+          unless self.hasChildren?
             return nil
           end
           return NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
         def getLastElementChild
-          if !self.hasChildren?
+          unless self.hasChildren?
             return nil
           end
           children = @data.children

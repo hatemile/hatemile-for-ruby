@@ -39,7 +39,7 @@ module Hatemile
         @changes.each do |change|
           elements = @parser.find(change.getSelector).listResults
           elements.each do |element|
-            if !element.hasAttribute?(@dataIgnore)
+            unless element.hasAttribute?(@dataIgnore)
               element.setAttribute(change.getAttribute, change.getValueForAttribute)
             end
           end

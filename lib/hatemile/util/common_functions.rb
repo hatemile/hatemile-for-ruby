@@ -30,7 +30,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +prefix+ The prefix of id.
       def self.generateId(element, prefix)
-        if !element.hasAttribute?('id')
+        unless element.hasAttribute?('id')
           element.setAttribute('id', prefix + @@count.to_s)
           @@count += 1
         end

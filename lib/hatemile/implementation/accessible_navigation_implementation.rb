@@ -257,7 +257,7 @@ module Hatemile
             anchor.setAttribute('class', anchorClass)
             element.insertBefore(anchor)
           end
-          if !anchor.hasAttribute?('name')
+          unless anchor.hasAttribute?('name')
             anchor.setAttribute('name', anchor.getAttribute('id'))
           end
           anchor.setAttribute(dataAttribute, element.getAttribute('id'))
@@ -406,11 +406,11 @@ module Hatemile
       def fixShortcut(element)
         if element.hasAttribute?('accesskey')
           description = self.getDescription(element)
-          if !element.hasAttribute?('title')
+          unless element.hasAttribute?('title')
             element.setAttribute('title', description)
           end
 
-          if !@listShortcutsAdded
+          unless @listShortcutsAdded
             @listShortcuts = self.generateListShortcuts
           end
 
@@ -432,14 +432,14 @@ module Hatemile
       def fixShortcuts
         elements = @parser.find('[accesskey]').listResults
         elements.each do |element|
-          if !element.hasAttribute?(@dataIgnore)
+          unless element.hasAttribute?(@dataIgnore)
             self.fixShortcut(element)
           end
         end
       end
 
       def fixSkipper(element, skipper)
-        if !@listSkippersAdded
+        unless @listSkippersAdded
           @listSkippers = self.generateListSkippers
         end
         if @listSkippers != nil
@@ -451,9 +451,9 @@ module Hatemile
             link.appendText(skipper.getDefaultText)
 
             shortcuts = skipper.getShortcuts
-            if !shortcuts.empty?
+            unless shortcuts.empty?
               shortcut = shortcuts[0]
-              if !shortcut.empty?
+              unless shortcut.empty?
                 self.freeShortcut(shortcut)
                 link.setAttribute('accesskey', shortcut)
               end
@@ -477,7 +477,7 @@ module Hatemile
           end
           shortcuts = skipper.getShortcuts
           elements.each do |element|
-            if !element.hasAttribute?(@dataIgnore)
+            unless element.hasAttribute?(@dataIgnore)
               if count
                 defaultText = "#{skipper.getDefaultText} #{index}"
                 index = index + 1
@@ -496,7 +496,7 @@ module Hatemile
       end
 
       def fixHeading(element)
-        if !@validateHeading
+        unless @validateHeading
           @validHeading = self.isValidHeading
         end
         if @validHeading
@@ -534,7 +534,7 @@ module Hatemile
       def fixHeadings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').listResults
         elements.each do |element|
-          if !element.hasAttribute?(@dataIgnore)
+          unless element.hasAttribute?(@dataIgnore)
             self.fixHeading(element)
           end
         end

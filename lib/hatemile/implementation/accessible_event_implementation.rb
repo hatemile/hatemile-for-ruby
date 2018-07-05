@@ -39,7 +39,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def keyboardAccess(element)
-        if !element.hasAttribute?('tabindex')
+        unless element.hasAttribute?('tabindex')
           tag = element.getTagName
           if (tag == 'A') and (!element.hasAttribute?('href'))
             element.setAttribute('tabindex', '0')
@@ -115,7 +115,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +event+ The type of event.
       def addEventInElement(element, event)
-        if !@mainScriptAdded
+        unless @mainScriptAdded
           self.generateMainScripts
         end
 
@@ -167,13 +167,13 @@ module Hatemile
       def fixDragsandDrops
         draggableElements = @parser.find('[ondrag],[ondragstart],[ondragend]').listResults
         draggableElements.each do |draggableElement|
-          if !draggableElement.hasAttribute?(@dataIgnore)
+          unless draggableElement.hasAttribute?(@dataIgnore)
             self.fixDrag(draggableElement)
           end
         end
         droppableElements = @parser.find('[ondrop],[ondragenter],[ondragleave],[ondragover]').listResults
         droppableElements.each do |droppableElement|
-          if !droppableElement.hasAttribute?(@dataIgnore)
+          unless droppableElement.hasAttribute?(@dataIgnore)
             self.fixDrop(droppableElement)
           end
         end
@@ -188,7 +188,7 @@ module Hatemile
       def fixHovers
         elements = @parser.find('[onmouseover],[onmouseout]').listResults
         elements.each do |element|
-          if !element.hasAttribute?(@dataIgnore)
+          unless element.hasAttribute?(@dataIgnore)
             self.fixHover(element)
           end
         end
@@ -203,7 +203,7 @@ module Hatemile
       def fixActives
         elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults
         elements.each do |element|
-          if !element.hasAttribute?(@dataIgnore)
+          unless element.hasAttribute?(@dataIgnore)
             self.fixActive(element)
           end
         end
