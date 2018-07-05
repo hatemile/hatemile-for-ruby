@@ -37,7 +37,7 @@ module Hatemile
       #
       # Return:
       # String The selector.
-      def getSelector()
+      def getSelector
         return @selector
       end
 
@@ -48,7 +48,7 @@ module Hatemile
       #
       # Return:
       # String The attribute.
-      def getAttribute()
+      def getAttribute
         return @attribute
       end
 
@@ -59,7 +59,7 @@ module Hatemile
       #
       # Return:
       # String The value of the attribute.
-      def getValueForAttribute()
+      def getValueForAttribute
         return @valueForAttribute
       end
     end

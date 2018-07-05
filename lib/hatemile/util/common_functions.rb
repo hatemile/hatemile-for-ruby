@@ -31,14 +31,14 @@ module Hatemile
       #  2. String +prefix+ The prefix of id.
       def self.generateId(element, prefix)
         if not element.hasAttribute?('id')
-          element.setAttribute('id', prefix + @@count.to_s())
+          element.setAttribute('id', prefix + @@count.to_s)
           @@count += 1
         end
       end
 
       ##
       # Reset the count number of ids.
-      def self.resetCount()
+      def self.resetCount
         @@count = 0
       end
 
@@ -52,7 +52,7 @@ module Hatemile
       #  2. Hatemile::Util::HTMLDOMElement +element2+ The element that copy the attributes.
       #  3. Array(String) +attributes+ The list of attributes that will be copied.
       def self.setListAttributes(element1, element2, attributes)
-        attributes.each() do |attribute|
+        attributes.each do |attribute|
           if element1.hasAttribute?(attribute)
             element2.setAttribute(attribute, element1.getAttribute(attribute))
           end
@@ -70,13 +70,13 @@ module Hatemile
       # Return:
       # String True if the list contains the item or false is not contains.
       def self.increaseInList(list, stringToIncrease)
-        if (list != nil) and (not list.empty?()) and (stringToIncrease != nil) and (not stringToIncrease.empty?())
+        if (list != nil) and (not list.empty?) and (stringToIncrease != nil) and (not stringToIncrease.empty?)
           if self.inList(list, stringToIncrease)
             return list
           else
             return "#{list} #{stringToIncrease}"
           end
-        elsif (list != nil) and (not list.empty?())
+        elsif (list != nil) and (not list.empty?)
           return list
         else
           return stringToIncrease
@@ -94,9 +94,9 @@ module Hatemile
       # Return:
       # Boolean True if the list contains the item or false is not contains.
       def self.inList(list, stringToSearch)
-        if (list != nil) and (not list.empty?()) and (stringToSearch != nil) and (not stringToSearch.empty?())
+        if (list != nil) and (not list.empty?) and (stringToSearch != nil) and (not stringToSearch.empty?)
           elements = list.split(/[ \n\t\r]+/)
-          elements.each() do |element|
+          elements.each do |element|
             if element == stringToSearch
               return true
             end

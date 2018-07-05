@@ -30,7 +30,7 @@ module Hatemile
 
     ##
     # Display the shortcuts of elements.
-    def fixShortcuts()
+    def fixShortcuts
       # Interface method
     end
 
@@ -48,7 +48,7 @@ module Hatemile
 
     ##
     # Provide content skippers.
-    def fixSkippers()
+    def fixSkippers
       # Interface method
     end
 
@@ -65,7 +65,7 @@ module Hatemile
 
     ##
     # Provide a navigation by headings.
-    def fixHeadings()
+    def fixHeadings
       # Interface method
     end
   end

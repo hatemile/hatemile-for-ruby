@@ -27,8 +27,8 @@ module Hatemile
       def initialize(selector, defaultText, shortcuts)
         @selector = selector
         @defaultText = defaultText
-        if shortcuts.empty?()
-          @shortcuts = Array.new()
+        if shortcuts.empty?
+          @shortcuts = Array.new
         else
           @shortcuts = shortcuts.split(/[ \n\t\r]+/)
         end
@@ -41,7 +41,7 @@ module Hatemile
       #
       # Return:
       # String The selector.
-      def getSelector()
+      def getSelector
         return @selector
       end
 
@@ -52,7 +52,7 @@ module Hatemile
       #
       # Return:
       # String The default text of skipper.
-      def getDefaultText()
+      def getDefaultText
         return @defaultText
       end
 
@@ -63,8 +63,8 @@ module Hatemile
       #
       # Return:
       # String The shortcuts of skipper.
-      def getShortcuts()
-        return @shortcuts.clone()
+      def getShortcuts
+        return @shortcuts.clone
       end
     end
   end

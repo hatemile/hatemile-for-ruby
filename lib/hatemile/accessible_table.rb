@@ -30,7 +30,7 @@ module Hatemile
 
     ##
     # Associate data cells with header cells of tables.
-    def fixAssociationCellsTables()
+    def fixAssociationCellsTables
       # Interface method
     end
   end

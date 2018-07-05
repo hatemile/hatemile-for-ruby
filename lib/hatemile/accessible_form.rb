@@ -30,7 +30,7 @@ module Hatemile
 
     ##
     # Display that the fields is required.
-    def fixRequiredFields()
+    def fixRequiredFields
       # Interface method
     end
 
@@ -47,7 +47,7 @@ module Hatemile
 
     ##
     # Display that the fields have range.
-    def fixRangeFields()
+    def fixRangeFields
       # Interface method
     end
 
@@ -64,7 +64,7 @@ module Hatemile
 
     ##
     # Display that the fields have autocomplete.
-    def fixAutoCompleteFields()
+    def fixAutoCompleteFields
       # Interface method
     end
 
@@ -81,7 +81,7 @@ module Hatemile
 
     ##
     # Associate labels with fields.
-    def fixLabels()
+    def fixLabels
       # Interface method
     end
   end

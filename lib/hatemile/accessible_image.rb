@@ -30,7 +30,7 @@ module Hatemile
 
     ##
     # Provide an alternative way to access the longs descriptions of elements.
-    def fixLongDescriptions()
+    def fixLongDescriptions
       # Interface method
     end
   end

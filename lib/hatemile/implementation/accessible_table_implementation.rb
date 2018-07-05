@@ -33,10 +33,10 @@ module Hatemile
       # Return:
       # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table.
       def generatePart(part)
-        rows = @parser.find(part).findChildren('tr').listResults()
-        table = Array.new()
-        rows.each() do |row|
-          table.push(self.generateColspan(@parser.find(row).findChildren('td,th').listResults()))
+        rows = @parser.find(part).findChildren('tr').listResults
+        table = Array.new
+        rows.each do |row|
+          table.push(self.generateColspan(@parser.find(row).findChildren('td,th').listResults))
         end
         return self.generateRowspan(table)
       end
@@ -51,18 +51,18 @@ module Hatemile
       # Return:
       # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table with the rowspans.
       def generateRowspan(rows)
-        copy = Array.new().concat(rows)
-        table = Array.new()
-        if not rows.empty?()
-          lengthRows = rows.size()
-          (0..lengthRows - 1).each() do |i|
+        copy = Array.new.concat(rows)
+        table = Array.new
+        if not rows.empty?
+          lengthRows = rows.size
+          (0..lengthRows - 1).each do |i|
             columnIndex = 0
             cells = [].concat(copy[i])
-            if table.size() <= i
-              table[i] = Array.new()
+            if table.size <= i
+              table[i] = Array.new
             end
-            lengthCells = cells.size()
-            (0..lengthCells - 1).each() do |j|
+            lengthCells = cells.size
+            (0..lengthCells - 1).each do |j|
               cell = cells[j]
               m = j + columnIndex
               row = table[i]
@@ -72,12 +72,12 @@ module Hatemile
               end
               row[m] = cell
               if cell.hasAttribute?('rowspan')
-                rowspan = cell.getAttribute('rowspan').to_i()
+                rowspan = cell.getAttribute('rowspan').to_i
                 if (rowspan > 1)
-                  (1..rowspan - 1).each() do |k|
+                  (1..rowspan - 1).each do |k|
                     n = i + k
                     if table[n] == nil
-                      table[n] = Array.new()
+                      table[n] = Array.new
                     end
                     table[n][m] = cell
                   end
@@ -100,15 +100,15 @@ module Hatemile
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The list that represents the line of table with the colspans.
       def generateColspan(row)
-        copy = Array.new().concat(row)
-        cells = Array.new().concat(row)
-        size = row.size()
-        (0..size - 1).each() do |i|
+        copy = Array.new.concat(row)
+        cells = Array.new.concat(row)
+        size = row.size
+        (0..size - 1).each do |i|
           cell = cells[i]
           if cell.hasAttribute?('colspan')
-            colspan = cell.getAttribute('colspan').to_i()
+            colspan = cell.getAttribute('colspan').to_i
             if colspan > 1
-              (1..colspan - 1).each() do |j|
+              (1..colspan - 1).each do |j|
                 copy.insert(i + j, cell)
               end
             end
@@ -128,16 +128,16 @@ module Hatemile
       # Boolean True if the table header is valid or false if the table header is
       # not valid.
       def validateHeader(header)
-        if header.empty?()
+        if header.empty?
           return false
         end
         length = -1
-        header.each() do |row|
-          if row.empty?()
+        header.each do |row|
+          if row.empty?
             return false
           elsif length == -1
-            length = row.size()
-          elsif row.size() != length
+            length = row.size
+          elsif row.size != length
             return false
           end
         end
@@ -155,9 +155,9 @@ module Hatemile
       # Return:
       # Array(String) The list with ids of rows of same column.
       def returnListIdsColumns(header, index)
-        ids = Array.new()
-        header.each() do |row|
-          if row[index].getTagName() == 'TH'
+        ids = Array.new
+        header.each do |row|
+          if row[index].getTagName == 'TH'
             ids.push(row[index].getAttribute('id'))
           end
         end
@@ -173,22 +173,22 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
       def fixBodyOrFooter(element)
         table = self.generatePart(element)
-        headersIds = Array.new()
-        table.each() do |cells|
-          headersIds.clear()
-          cells.each() do |cell|
-            if cell.getTagName() == 'TH'
+        headersIds = Array.new
+        table.each do |cells|
+          headersIds.clear
+          cells.each do |cell|
+            if cell.getTagName == 'TH'
               Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
               headersIds.push(cell.getAttribute('id'))
 
               cell.setAttribute('scope', 'row')
             end
           end
-          if not headersIds.empty?()
-            cells.each() do |cell|
-              if cell.getTagName() == 'TD'
+          if not headersIds.empty?
+            cells.each do |cell|
+              if cell.getTagName == 'TD'
                 headers = cell.getAttribute('headers')
-                headersIds.each() do |headerId|
+                headersIds.each do |headerId|
                   headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headerId)
                 end
                 cell.setAttribute('headers', headers)
@@ -206,8 +206,8 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +tableHeader+ The table header.
       def fixHeader(tableHeader)
-        cells = @parser.find(tableHeader).findChildren('tr').findChildren('th').listResults()
-        cells.each() do |cell|
+        cells = @parser.find(tableHeader).findChildren('tr').findChildren('th').listResults
+        cells.each do |cell|
           Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
 
           cell.setAttribute('scope', 'col')
@@ -232,26 +232,26 @@ module Hatemile
       end
 
       def fixAssociationCellsTable(table)
-        header = @parser.find(table).findChildren('thead').firstResult()
-        body = @parser.find(table).findChildren('tbody').firstResult()
-        footer = @parser.find(table).findChildren('tfoot').firstResult()
+        header = @parser.find(table).findChildren('thead').firstResult
+        body = @parser.find(table).findChildren('tbody').firstResult
+        footer = @parser.find(table).findChildren('tfoot').firstResult
         if header != nil
           self.fixHeader(header)
 
           headerCells = self.generatePart(header)
           if (body != nil) and (self.validateHeader(headerCells))
-            lengthHeader = headerCells[0].size()
+            lengthHeader = headerCells[0].size
             fakeTable = self.generatePart(body)
             if footer != nil
               fakeTable = fakeTable.concat(self.generatePart(footer))
             end
-            fakeTable.each() do |cells|
-              if (cells.size() == lengthHeader)
+            fakeTable.each do |cells|
+              if (cells.size == lengthHeader)
                 i = 0
-                cells.each() do |cell|
+                cells.each do |cell|
                   headersIds = self.returnListIdsColumns(headerCells, i)
                   headers = cell.getAttribute('headers')
-                  headersIds.each() do |headersId|
+                  headersIds.each do |headersId|
                     headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headersId)
                   end
                   cell.setAttribute('headers', headers)
@@ -269,9 +269,9 @@ module Hatemile
         end
       end
 
-      def fixAssociationCellsTables()
-        tables = @parser.find('table').listResults()
-        tables.each() do |table|
+      def fixAssociationCellsTables
+        tables = @parser.find('table').listResults
+        tables.each do |table|
           if not table.hasAttribute?(@dataIgnore)
             self.fixAssociationCellsTable(table)
           end

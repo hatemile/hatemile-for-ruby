@@ -27,25 +27,25 @@ module Hatemile
       # Parameters:
       #  1. String +fileName+ The full path of file.
       def initialize(fileName = nil)
-        @parameters = Hash.new()
-        @selectorChanges = Array.new()
-        @skippers = Array.new()
+        @parameters = Hash.new
+        @selectorChanges = Array.new
+        @skippers = Array.new
         if (fileName == nil)
           fileName = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
         end
         document = REXML::Document.new(File.read(fileName))
         document.elements.each('configure/parameters/parameter') do |parameter|
-          if parameter.text().class() != NilClass
-            @parameters[parameter.attribute('name').value()] = parameter.text()
+          if parameter.text.class != NilClass
+            @parameters[parameter.attribute('name').value] = parameter.text
           else
-            @parameters[parameter.attribute('name').value()] = ''
+            @parameters[parameter.attribute('name').value] = ''
           end
         end
         document.elements.each('configure/selector-changes/selector-change') do |selectorChange|
-          @selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector').value(), selectorChange.attribute('attribute').value(), selectorChange.attribute('value-attribute').value()))
+          @selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector').value, selectorChange.attribute('attribute').value, selectorChange.attribute('value-attribute').value))
         end
         document.elements.each('configure/skippers/skipper') do |skipper|
-          @skippers.push(Skipper.new(skipper.attribute('selector').value(), skipper.attribute('default-text').value(), skipper.attribute('shortcut').value()))
+          @skippers.push(Skipper.new(skipper.attribute('selector').value, skipper.attribute('default-text').value, skipper.attribute('shortcut').value))
         end
       end
 
@@ -56,8 +56,8 @@ module Hatemile
       #
       # Return:
       # Hash(String, String) The parameters of configuration.
-      def getParameters()
-        return @parameters.clone()
+      def getParameters
+        return @parameters.clone
       end
 
       ##
@@ -80,8 +80,8 @@ module Hatemile
       #
       # Return:
       # Array(SelectorChange) The changes that will be done in selectors.
-      def getSelectorChanges()
-        return @selectorChanges.clone()
+      def getSelectorChanges
+        return @selectorChanges.clone
       end
 
       ##
@@ -91,8 +91,8 @@ module Hatemile
       #
       # Return:
       # Array(Skipper) The skippers.
-      def getSkippers()
-        return @skippers.clone()
+      def getSkippers
+        return @skippers.clone
       end
     end
   end

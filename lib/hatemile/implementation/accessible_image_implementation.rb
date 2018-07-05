@@ -44,7 +44,7 @@ module Hatemile
         if element.hasAttribute?('longdesc')
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
           id = element.getAttribute('id')
-          if @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").firstResult() == nil
+          if @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").firstResult == nil
             if element.hasAttribute?('alt')
               text = "#{@prefixLongDescriptionLink} #{element.getAttribute('alt')} #{@suffixLongDescriptionLink}"
             else
@@ -61,9 +61,9 @@ module Hatemile
         end
       end
 
-      def fixLongDescriptions()
-        elements = @parser.find('[longdesc]').listResults()
-        elements.each() do |element|
+      def fixLongDescriptions
+        elements = @parser.find('[longdesc]').listResults
+        elements.each do |element|
           if not element.hasAttribute?(@dataIgnore)
             self.fixLongDescription(element)
           end

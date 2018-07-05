@@ -41,7 +41,7 @@ module Hatemile
 
     ##
     # Provide a solution for elements that has Drag-and-Drop events.
-    def fixDragsandDrops()
+    def fixDragsandDrops
       # Interface method
     end
 
@@ -58,7 +58,7 @@ module Hatemile
 
     ##
     # Provide a solution for elements that has inaccessible hover events.
-    def fixHovers()
+    def fixHovers
       # Interface method
     end
 
@@ -75,7 +75,7 @@ module Hatemile
 
     ##
     # Provide a solution for elements that has inaccessible active events.
-    def fixActives()
+    def fixActives
       # Interface method
     end
   end

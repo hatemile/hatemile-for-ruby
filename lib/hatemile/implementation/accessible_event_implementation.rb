@@ -40,7 +40,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def keyboardAccess(element)
         if not element.hasAttribute?('tabindex')
-          tag = element.getTagName()
+          tag = element.getTagName
           if (tag == 'A') and (not element.hasAttribute?('href'))
             element.setAttribute('tabindex', '0')
           elsif (tag != 'A') and (tag != 'INPUT') and (tag != 'BUTTON') and (tag != 'SELECT') and (tag != 'TEXTAREA')
@@ -51,9 +51,9 @@ module Hatemile
 
       ##
       # Include the scripts used by solutions.
-      def generateMainScripts()
-        head = @parser.find('head').firstResult()
-        if (head != nil) and (@parser.find("##{@idScriptEventListener}").firstResult() == nil)
+      def generateMainScripts
+        head = @parser.find('head').firstResult
+        if (head != nil) and (@parser.find("##{@idScriptEventListener}").firstResult == nil)
           if @storeScriptsContent
             if @@eventListenerScriptContent == nil
               @@eventListenerScriptContent = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
@@ -67,15 +67,15 @@ module Hatemile
           script.setAttribute('id', @idScriptEventListener)
           script.setAttribute('type', 'text/javascript')
           script.appendText(localEventListenerScriptContent)
-          if head.hasChildren?()
-            head.getFirstElementChild().insertBefore(script)
+          if head.hasChildren?
+            head.getFirstElementChild.insertBefore(script)
           else
             head.appendElement(script)
           end
         end
-        local = @parser.find('body').firstResult()
+        local = @parser.find('body').firstResult
         if local != nil
-          @scriptList = @parser.find("##{@idListIdsScript}").firstResult()
+          @scriptList = @parser.find("##{@idListIdsScript}").firstResult
           if @scriptList == nil
             @scriptList = @parser.createElement('script')
             @scriptList.setAttribute('id', @idListIdsScript)
@@ -86,7 +86,7 @@ module Hatemile
             @scriptList.appendText('var dropElements = [];')
             local.appendElement(@scriptList)
           end
-          if @parser.find("##{@idFunctionScriptFix}").firstResult() == nil
+          if @parser.find("##{@idFunctionScriptFix}").firstResult == nil
             if @storeScriptsContent
               if @@includeScriptContent == nil
                 @@includeScriptContent = File.read(File.dirname(__FILE__) + '/../../js/include.js')
@@ -116,7 +116,7 @@ module Hatemile
       #  2. String +event+ The type of event.
       def addEventInElement(element, event)
         if not @mainScriptAdded
-          self.generateMainScripts()
+          self.generateMainScripts
         end
 
         if @scriptList != nil
@@ -164,15 +164,15 @@ module Hatemile
         self.addEventInElement(element, 'drag')
       end
 
-      def fixDragsandDrops()
-        draggableElements = @parser.find('[ondrag],[ondragstart],[ondragend]').listResults()
-        draggableElements.each() do |draggableElement|
+      def fixDragsandDrops
+        draggableElements = @parser.find('[ondrag],[ondragstart],[ondragend]').listResults
+        draggableElements.each do |draggableElement|
           if not draggableElement.hasAttribute?(@dataIgnore)
             self.fixDrag(draggableElement)
           end
         end
-        droppableElements = @parser.find('[ondrop],[ondragenter],[ondragleave],[ondragover]').listResults()
-        droppableElements.each() do |droppableElement|
+        droppableElements = @parser.find('[ondrop],[ondragenter],[ondragleave],[ondragover]').listResults
+        droppableElements.each do |droppableElement|
           if not droppableElement.hasAttribute?(@dataIgnore)
             self.fixDrop(droppableElement)
           end
@@ -185,9 +185,9 @@ module Hatemile
         self.addEventInElement(element, 'hover')
       end
 
-      def fixHovers()
-        elements = @parser.find('[onmouseover],[onmouseout]').listResults()
-        elements.each() do |element|
+      def fixHovers
+        elements = @parser.find('[onmouseover],[onmouseout]').listResults
+        elements.each do |element|
           if not element.hasAttribute?(@dataIgnore)
             self.fixHover(element)
           end
@@ -200,9 +200,9 @@ module Hatemile
         self.addEventInElement(element, 'active')
       end
 
-      def fixActives()
-        elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults()
-        elements.each() do |element|
+      def fixActives
+        elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults
+        elements.each do |element|
           if not element.hasAttribute?(@dataIgnore)
             self.fixActive(element)
           end

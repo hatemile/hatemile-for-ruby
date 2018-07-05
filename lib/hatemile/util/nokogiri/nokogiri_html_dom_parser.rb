@@ -35,21 +35,21 @@ module Hatemile
         # Return:
         # Array(Nokogiri::XML::Node) The ordened results.
         def orderResults(results)
-          parents = Array.new()
-          groups = Array.new()
-          results.each() do |result|
+          parents = Array.new
+          groups = Array.new
+          results.each do |result|
             if not parents.include?(result.parent)
               parents.push(result.parent)
-              groups.push(Array.new())
-              groups[groups.size() - 1].push(result)
+              groups.push(Array.new)
+              groups[groups.size - 1].push(result)
             else
               groups[parents.index(result.parent)].push(result)
             end
           end
-          array = Array.new()
-          groups.each() do |group|
+          array = Array.new
+          groups.each do |group|
             col = group.sort { |element1, element2|
-              children = element1.parent.children()
+              children = element1.parent.children
               children.index(element1) <=> children.index(element2)
             }
             array = array.concat(col)
@@ -70,7 +70,7 @@ module Hatemile
         #   * Nokogiri::HTML::Document The parser of Nokogiri.
         #  2. String +encoding+ The enconding of code.
         def initialize(codeOrParser, encoding = 'UTF-8')
-          if codeOrParser.class() == String
+          if codeOrParser.class == String
             @document = Nokogiri::HTML::Document.parse(codeOrParser, nil, encoding)
           else
             @document = codeOrParser
@@ -79,8 +79,8 @@ module Hatemile
         end
 
         def find(selector)
-          if selector.class() == NokogiriHTMLDOMElement
-            @results = [selector.getData()]
+          if selector.class == NokogiriHTMLDOMElement
+            @results = [selector.getData]
           else
             @results = @document.css(selector)
           end
@@ -88,19 +88,19 @@ module Hatemile
         end
 
         def findChildren(selector)
-          array = Array.new()
-          if selector.class() == NokogiriHTMLDOMElement
-            element = selector.getData()
-            @results.each() do |result|
-              if result.children().include?(element)
+          array = Array.new
+          if selector.class == NokogiriHTMLDOMElement
+            element = selector.getData
+            @results.each do |result|
+              if result.children.include?(element)
                 array.push(element)
                 break
               end
             end
           else
-            @results.each() do |result|
-              result.css(selector).each() do |element|
-                if element.parent() == result
+            @results.each do |result|
+              result.css(selector).each do |element|
+                if element.parent == result
                   array.push(element)
                 end
               end
@@ -111,18 +111,18 @@ module Hatemile
         end
 
         def findDescendants(selector)
-          array = Array.new()
-          if selector.class() == NokogiriHTMLDOMElement
-            element = selector.getData()
-            parents = element.ancestors()
-            @results.each() do |result|
+          array = Array.new
+          if selector.class == NokogiriHTMLDOMElement
+            element = selector.getData
+            parents = element.ancestors
+            @results.each do |result|
               if parents.include?(result)
                 array.push(element)
                 break
               end
             end
           else
-            @results.each() do |result|
+            @results.each do |result|
               array = array.concat(result.css(selector))
             end
           end
@@ -131,18 +131,18 @@ module Hatemile
         end
 
         def findAncestors(selector)
-          array = Array.new()
-          if selector.class() == NokogiriHTMLDOMElement
-            element = selector.getData()
-            @results.each() do |result|
-              parents = result.ancestors()
+          array = Array.new
+          if selector.class == NokogiriHTMLDOMElement
+            element = selector.getData
+            @results.each do |result|
+              parents = result.ancestors
               if parents.include?(element)
                 array.push(element)
                 break
               end
             end
           else
-            @results.each() do |result|
+            @results.each do |result|
               array = array.concat(result.ancestors(selector))
             end
           end
@@ -150,23 +150,23 @@ module Hatemile
           return self
         end
 
-        def firstResult()
-          if (@results == nil) or (@results.empty?())
+        def firstResult
+          if (@results == nil) or (@results.empty?)
             return nil
           end
           return NokogiriHTMLDOMElement.new(@results[0])
         end
 
-        def lastResult()
-          if (@results == nil) or (@results.empty?())
+        def lastResult
+          if (@results == nil) or (@results.empty?)
             return nil
           end
           return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 
-        def listResults()
-          array = Array.new()
-          self.orderResults(@results).each() do |result|
+        def listResults
+          array = Array.new
+          self.orderResults(@results).each do |result|
             array.push(NokogiriHTMLDOMElement.new(result))
           end
           return array
@@ -176,17 +176,17 @@ module Hatemile
           return NokogiriHTMLDOMElement.new(@document.create_element(tag))
         end
 
-        def getHTML()
-          return NokogiriHTMLDOMElement.new(@document).getOuterHTML()
+        def getHTML
+          return NokogiriHTMLDOMElement.new(@document).getOuterHTML
         end
 
-        def getParser()
+        def getParser
           return @document
         end
 
-        def clearParser()
+        def clearParser
           @document = nil
-          @results.clear()
+          @results.clear
           @results = nil
         end
       end

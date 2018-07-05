@@ -77,7 +77,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The first element found or null if not have elements found.
-      def firstResult()
+      def firstResult
         # Interface method
       end
 
@@ -88,7 +88,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The last element found or null if not have elements found.
-      def lastResult()
+      def lastResult
         # Interface method
       end
 
@@ -99,7 +99,7 @@ module Hatemile
       #
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The list with all elements found.
-      def listResults()
+      def listResults
         # Interface method
       end
 
@@ -123,7 +123,7 @@ module Hatemile
       #
       # Return:
       # String The HTML code of parser.
-      def getHTML()
+      def getHTML
         # Interface method
       end
 
@@ -134,13 +134,13 @@ module Hatemile
       #
       # Return:
       # Object The parser or root element of the parser.
-      def getParser()
+      def getParser
         # Interface method
       end
 
       ##
       # Clear the memory of this object.
-      def clearParser()
+      def clearParser
         # Interface method
       end
     end

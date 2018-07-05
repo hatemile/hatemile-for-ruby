@@ -18,7 +18,7 @@ module Hatemile
 
     ##
     # Change the selectors.
-    def fixSelectors()
+    def fixSelectors
       # Interface method
     end
   end
