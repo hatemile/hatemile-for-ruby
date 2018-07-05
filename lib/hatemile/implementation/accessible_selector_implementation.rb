@@ -14,7 +14,6 @@ require File.dirname(__FILE__) + '/../accessible_selector.rb'
 
 module Hatemile
   module Implementation
-
     ##
     # The AccessibleSelectorImplementation class is official implementation of
     # AccessibleSelector interface.

@@ -15,7 +15,6 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-
     ##
     # The AccessibleFormImplementation class is official implementation of
     # AccessibleForm interface.

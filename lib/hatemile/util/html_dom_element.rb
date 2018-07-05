@@ -12,7 +12,6 @@
 
 module Hatemile
   module Util
-
     ##
     # The HTMLDOMElement interface contains the methods for access of the HTML
     # element.

@@ -12,7 +12,6 @@
 
 module Hatemile
   module Util
-
     ##
     # The HTMLDOMParser interface contains the methods for access a native parser.
     class HTMLDOMParser

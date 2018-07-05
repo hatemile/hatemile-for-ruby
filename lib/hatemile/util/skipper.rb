@@ -12,11 +12,9 @@
 
 module Hatemile
   module Util
-
     ##
     # The Skipper class store the selector that will be add a skipper.
     class Skipper
-
       ##
       # Inicializes a new object with the values pre-defineds.
       #

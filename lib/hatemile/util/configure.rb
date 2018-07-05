@@ -16,11 +16,9 @@ require File.dirname(__FILE__) + '/skipper.rb'
 
 module Hatemile
   module Util
-
     ##
     # The Configure class contains the configuration of HaTeMiLe.
     class Configure
-
       ##
       # Initializes a new object that contains the configuration of HaTeMiLe.
       #

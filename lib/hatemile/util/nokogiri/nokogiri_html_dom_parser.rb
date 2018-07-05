@@ -17,7 +17,6 @@ require File.dirname(__FILE__) + '/nokogiri_html_dom_element.rb'
 module Hatemile
   module Util
     module NokogiriLib
-
       ##
       # The class NokogiriHTMLDOMParser is official implementation of HTMLDOMParser
       # interface for the Nokogiri library.

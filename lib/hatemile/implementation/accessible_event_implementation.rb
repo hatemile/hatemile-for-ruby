@@ -15,7 +15,6 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-
     ##
     # The AccessibleEventImplementation class is official implementation of
     # AccessibleEvent interface.

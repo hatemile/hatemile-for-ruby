@@ -12,11 +12,9 @@
 
 module Hatemile
   module Util
-
     ##
     # The SelectorChange class store the selector that be attribute change.
     class SelectorChange
-
       ##
       # Inicializes a new object with the values pre-defineds.
       #

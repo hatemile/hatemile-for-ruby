@@ -11,7 +11,6 @@
 # limitations under the License.
 
 module Hatemile
-
   ##
   # The AccessibleEvent interface fixes accessibility problems associated with
   # JavaScript events in elements.

@@ -12,7 +12,6 @@
 
 module Hatemile
   module Util
-
     ##
     # The CommonFuncionts class contains the used methods by HaTeMiLe classes.
     class CommonFunctions

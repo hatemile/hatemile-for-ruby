@@ -11,7 +11,6 @@
 # limitations under the License.
 
 module Hatemile
-
   ##
   # The AccessibleImage interface fixes accessibility problems associated with
   # images.

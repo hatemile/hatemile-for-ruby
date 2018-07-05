@@ -15,7 +15,6 @@ require File.dirname(__FILE__) + '/../html_dom_element.rb'
 module Hatemile
   module Util
     module NokogiriLib
-
       ##
       # The NokogiriHTMLDOMElement class is official implementation of HTMLDOMElement
       # interface for the Nokogiri library.

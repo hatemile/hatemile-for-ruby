@@ -15,7 +15,6 @@ require File.dirname(__FILE__) + '/../util/skipper.rb'
 
 module Hatemile
   module Implementation
-
     ##
     # The AccessibleNavigationImplementation class is official implementation of
     # AccessibleNavigation interface.

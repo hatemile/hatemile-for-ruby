@@ -15,7 +15,6 @@ require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
 module Hatemile
   module Implementation
-
     ##
     # The AccessibleTableImplementation class is official implementation of
     # AccessibleTable interface.
