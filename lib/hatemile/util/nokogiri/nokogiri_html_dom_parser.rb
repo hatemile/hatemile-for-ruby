@@ -35,18 +35,18 @@ module Hatemile
         # Return:
         # Array(Nokogiri::XML::Node) The ordened results.
         def orderResults(results)
-          parents = Array.new
-          groups = Array.new
+          parents = []
+          groups = []
           results.each do |result|
             if not parents.include?(result.parent)
               parents.push(result.parent)
-              groups.push(Array.new)
+              groups.push([])
               groups[groups.size - 1].push(result)
             else
               groups[parents.index(result.parent)].push(result)
             end
           end
-          array = Array.new
+          array = []
           groups.each do |group|
             col = group.sort { |element1, element2|
               children = element1.parent.children
@@ -88,7 +88,7 @@ module Hatemile
         end
 
         def findChildren(selector)
-          array = Array.new
+          array = []
           if selector.class == NokogiriHTMLDOMElement
             element = selector.getData
             @results.each do |result|
@@ -111,7 +111,7 @@ module Hatemile
         end
 
         def findDescendants(selector)
-          array = Array.new
+          array = []
           if selector.class == NokogiriHTMLDOMElement
             element = selector.getData
             parents = element.ancestors
@@ -131,7 +131,7 @@ module Hatemile
         end
 
         def findAncestors(selector)
-          array = Array.new
+          array = []
           if selector.class == NokogiriHTMLDOMElement
             element = selector.getData
             @results.each do |result|
@@ -165,7 +165,7 @@ module Hatemile
         end
 
         def listResults
-          array = Array.new
+          array = []
           self.orderResults(@results).each do |result|
             array.push(NokogiriHTMLDOMElement.new(result))
           end

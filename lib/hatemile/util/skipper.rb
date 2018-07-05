@@ -28,7 +28,7 @@ module Hatemile
         @selector = selector
         @defaultText = defaultText
         if shortcuts.empty?
-          @shortcuts = Array.new
+          @shortcuts = []
         else
           @shortcuts = shortcuts.split(/[ \n\t\r]+/)
         end

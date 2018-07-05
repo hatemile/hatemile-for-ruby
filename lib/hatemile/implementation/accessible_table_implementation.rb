@@ -34,7 +34,7 @@ module Hatemile
       # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table.
       def generatePart(part)
         rows = @parser.find(part).findChildren('tr').listResults
-        table = Array.new
+        table = []
         rows.each do |row|
           table.push(self.generateColspan(@parser.find(row).findChildren('td,th').listResults))
         end
@@ -51,15 +51,15 @@ module Hatemile
       # Return:
       # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table with the rowspans.
       def generateRowspan(rows)
-        copy = Array.new.concat(rows)
-        table = Array.new
+        copy = [].concat(rows)
+        table = []
         if not rows.empty?
           lengthRows = rows.size
           (0..lengthRows - 1).each do |i|
             columnIndex = 0
             cells = [].concat(copy[i])
             if table.size <= i
-              table[i] = Array.new
+              table[i] = []
             end
             lengthCells = cells.size
             (0..lengthCells - 1).each do |j|
@@ -77,7 +77,7 @@ module Hatemile
                   (1..rowspan - 1).each do |k|
                     n = i + k
                     if table[n] == nil
-                      table[n] = Array.new
+                      table[n] = []
                     end
                     table[n][m] = cell
                   end
@@ -100,8 +100,8 @@ module Hatemile
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The list that represents the line of table with the colspans.
       def generateColspan(row)
-        copy = Array.new.concat(row)
-        cells = Array.new.concat(row)
+        copy = [].concat(row)
+        cells = [].concat(row)
         size = row.size
         (0..size - 1).each do |i|
           cell = cells[i]
@@ -155,7 +155,7 @@ module Hatemile
       # Return:
       # Array(String) The list with ids of rows of same column.
       def returnListIdsColumns(header, index)
-        ids = Array.new
+        ids = []
         header.each do |row|
           if row[index].getTagName == 'TH'
             ids.push(row[index].getAttribute('id'))
@@ -173,7 +173,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
       def fixBodyOrFooter(element)
         table = self.generatePart(element)
-        headersIds = Array.new
+        headersIds = []
         table.each do |cells|
           headersIds.clear
           cells.each do |cell|

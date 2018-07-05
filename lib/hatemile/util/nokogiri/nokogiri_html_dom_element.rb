@@ -90,7 +90,7 @@ module Hatemile
         end
 
         def getChildren
-          array = Array.new
+          array = []
           @data.children do |child|
             if child.element?
               array.push(NokogiriHTMLDOMElement.new(child))

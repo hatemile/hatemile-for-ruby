@@ -28,8 +28,8 @@ module Hatemile
       #  1. String +fileName+ The full path of file.
       def initialize(fileName = nil)
         @parameters = Hash.new
-        @selectorChanges = Array.new
-        @skippers = Array.new
+        @selectorChanges = []
+        @skippers = []
         if (fileName == nil)
           fileName = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
         end
