@@ -197,6 +197,7 @@ module Hatemile
           return 5
         elsif tag == 'H6'
           return 6
+        end
         -1
       end
 

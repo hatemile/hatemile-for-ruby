@@ -107,6 +107,7 @@ module Hatemile
           parent = @data.parent
           if !parent.nil? && parent.element?
             return NokogiriHTMLDOMElement.new(parent)
+          end
           nil
         end
 

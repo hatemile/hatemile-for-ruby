@@ -78,6 +78,7 @@ module Hatemile
           end
         elsif !list.nil? && !list.empty?
           return list
+        end
         stringToIncrease
       end
 
