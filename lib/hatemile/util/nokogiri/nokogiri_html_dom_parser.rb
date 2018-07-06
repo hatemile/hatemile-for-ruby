@@ -38,12 +38,12 @@ module Hatemile
           parents = []
           groups = []
           results.each do |result|
-            unless parents.include?(result.parent)
+            if parents.include?(result.parent)
+              groups[parents.index(result.parent)].push(result)
+            else
               parents.push(result.parent)
               groups.push([])
               groups[groups.size - 1].push(result)
-            else
-              groups[parents.index(result.parent)].push(result)
             end
           end
           array = []
