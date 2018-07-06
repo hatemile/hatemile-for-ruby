@@ -99,8 +99,8 @@ module Hatemile
             end
           else
             @results.each do |result|
-              result.css(selector).each do |element|
-                array.push(element) if element.parent == result
+              result.css(selector).each do |foundElement|
+                array.push(foundElement) if foundElement.parent == result
               end
             end
           end
