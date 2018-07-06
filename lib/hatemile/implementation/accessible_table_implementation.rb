@@ -71,7 +71,7 @@ module Hatemile
               row[m] = cell
               if cell.hasAttribute?('rowspan')
                 rowspan = cell.getAttribute('rowspan').to_i
-                if (rowspan > 1)
+                if rowspan > 1
                   (1..rowspan - 1).each do |k|
                     n = i + k
                     table[n] = [] if table[n].nil?
@@ -240,7 +240,7 @@ module Hatemile
               fakeTable = fakeTable.concat(generatePart(footer))
             end
             fakeTable.each do |cells|
-              if (cells.size == lengthHeader)
+              if cells.size == lengthHeader
                 i = 0
                 cells.each do |cell|
                   headersIds = returnListIdsColumns(headerCells, i)
