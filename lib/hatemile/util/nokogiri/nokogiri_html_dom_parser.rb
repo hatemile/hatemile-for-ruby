@@ -149,12 +149,12 @@ module Hatemile
         end
 
         def firstResult
-          return nil if (@results.nil?) || (@results.empty?)
+          return nil if @results.nil? || @results.empty?
           return NokogiriHTMLDOMElement.new(@results[0])
         end
 
         def lastResult
-          return nil if (@results.nil?) || (@results.empty?)
+          return nil if @results.nil? || @results.empty?
           return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 

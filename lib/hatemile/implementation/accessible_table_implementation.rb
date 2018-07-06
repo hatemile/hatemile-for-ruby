@@ -233,7 +233,7 @@ module Hatemile
           self.fixHeader(header)
 
           headerCells = self.generatePart(header)
-          if (!body.nil?) && (self.validateHeader(headerCells))
+          if !body.nil? && self.validateHeader(headerCells)
             lengthHeader = headerCells[0].size
             fakeTable = self.generatePart(body)
             unless footer.nil?

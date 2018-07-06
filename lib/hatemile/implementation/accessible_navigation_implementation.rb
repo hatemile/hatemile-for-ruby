@@ -42,7 +42,7 @@ module Hatemile
           description = element.getAttribute('alt')
         elsif element.hasAttribute?('label')
           description = element.getAttribute('label')
-        elsif (element.hasAttribute?('aria-labelledby')) || (element.hasAttribute?('aria-describedby'))
+        elsif element.hasAttribute?('aria-labelledby') || element.hasAttribute?('aria-describedby')
           if element.hasAttribute?('aria-labelledby')
             descriptionIds = element.getAttribute('aria-labelledby').split(/[ \n\t\r]+/)
           else
@@ -55,7 +55,7 @@ module Hatemile
               break
             end
           end
-        elsif (element.getTagName == 'INPUT') && (element.hasAttribute?('type'))
+        elsif (element.getTagName == 'INPUT') && element.hasAttribute?('type')
           type = element.getAttribute('type').downcase
           if ((type == 'button') || (type == 'submit') || (type == 'reset')) && element.hasAttribute?('value')
             description = element.getAttribute('value')
@@ -377,11 +377,11 @@ module Hatemile
 
           if opera
             @prefix = 'SHIFT + ESC'
-          elsif chrome && mac && (!spoofer)
+          elsif chrome && mac && !spoofer
             @prefix = 'CTRL + OPTION'
-          elsif safari && (!windows) && (!spoofer)
+          elsif safari && !windows && !spoofer
             @prefix = 'CTRL + ALT'
-          elsif (!windows) && (safari || mac || konqueror)
+          elsif !windows && (safari || mac || konqueror)
             @prefix = 'CTRL'
           elsif firefox
             @prefix = 'ALT + SHIFT'
