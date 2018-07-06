@@ -27,11 +27,11 @@ module Hatemile
       def initialize(selector, defaultText, shortcuts)
         @selector = selector
         @defaultText = defaultText
-        if shortcuts.empty?
-          @shortcuts = []
-        else
-          @shortcuts = shortcuts.split(/[ \n\t\r]+/)
-        end
+        @shortcuts = if shortcuts.empty?
+                       []
+                     else
+                       shortcuts.split(/[ \n\t\r]+/)
+                     end
       end
 
       ##

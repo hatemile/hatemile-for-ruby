@@ -70,20 +70,20 @@ module Hatemile
         #   * Nokogiri::HTML::Document The parser of Nokogiri.
         #  2. String +encoding+ The enconding of code.
         def initialize(codeOrParser, encoding = 'UTF-8')
-          if codeOrParser.class == String
-            @document = Nokogiri::HTML::Document.parse(codeOrParser, nil, encoding)
-          else
-            @document = codeOrParser
-          end
+          @document = if codeOrParser.class == String
+                        Nokogiri::HTML::Document.parse(codeOrParser, nil, encoding)
+                      else
+                        codeOrParser
+                      end
           @results = nil
         end
 
         def find(selector)
-          if selector.class == NokogiriHTMLDOMElement
-            @results = [selector.getData]
-          else
-            @results = @document.css(selector)
-          end
+          @results = if selector.class == NokogiriHTMLDOMElement
+                       [selector.getData]
+                     else
+                       @document.css(selector)
+                     end
           self
         end
 

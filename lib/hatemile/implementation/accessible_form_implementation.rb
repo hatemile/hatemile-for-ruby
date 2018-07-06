@@ -80,11 +80,11 @@ module Hatemile
           if (rangeField.hasAttribute?('min') || rangeField.hasAttribute?('aria-valuemin')) \
               && !label.hasAttribute?(@dataLabelPrefixRangeMinField) \
               && !label.hasAttribute?(@dataLabelSuffixRangeMinField)
-            if rangeField.hasAttribute?('min')
-              value = rangeField.getAttribute('min')
-            else
-              value = rangeField.getAttribute('aria-valuemin')
-            end
+            value = if rangeField.hasAttribute?('min')
+                      rangeField.getAttribute('min')
+                    else
+                      rangeField.getAttribute('aria-valuemin')
+                    end
             addPrefixSuffix(label, rangeField, @prefixRangeMinField.gsub(/{{value}}/, value) \
                 , @suffixRangeMinField.gsub(/{{value}}/, value) \
                 , @dataLabelPrefixRangeMinField, @dataLabelSuffixRangeMinField)
@@ -92,11 +92,11 @@ module Hatemile
           if (rangeField.hasAttribute?('max') || rangeField.hasAttribute?('aria-valuemax')) \
               && !label.hasAttribute?(@dataLabelPrefixRangeMaxField) \
               && !label.hasAttribute?(@dataLabelSuffixRangeMaxField)
-            if rangeField.hasAttribute?('max')
-              value = rangeField.getAttribute('max')
-            else
-              value = rangeField.getAttribute('aria-valuemax')
-            end
+            value = if rangeField.hasAttribute?('max')
+                      rangeField.getAttribute('max')
+                    else
+                      rangeField.getAttribute('aria-valuemax')
+                    end
             addPrefixSuffix(label, rangeField, @prefixRangeMaxField.gsub(/{{value}}/, value) \
                 , @suffixRangeMaxField.gsub(/{{value}}/, value) \
                 , @dataLabelPrefixRangeMaxField, @dataLabelSuffixRangeMaxField)
