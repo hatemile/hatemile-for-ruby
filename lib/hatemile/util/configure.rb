@@ -27,7 +27,7 @@ module Hatemile
       # Parameters:
       #  1. String +fileName+ The full path of file.
       def initialize(fileName = nil)
-        @parameters = Hash.new
+        @parameters = {}
         @selectorChanges = []
         @skippers = []
         if fileName.nil?
