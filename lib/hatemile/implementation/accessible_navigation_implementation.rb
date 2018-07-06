@@ -61,9 +61,7 @@ module Hatemile
             description = element.getAttribute('value')
           end
         end
-        if description.nil?
-          description = element.getTextContent
-        end
+        description = element.getTextContent if description.nil?
         return description.gsub(/[ \n\t\r]+/, ' ')
       end
 
@@ -225,9 +223,7 @@ module Hatemile
               countMainHeading = 1
             end
           end
-          if (level - lastLevel) > 1
-            return false
-          end
+          return false if (level - lastLevel) > 1
           lastLevel = level
         end
         return true
@@ -294,9 +290,7 @@ module Hatemile
                 break
               end
             end
-            if found
-              break
-            end
+            break if found
           end
         end
       end
@@ -328,9 +322,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixShortcut(element)
-        unless @listShortcuts.nil?
-          self.fixShortcut(element)
-        end
+        self.fixShortcut(element) unless @listShortcuts.nil?
       end
 
       public
@@ -410,9 +402,7 @@ module Hatemile
             element.setAttribute('title', description)
           end
 
-          unless @listShortcutsAdded
-            @listShortcuts = self.generateListShortcuts
-          end
+          @listShortcuts = self.generateListShortcuts unless @listShortcutsAdded
 
           unless @listShortcuts.nil?
             keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
@@ -432,16 +422,12 @@ module Hatemile
       def fixShortcuts
         elements = @parser.find('[accesskey]').listResults
         elements.each do |element|
-          unless element.hasAttribute?(@dataIgnore)
-            self.fixShortcut(element)
-          end
+          self.fixShortcut(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
 
       def fixSkipper(element, skipper)
-        unless @listSkippersAdded
-          @listSkippers = self.generateListSkippers
-        end
+        @listSkippers = self.generateListSkippers unless @listSkippersAdded
         unless @listSkippers.nil?
           anchor = self.generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
           unless anchor.nil?
@@ -472,9 +458,7 @@ module Hatemile
         @skippers.each do |skipper|
           elements = @parser.find(skipper.getSelector).listResults
           count = elements.size > 1
-          if count
-            index = 1
-          end
+          index = 1 if count
           shortcuts = skipper.getShortcuts
           elements.each do |element|
             unless element.hasAttribute?(@dataIgnore)
@@ -496,9 +480,7 @@ module Hatemile
       end
 
       def fixHeading(element)
-        unless @validateHeading
-          @validHeading = self.isValidHeading
-        end
+        @validHeading = self.isValidHeading unless @validateHeading
         if @validHeading
           anchor = self.generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
           unless anchor.nil?
@@ -534,9 +516,7 @@ module Hatemile
       def fixHeadings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').listResults
         elements.each do |element|
-          unless element.hasAttribute?(@dataIgnore)
-            self.fixHeading(element)
-          end
+          self.fixHeading(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
     end

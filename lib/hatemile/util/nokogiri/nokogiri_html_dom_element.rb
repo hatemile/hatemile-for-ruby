@@ -47,9 +47,7 @@ module Hatemile
         end
 
         def removeAttribute(name)
-          if self.hasAttribute?(name)
-            @data.remove_attribute(name)
-          end
+          @data.remove_attribute(name) if self.hasAttribute?(name)
         end
 
         def hasAttribute?(name)
@@ -92,9 +90,7 @@ module Hatemile
         def getChildren
           array = []
           @data.children do |child|
-            if child.element?
-              array.push(NokogiriHTMLDOMElement.new(child))
-            end
+            array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
           end
           return array
         end
@@ -145,16 +141,12 @@ module Hatemile
         end
 
         def getFirstElementChild
-          unless self.hasChildren?
-            return nil
-          end
+          return nil unless self.hasChildren?
           return NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
         def getLastElementChild
-          unless self.hasChildren?
-            return nil
-          end
+          return nil unless self.hasChildren?
           children = @data.children
           return NokogiriHTMLDOMElement.new(children[children.length - 1])
         end

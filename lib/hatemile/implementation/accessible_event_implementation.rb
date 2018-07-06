@@ -115,9 +115,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +event+ The type of event.
       def addEventInElement(element, event)
-        unless @mainScriptAdded
-          self.generateMainScripts
-        end
+        self.generateMainScripts unless @mainScriptAdded
 
         unless @scriptList.nil?
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
@@ -188,9 +186,7 @@ module Hatemile
       def fixHovers
         elements = @parser.find('[onmouseover],[onmouseout]').listResults
         elements.each do |element|
-          unless element.hasAttribute?(@dataIgnore)
-            self.fixHover(element)
-          end
+          self.fixHover(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
 
@@ -203,9 +199,7 @@ module Hatemile
       def fixActives
         elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults
         elements.each do |element|
-          unless element.hasAttribute?(@dataIgnore)
-            self.fixActive(element)
-          end
+          self.fixActive(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
     end

@@ -97,9 +97,7 @@ module Hatemile
         if (!list.nil?) && (!list.empty?) && (!stringToSearch.nil?) && (!stringToSearch.empty?)
           elements = list.split(/[ \n\t\r]+/)
           elements.each do |element|
-            if element == stringToSearch
-              return true
-            end
+            return true if element == stringToSearch
           end
         end
         return false

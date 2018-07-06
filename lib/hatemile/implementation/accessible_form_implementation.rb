@@ -39,15 +39,11 @@ module Hatemile
         content = field.getAttribute('aria-label')
         unless prefix.empty?
           label.setAttribute(dataPrefix, prefix)
-          unless content.include?(prefix)
-            content = "#{prefix} #{content}"
-          end
+          content = "#{prefix} #{content}" unless content.include?(prefix)
         end
         unless suffix.empty?
           label.setAttribute(dataSuffix, suffix)
-          unless content.include?(suffix)
-            content = "#{content} #{suffix}"
-          end
+          content = "#{content} #{suffix}" unless content.include?(suffix)
         end
         field.setAttribute('aria-label', content)
       end
@@ -343,9 +339,7 @@ module Hatemile
       def fixLabels
         labels = @parser.find('label').listResults
         labels.each do |label|
-          unless label.hasAttribute?(@dataIgnore)
-            self.fixLabel(label)
-          end
+          self.fixLabel(label) unless label.hasAttribute?(@dataIgnore)
         end
       end
     end

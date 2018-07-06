@@ -100,9 +100,7 @@ module Hatemile
           else
             @results.each do |result|
               result.css(selector).each do |element|
-                if element.parent == result
-                  array.push(element)
-                end
+                array.push(element) if element.parent == result
               end
             end
           end
@@ -151,16 +149,12 @@ module Hatemile
         end
 
         def firstResult
-          if (@results.nil?) || (@results.empty?)
-            return nil
-          end
+          return nil if (@results.nil?) || (@results.empty?)
           return NokogiriHTMLDOMElement.new(@results[0])
         end
 
         def lastResult
-          if (@results.nil?) || (@results.empty?)
-            return nil
-          end
+          return nil if (@results.nil?) || (@results.empty?)
           return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 

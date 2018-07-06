@@ -58,9 +58,7 @@ module Hatemile
           (0..lengthRows - 1).each do |i|
             columnIndex = 0
             cells = [].concat(copy[i])
-            if table.size <= i
-              table[i] = []
-            end
+            table[i] = [] if table.size <= i
             lengthCells = cells.size
             (0..lengthCells - 1).each do |j|
               cell = cells[j]
@@ -76,9 +74,7 @@ module Hatemile
                 if (rowspan > 1)
                   (1..rowspan - 1).each do |k|
                     n = i + k
-                    if table[n].nil?
-                      table[n] = []
-                    end
+                    table[n] = [] if table[n].nil?
                     table[n][m] = cell
                   end
                 end
@@ -128,9 +124,7 @@ module Hatemile
       # Boolean True if the table header is valid or false if the table header is
       # not valid.
       def validateHeader(header)
-        if header.empty?
-          return false
-        end
+        return false if header.empty?
         length = -1
         header.each do |row|
           if row.empty?
@@ -261,12 +255,8 @@ module Hatemile
             end
           end
         end
-        unless body.nil?
-          self.fixBodyOrFooter(body)
-        end
-        unless footer.nil?
-          self.fixBodyOrFooter(footer)
-        end
+        self.fixBodyOrFooter(body) unless body.nil?
+        self.fixBodyOrFooter(footer) unless footer.nil?
       end
 
       def fixAssociationCellsTables
