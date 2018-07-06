@@ -290,7 +290,7 @@ module Hatemile
         unless ariaAutoComplete.nil?
           autoCompleteField.setAttribute('aria-autocomplete', ariaAutoComplete)
 
-          labels = getLabels(autoCompleteField);
+          labels = getLabels(autoCompleteField)
           labels.each do |label|
             fixLabelAutoCompleteField(label, autoCompleteField)
           end
