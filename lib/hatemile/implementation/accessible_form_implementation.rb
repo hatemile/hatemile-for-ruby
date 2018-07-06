@@ -58,7 +58,7 @@ module Hatemile
       #  2. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
       def fixLabelRequiredField(label, requiredField)
         if (requiredField.hasAttribute?('required') || (requiredField.hasAttribute?('aria-required') \
-            && (requiredField.getAttribute('aria-required').downcase == 'true'))) \
+            && requiredField.getAttribute('aria-required').casecmp('true').zero?)) \
             && requiredField.hasAttribute?('aria-label') \
             && !label.hasAttribute?(@dataLabelPrefixRequiredField) \
             && !label.hasAttribute?(@dataLabelSuffixRequiredField)
