@@ -164,7 +164,7 @@ module Hatemile
         if field.hasAttribute?('type')
           type = field.getAttribute('type').downcase
         end
-        if (tagName == 'TEXTAREA') || ((tagName == 'INPUT') && !(('button' == type) || ('submit' == type) || ('reset' == type) || ('image' == type) || ('file' == type) || ('checkbox' == type) || ('radio' == type) || ('hidden' == type)))
+        if (tagName == 'TEXTAREA') || ((tagName == 'INPUT') && !((type == 'button') || (type == 'submit') || (type == 'reset') || (type == 'image') || (type == 'file') || (type == 'checkbox') || (type == 'radio') || (type == 'hidden')))
           value = nil
           if field.hasAttribute?('autocomplete')
             value = field.getAttribute('autocomplete').downcase
@@ -177,11 +177,11 @@ module Hatemile
               value = form.getAttribute('autocomplete').downcase
             end
           end
-          if 'on' == value
+          if value == 'on'
             return 'both'
           elsif field.hasAttribute?('list') && !@parser.find("datalist[id=\"#{field.getAttribute('list')}\"]").firstResult.nil?
             return 'list'
-          elsif 'off' == value
+          elsif value == 'off'
             return 'none'
           end
         end
