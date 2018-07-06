@@ -47,7 +47,7 @@ module Hatemile
         end
 
         def removeAttribute(name)
-          @data.remove_attribute(name) if self.hasAttribute?(name)
+          @data.remove_attribute(name) if hasAttribute?(name)
         end
 
         def hasAttribute?(name)
@@ -112,7 +112,7 @@ module Hatemile
 
         def getInnerHTML
           html = ''
-          self.getChildren do |child|
+          getChildren do |child|
             html += child.getOuterHTML
           end
           html
@@ -123,7 +123,7 @@ module Hatemile
         end
 
         def getOuterHTML
-          self.toString(@data)
+          toString(@data)
         end
 
         def getData
@@ -139,12 +139,12 @@ module Hatemile
         end
 
         def getFirstElementChild
-          return nil unless self.hasChildren?
+          return nil unless hasChildren?
           NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
         def getLastElementChild
-          return nil unless self.hasChildren?
+          return nil unless hasChildren?
           children = @data.children
           NokogiriHTMLDOMElement.new(children[children.length - 1])
         end
@@ -165,7 +165,7 @@ module Hatemile
             node.attributes.each do |attribute, value|
               string += " #{attribute}=\"#{value}\""
             end
-            if node.children.empty? && self.self_closing_tag?(node.name)
+            if node.children.empty? && self_closing_tag?(node.name)
               string += ' />'
             else
               string += '>'
@@ -182,10 +182,10 @@ module Hatemile
           end
 
           node.children.each do |child|
-            string += self.toString(child)
+            string += toString(child)
           end
 
-          if node.element? && !(node.children.empty? && self.self_closing_tag?(node.name))
+          if node.element? && !(node.children.empty? && self_closing_tag?(node.name))
             string += "</#{node.name.downcase}>"
           end
           string

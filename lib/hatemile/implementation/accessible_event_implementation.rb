@@ -115,7 +115,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +event+ The type of event.
       def addEventInElement(element, event)
-        self.generateMainScripts unless @mainScriptAdded
+        generateMainScripts unless @mainScriptAdded
 
         unless @scriptList.nil?
           Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
@@ -151,55 +151,55 @@ module Hatemile
       def fixDrop(element)
         element.setAttribute('aria-dropeffect', 'none')
 
-        self.addEventInElement(element, 'drop')
+        addEventInElement(element, 'drop')
       end
 
       def fixDrag(element)
-        self.keyboardAccess(element)
+        keyboardAccess(element)
 
         element.setAttribute('aria-grabbed', 'false')
 
-        self.addEventInElement(element, 'drag')
+        addEventInElement(element, 'drag')
       end
 
       def fixDragsandDrops
         draggableElements = @parser.find('[ondrag],[ondragstart],[ondragend]').listResults
         draggableElements.each do |draggableElement|
           unless draggableElement.hasAttribute?(@dataIgnore)
-            self.fixDrag(draggableElement)
+            fixDrag(draggableElement)
           end
         end
         droppableElements = @parser.find('[ondrop],[ondragenter],[ondragleave],[ondragover]').listResults
         droppableElements.each do |droppableElement|
           unless droppableElement.hasAttribute?(@dataIgnore)
-            self.fixDrop(droppableElement)
+            fixDrop(droppableElement)
           end
         end
       end
 
       def fixHover(element)
-        self.keyboardAccess(element)
+        keyboardAccess(element)
 
-        self.addEventInElement(element, 'hover')
+        addEventInElement(element, 'hover')
       end
 
       def fixHovers
         elements = @parser.find('[onmouseover],[onmouseout]').listResults
         elements.each do |element|
-          self.fixHover(element) unless element.hasAttribute?(@dataIgnore)
+          fixHover(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
 
       def fixActive(element)
-        self.keyboardAccess(element)
+        keyboardAccess(element)
 
-        self.addEventInElement(element, 'active')
+        addEventInElement(element, 'active')
       end
 
       def fixActives
         elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').listResults
         elements.each do |element|
-          self.fixActive(element) unless element.hasAttribute?(@dataIgnore)
+          fixActive(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
     end

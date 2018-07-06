@@ -36,9 +36,9 @@ module Hatemile
         rows = @parser.find(part).findChildren('tr').listResults
         table = []
         rows.each do |row|
-          table.push(self.generateColspan(@parser.find(row).findChildren('td,th').listResults))
+          table.push(generateColspan(@parser.find(row).findChildren('td,th').listResults))
         end
-        self.generateRowspan(table)
+        generateRowspan(table)
       end
 
       ##
@@ -166,7 +166,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
       def fixBodyOrFooter(element)
-        table = self.generatePart(element)
+        table = generatePart(element)
         headersIds = []
         table.each do |cells|
           headersIds.clear
@@ -230,20 +230,20 @@ module Hatemile
         body = @parser.find(table).findChildren('tbody').firstResult
         footer = @parser.find(table).findChildren('tfoot').firstResult
         unless header.nil?
-          self.fixHeader(header)
+          fixHeader(header)
 
-          headerCells = self.generatePart(header)
-          if !body.nil? && self.validateHeader(headerCells)
+          headerCells = generatePart(header)
+          if !body.nil? && validateHeader(headerCells)
             lengthHeader = headerCells[0].size
-            fakeTable = self.generatePart(body)
+            fakeTable = generatePart(body)
             unless footer.nil?
-              fakeTable = fakeTable.concat(self.generatePart(footer))
+              fakeTable = fakeTable.concat(generatePart(footer))
             end
             fakeTable.each do |cells|
               if (cells.size == lengthHeader)
                 i = 0
                 cells.each do |cell|
-                  headersIds = self.returnListIdsColumns(headerCells, i)
+                  headersIds = returnListIdsColumns(headerCells, i)
                   headers = cell.getAttribute('headers')
                   headersIds.each do |headersId|
                     headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headersId)
@@ -255,15 +255,15 @@ module Hatemile
             end
           end
         end
-        self.fixBodyOrFooter(body) unless body.nil?
-        self.fixBodyOrFooter(footer) unless footer.nil?
+        fixBodyOrFooter(body) unless body.nil?
+        fixBodyOrFooter(footer) unless footer.nil?
       end
 
       def fixAssociationCellsTables
         tables = @parser.find('table').listResults
         tables.each do |table|
           unless table.hasAttribute?(@dataIgnore)
-            self.fixAssociationCellsTable(table)
+            fixAssociationCellsTable(table)
           end
         end
       end

@@ -160,7 +160,7 @@ module Hatemile
 
         def listResults
           array = []
-          self.orderResults(@results).each do |result|
+          orderResults(@results).each do |result|
             array.push(NokogiriHTMLDOMElement.new(result))
           end
           array

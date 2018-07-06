@@ -62,7 +62,7 @@ module Hatemile
             && requiredField.hasAttribute?('aria-label') \
             && !label.hasAttribute?(@dataLabelPrefixRequiredField) \
             && !label.hasAttribute?(@dataLabelSuffixRequiredField)
-          self.addPrefixSuffix(label, requiredField, @prefixRequiredField, @suffixRequiredField \
+          addPrefixSuffix(label, requiredField, @prefixRequiredField, @suffixRequiredField \
               , @dataLabelPrefixRequiredField, @dataLabelSuffixRequiredField)
         end
       end
@@ -85,7 +85,7 @@ module Hatemile
             else
               value = rangeField.getAttribute('aria-valuemin')
             end
-            self.addPrefixSuffix(label, rangeField, @prefixRangeMinField.gsub(/{{value}}/, value) \
+            addPrefixSuffix(label, rangeField, @prefixRangeMinField.gsub(/{{value}}/, value) \
                 , @suffixRangeMinField.gsub(/{{value}}/, value) \
                 , @dataLabelPrefixRangeMinField, @dataLabelSuffixRangeMinField)
           end
@@ -97,7 +97,7 @@ module Hatemile
             else
               value = rangeField.getAttribute('aria-valuemax')
             end
-            self.addPrefixSuffix(label, rangeField, @prefixRangeMaxField.gsub(/{{value}}/, value) \
+            addPrefixSuffix(label, rangeField, @prefixRangeMaxField.gsub(/{{value}}/, value) \
                 , @suffixRangeMaxField.gsub(/{{value}}/, value) \
                 , @dataLabelPrefixRangeMaxField, @dataLabelSuffixRangeMaxField)
           end
@@ -118,7 +118,7 @@ module Hatemile
         if autoCompleteField.hasAttribute?('aria-label') \
             && !label.hasAttribute?(@dataLabelPrefixAutoCompleteField) \
             && !label.hasAttribute?(@dataLabelSuffixAutoCompleteField)
-          ariaAutocomplete = self.getARIAAutoComplete(autoCompleteField)
+          ariaAutocomplete = getARIAAutoComplete(autoCompleteField)
           unless ariaAutocomplete.nil?
             if ariaAutocomplete == 'both'
               unless @prefixAutoCompleteField.empty?
@@ -142,7 +142,7 @@ module Hatemile
                 suffixAutoCompleteFieldModified = @suffixAutoCompleteField.gsub(/{{value}}/, @textAutoCompleteValueList)
               end
             end
-            self.addPrefixSuffix(label, autoCompleteField, prefixAutoCompleteFieldModified \
+            addPrefixSuffix(label, autoCompleteField, prefixAutoCompleteFieldModified \
                 , suffixAutoCompleteFieldModified, @dataLabelPrefixAutoCompleteField \
                 , @dataLabelSuffixAutoCompleteField)
           end
@@ -249,9 +249,9 @@ module Hatemile
         if requiredField.hasAttribute?('required')
           requiredField.setAttribute('aria-required', 'true')
 
-          labels = self.getLabels(requiredField)
+          labels = getLabels(requiredField)
           labels.each do |label|
-            self.fixLabelRequiredField(label, requiredField)
+            fixLabelRequiredField(label, requiredField)
           end
         end
       end
@@ -260,7 +260,7 @@ module Hatemile
         requiredFields = @parser.find('[required]').listResults
         requiredFields.each do |requiredField|
           unless requiredField.hasAttribute?(@dataIgnore)
-            self.fixRequiredField(requiredField)
+            fixRequiredField(requiredField)
           end
         end
       end
@@ -272,29 +272,27 @@ module Hatemile
         if rangeField.hasAttribute?('max')
           rangeField.setAttribute('aria-valuemax', rangeField.getAttribute('max'))
         end
-        labels = self.getLabels(rangeField)
+        labels = getLabels(rangeField)
         labels.each do |label|
-          self.fixLabelRequiredField(label, rangeField)
+          fixLabelRequiredField(label, rangeField)
         end
       end
 
       def fixRangeFields
         rangeFields = @parser.find('[min],[max]').listResults
         rangeFields.each do |rangeField|
-          unless rangeField.hasAttribute?(@dataIgnore)
-            self.fixRangeField(rangeField)
-          end
+          fixRangeField(rangeField) unless rangeField.hasAttribute?(@dataIgnore)
         end
       end
 
       def fixAutoCompleteField(autoCompleteField)
-        ariaAutoComplete = self.getARIAAutoComplete(autoCompleteField)
+        ariaAutoComplete = getARIAAutoComplete(autoCompleteField)
         unless ariaAutoComplete.nil?
           autoCompleteField.setAttribute('aria-autocomplete', ariaAutoComplete)
 
-          labels = self.getLabels(autoCompleteField);
+          labels = getLabels(autoCompleteField);
           labels.each do |label|
-            self.fixLabelAutoCompleteField(label, autoCompleteField)
+            fixLabelAutoCompleteField(label, autoCompleteField)
           end
         end
       end
@@ -303,7 +301,7 @@ module Hatemile
         elements = @parser.find('input[autocomplete],textarea[autocomplete],form[autocomplete] input,form[autocomplete] textarea,[list],[form]').listResults
         elements.each do |element|
           unless element.hasAttribute?(@dataIgnore)
-            self.fixAutoCompleteField(element)
+            fixAutoCompleteField(element)
           end
         end
       end
@@ -325,9 +323,9 @@ module Hatemile
               field.setAttribute('aria-label', label.getTextContent.gsub(/[ \n\r\t]+/, ' '))
             end
 
-            self.fixLabelRequiredField(label, field)
-            self.fixLabelRangeField(label, field)
-            self.fixLabelAutoCompleteField(label, field)
+            fixLabelRequiredField(label, field)
+            fixLabelRangeField(label, field)
+            fixLabelAutoCompleteField(label, field)
 
             Hatemile::Util::CommonFunctions.generateId(label, @prefixId)
             field.setAttribute('aria-labelledby', Hatemile::Util::CommonFunctions
@@ -339,7 +337,7 @@ module Hatemile
       def fixLabels
         labels = @parser.find('label').listResults
         labels.each do |label|
-          self.fixLabel(label) unless label.hasAttribute?(@dataIgnore)
+          fixLabel(label) unless label.hasAttribute?(@dataIgnore)
         end
       end
     end

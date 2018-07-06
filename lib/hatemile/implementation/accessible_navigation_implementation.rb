@@ -89,8 +89,8 @@ module Hatemile
             container.appendElement(textContainer)
             local.appendElement(container)
 
-            self.executeFixSkipper(container)
-            self.executeFixSkipper(textContainer)
+            executeFixSkipper(container)
+            executeFixSkipper(textContainer)
           end
         end
         unless container.nil?
@@ -99,7 +99,7 @@ module Hatemile
             htmlList = @parser.createElement('ul')
             container.appendElement(htmlList)
           end
-          self.executeFixSkipper(htmlList)
+          executeFixSkipper(htmlList)
         end
         @listShortcutsAdded = true
 
@@ -159,8 +159,8 @@ module Hatemile
             container.appendElement(textContainer)
             local.appendElement(container)
 
-            self.executeFixSkipper(container)
-            self.executeFixSkipper(textContainer)
+            executeFixSkipper(container)
+            executeFixSkipper(textContainer)
           end
         end
         unless container.nil?
@@ -169,7 +169,7 @@ module Hatemile
             htmlList = @parser.createElement('ol')
             container.appendElement(htmlList)
           end
-          self.executeFixSkipper(htmlList)
+          executeFixSkipper(htmlList)
         end
         htmlList
       end
@@ -213,7 +213,7 @@ module Hatemile
         countMainHeading = 0
         validateHeading = true
         elements.each do |element|
-          level = self.getHeadingLevel(element)
+          level = getHeadingLevel(element)
           if level == 1
             if countMainHeading == 1
               return false
@@ -305,7 +305,7 @@ module Hatemile
         unless @listSkippers.nil?
           @skippers.each do |skipper|
             if @parser.find(skipper.getSelector).listResults.include?(element)
-              self.fixSkipper(element, skipper)
+              fixSkipper(element, skipper)
             end
           end
         end
@@ -320,7 +320,7 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixShortcut(element)
-        self.fixShortcut(element) unless @listShortcuts.nil?
+        fixShortcut(element) unless @listShortcuts.nil?
       end
 
       public
@@ -395,12 +395,12 @@ module Hatemile
 
       def fixShortcut(element)
         if element.hasAttribute?('accesskey')
-          description = self.getDescription(element)
+          description = getDescription(element)
           unless element.hasAttribute?('title')
             element.setAttribute('title', description)
           end
 
-          @listShortcuts = self.generateListShortcuts unless @listShortcutsAdded
+          @listShortcuts = generateListShortcuts unless @listShortcutsAdded
 
           unless @listShortcuts.nil?
             keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
@@ -420,14 +420,14 @@ module Hatemile
       def fixShortcuts
         elements = @parser.find('[accesskey]').listResults
         elements.each do |element|
-          self.fixShortcut(element) unless element.hasAttribute?(@dataIgnore)
+          fixShortcut(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
 
       def fixSkipper(element, skipper)
-        @listSkippers = self.generateListSkippers unless @listSkippersAdded
+        @listSkippers = generateListSkippers unless @listSkippersAdded
         unless @listSkippers.nil?
-          anchor = self.generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
+          anchor = generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
           unless anchor.nil?
             itemLink = @parser.createElement('li')
             link = @parser.createElement('a')
@@ -438,7 +438,7 @@ module Hatemile
             unless shortcuts.empty?
               shortcut = shortcuts[0]
               unless shortcut.empty?
-                self.freeShortcut(shortcut)
+                freeShortcut(shortcut)
                 link.setAttribute('accesskey', shortcut)
               end
             end
@@ -447,7 +447,7 @@ module Hatemile
             itemLink.appendElement(link)
             @listSkippers.appendElement(itemLink)
 
-            self.executeFixShortcut(link)
+            executeFixShortcut(link)
           end
         end
       end
@@ -467,10 +467,10 @@ module Hatemile
                 defaultText = skipper.getDefaultText
               end
               if shortcuts.size > 0
-                self.fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
+                fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
                 shortcuts.delete_at(shortcuts.size - 1);
               else
-                self.fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, ''))
+                fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, ''))
               end
             end
           end
@@ -478,14 +478,14 @@ module Hatemile
       end
 
       def fixHeading(element)
-        @validHeading = self.isValidHeading unless @validateHeading
+        @validHeading = isValidHeading unless @validateHeading
         if @validHeading
-          anchor = self.generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
+          anchor = generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
           unless anchor.nil?
             list = nil
-            level = self.getHeadingLevel(element)
+            level = getHeadingLevel(element)
             if level == 1
-              list = self.generateListHeading
+              list = generateListHeading
             else
               superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{(level - 1).to_s}\"]").lastResult
               unless superItem.nil?
@@ -514,7 +514,7 @@ module Hatemile
       def fixHeadings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').listResults
         elements.each do |element|
-          self.fixHeading(element) unless element.hasAttribute?(@dataIgnore)
+          fixHeading(element) unless element.hasAttribute?(@dataIgnore)
         end
       end
     end
