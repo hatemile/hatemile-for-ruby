@@ -62,7 +62,7 @@ module Hatemile
           end
         end
         description = element.getTextContent if description.nil?
-        return description.gsub(/[ \n\t\r]+/, ' ')
+        description.gsub(/[ \n\t\r]+/, ' ')
       end
 
       ##
@@ -103,7 +103,7 @@ module Hatemile
         end
         @listShortcutsAdded = true
 
-        return htmlList
+        htmlList
       end
 
       ##
@@ -133,7 +133,7 @@ module Hatemile
         end
         @listSkippersAdded = true
 
-        return htmlList
+        htmlList
       end
 
       ##
@@ -171,7 +171,7 @@ module Hatemile
           end
           self.executeFixSkipper(htmlList)
         end
-        return htmlList
+        htmlList
       end
 
       ##
@@ -197,9 +197,7 @@ module Hatemile
           return 5
         elsif tag == 'H6'
           return 6
-        else
-          return -1
-        end
+        -1
       end
 
       ##
@@ -226,7 +224,7 @@ module Hatemile
           return false if (level - lastLevel) > 1
           lastLevel = level
         end
-        return true
+        true
       end
 
       ##
@@ -258,7 +256,7 @@ module Hatemile
           end
           anchor.setAttribute(dataAttribute, element.getAttribute('id'))
         end
-        return anchor
+        anchor
       end
 
       ##

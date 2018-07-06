@@ -185,7 +185,7 @@ module Hatemile
             return 'none'
           end
         end
-        return nil
+        nil
       end
 
       ##
@@ -205,7 +205,7 @@ module Hatemile
         if labels.nil? || labels.empty?
           labels = @parser.find(field).findAncestors('label').listResults
         end
-        return labels
+        labels
       end
 
       public

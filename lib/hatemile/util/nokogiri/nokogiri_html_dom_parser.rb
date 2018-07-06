@@ -54,7 +54,7 @@ module Hatemile
             }
             array = array.concat(col)
           end
-          return array
+          array
         end
 
         public
@@ -84,7 +84,7 @@ module Hatemile
           else
             @results = @document.css(selector)
           end
-          return self
+          self
         end
 
         def findChildren(selector)
@@ -105,7 +105,7 @@ module Hatemile
             end
           end
           @results = array
-          return self
+          self
         end
 
         def findDescendants(selector)
@@ -125,7 +125,7 @@ module Hatemile
             end
           end
           @results = array
-          return self
+          self
         end
 
         def findAncestors(selector)
@@ -145,17 +145,17 @@ module Hatemile
             end
           end
           @results = array
-          return self
+          self
         end
 
         def firstResult
           return nil if @results.nil? || @results.empty?
-          return NokogiriHTMLDOMElement.new(@results[0])
+          NokogiriHTMLDOMElement.new(@results[0])
         end
 
         def lastResult
           return nil if @results.nil? || @results.empty?
-          return NokogiriHTMLDOMElement.new(@results[@results.length - 1])
+          NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 
         def listResults
@@ -163,19 +163,19 @@ module Hatemile
           self.orderResults(@results).each do |result|
             array.push(NokogiriHTMLDOMElement.new(result))
           end
-          return array
+          array
         end
 
         def createElement(tag)
-          return NokogiriHTMLDOMElement.new(@document.create_element(tag))
+          NokogiriHTMLDOMElement.new(@document.create_element(tag))
         end
 
         def getHTML
-          return NokogiriHTMLDOMElement.new(@document).getOuterHTML
+          NokogiriHTMLDOMElement.new(@document).getOuterHTML
         end
 
         def getParser
-          return @document
+          @document
         end
 
         def clearParser

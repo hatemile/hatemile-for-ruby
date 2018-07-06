@@ -38,7 +38,7 @@ module Hatemile
         rows.each do |row|
           table.push(self.generateColspan(@parser.find(row).findChildren('td,th').listResults))
         end
-        return self.generateRowspan(table)
+        self.generateRowspan(table)
       end
 
       ##
@@ -82,7 +82,7 @@ module Hatemile
             end
           end
         end
-        return table
+        table
       end
 
       ##
@@ -110,7 +110,7 @@ module Hatemile
             end
           end
         end
-        return copy
+        copy
       end
 
       ##
@@ -135,7 +135,7 @@ module Hatemile
             return false
           end
         end
-        return true
+        true
       end
 
       ##
@@ -155,7 +155,7 @@ module Hatemile
             ids.push(row[index].getAttribute('id'))
           end
         end
-        return ids
+        ids
       end
 
       ##

@@ -57,7 +57,7 @@ module Hatemile
       # Return:
       # Hash(String, String) The parameters of configuration.
       def getParameters
-        return @parameters.clone
+        @parameters.clone
       end
 
       ##
@@ -70,7 +70,7 @@ module Hatemile
       # Return:
       # String The value of the parameter.
       def getParameter(parameter)
-        return @parameters[parameter]
+        @parameters[parameter]
       end
 
       ##
@@ -81,7 +81,7 @@ module Hatemile
       # Return:
       # Array(SelectorChange) The changes that will be done in selectors.
       def getSelectorChanges
-        return @selectorChanges.clone
+        @selectorChanges.clone
       end
 
       ##
@@ -92,7 +92,7 @@ module Hatemile
       # Return:
       # Array(Skipper) The skippers.
       def getSkippers
-        return @skippers.clone
+        @skippers.clone
       end
     end
   end

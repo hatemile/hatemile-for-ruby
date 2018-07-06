@@ -35,11 +35,11 @@ module Hatemile
         end
 
         def getTagName
-          return @data.name.upcase
+          @data.name.upcase
         end
 
         def getAttribute(name)
-          return @data.get_attribute(name)
+          @data.get_attribute(name)
         end
 
         def setAttribute(name, value)
@@ -51,40 +51,40 @@ module Hatemile
         end
 
         def hasAttribute?(name)
-          return !@data.attributes[name].nil?
+          !@data.attributes[name].nil?
         end
 
         def hasAttributes?
-          return !@data.attributes.empty?
+          !@data.attributes.empty?
         end
 
         def getTextContent
-          return @data.text
+          @data.text
         end
 
         def insertBefore(newElement)
           @data.before(newElement.getData)
-          return newElement
+          newElement
         end
 
         def insertAfter(newElement)
           @data.after(newElement.getData)
-          return newElement
+          newElement
         end
 
         def removeElement
           @data.remove
-          return self
+          self
         end
 
         def replaceElement(newElement)
           @data.replace(newElement.getData)
-          return newElement
+          newElement
         end
 
         def appendElement(element)
           @data.add_child(element.getData)
-          return element
+          element
         end
 
         def getChildren
@@ -92,7 +92,7 @@ module Hatemile
           @data.children do |child|
             array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
           end
-          return array
+          array
         end
 
         def appendText(text)
@@ -100,16 +100,14 @@ module Hatemile
         end
 
         def hasChildren?
-          return @data.children.empty? == false
+          @data.children.empty? == false
         end
 
         def getParentElement
           parent = @data.parent
           if !parent.nil? && parent.element?
             return NokogiriHTMLDOMElement.new(parent)
-          else
-            return nil
-          end
+          nil
         end
 
         def getInnerHTML
@@ -117,7 +115,7 @@ module Hatemile
           self.getChildren do |child|
             html += child.getOuterHTML
           end
-          return html
+          html
         end
 
         def setInnerHTML(html)
@@ -125,11 +123,11 @@ module Hatemile
         end
 
         def getOuterHTML
-          return self.toString(@data)
+          self.toString(@data)
         end
 
         def getData
-          return @data
+          @data
         end
 
         def setData(data)
@@ -137,18 +135,18 @@ module Hatemile
         end
 
         def cloneElement
-          return NokogiriHTMLDOMElement.new(@data.clone)
+          NokogiriHTMLDOMElement.new(@data.clone)
         end
 
         def getFirstElementChild
           return nil unless self.hasChildren?
-          return NokogiriHTMLDOMElement.new(@data.children[0])
+          NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
         def getLastElementChild
           return nil unless self.hasChildren?
           children = @data.children
-          return NokogiriHTMLDOMElement.new(children[children.length - 1])
+          NokogiriHTMLDOMElement.new(children[children.length - 1])
         end
 
         ##
@@ -190,7 +188,7 @@ module Hatemile
           if node.element? && !(node.children.empty? && self.self_closing_tag?(node.name))
             string += "</#{node.name.downcase}>"
           end
-          return string
+          string
         end
 
         ##
@@ -203,7 +201,7 @@ module Hatemile
         # Return:
         # True if the tag is self closing or false if not.
         def self_closing_tag?(tag)
-          return @@self_closing_tags.include?(tag.downcase)
+          @@self_closing_tags.include?(tag.downcase)
         end
       end
     end

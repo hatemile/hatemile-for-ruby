@@ -78,9 +78,7 @@ module Hatemile
           end
         elsif !list.nil? && !list.empty?
           return list
-        else
-          return stringToIncrease
-        end
+        stringToIncrease
       end
 
       ##
@@ -100,7 +98,7 @@ module Hatemile
             return true if element == stringToSearch
           end
         end
-        return false
+        false
       end
     end
   end
