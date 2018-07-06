@@ -61,11 +61,11 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
       #  2. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
       def fixLabelRequiredField(label, requiredField)
-        if ((requiredField.hasAttribute?('required')) or ((requiredField.hasAttribute?('aria-required')) \
-            and (requiredField.getAttribute('aria-required').downcase == 'true'))) \
-            and (requiredField.hasAttribute?('aria-label')) \
-            and (!label.hasAttribute?(@dataLabelPrefixRequiredField)) \
-            and (!label.hasAttribute?(@dataLabelSuffixRequiredField))
+        if ((requiredField.hasAttribute?('required')) || ((requiredField.hasAttribute?('aria-required')) \
+            && (requiredField.getAttribute('aria-required').downcase == 'true'))) \
+            && (requiredField.hasAttribute?('aria-label')) \
+            && (!label.hasAttribute?(@dataLabelPrefixRequiredField)) \
+            && (!label.hasAttribute?(@dataLabelSuffixRequiredField))
           self.addPrefixSuffix(label, requiredField, @prefixRequiredField, @suffixRequiredField \
               , @dataLabelPrefixRequiredField, @dataLabelSuffixRequiredField)
         end
@@ -81,9 +81,9 @@ module Hatemile
       #  2. Hatemile::Util::HTMLDOMElement +rangeField+ The range field.
       def fixLabelRangeField(label, rangeField)
         if rangeField.hasAttribute?('aria-label')
-          if (rangeField.hasAttribute?('min') or rangeField.hasAttribute?('aria-valuemin')) \
-              and (!label.hasAttribute?(@dataLabelPrefixRangeMinField)) \
-              and (!label.hasAttribute?(@dataLabelSuffixRangeMinField))
+          if (rangeField.hasAttribute?('min') || rangeField.hasAttribute?('aria-valuemin')) \
+              && (!label.hasAttribute?(@dataLabelPrefixRangeMinField)) \
+              && (!label.hasAttribute?(@dataLabelSuffixRangeMinField))
             if rangeField.hasAttribute?('min')
               value = rangeField.getAttribute('min')
             else
@@ -93,9 +93,9 @@ module Hatemile
                 , @suffixRangeMinField.gsub(/{{value}}/, value) \
                 , @dataLabelPrefixRangeMinField, @dataLabelSuffixRangeMinField)
           end
-          if (rangeField.hasAttribute?('max') or rangeField.hasAttribute?('aria-valuemax')) \
-              and (!label.hasAttribute?(@dataLabelPrefixRangeMaxField)) \
-              and (!label.hasAttribute?(@dataLabelSuffixRangeMaxField))
+          if (rangeField.hasAttribute?('max') || rangeField.hasAttribute?('aria-valuemax')) \
+              && (!label.hasAttribute?(@dataLabelPrefixRangeMaxField)) \
+              && (!label.hasAttribute?(@dataLabelSuffixRangeMaxField))
             if rangeField.hasAttribute?('max')
               value = rangeField.getAttribute('max')
             else
@@ -120,8 +120,8 @@ module Hatemile
         prefixAutoCompleteFieldModified = ''
         suffixAutoCompleteFieldModified = ''
         if (autoCompleteField.hasAttribute?('aria-label')) \
-            and (!label.hasAttribute?(@dataLabelPrefixAutoCompleteField)) \
-            and (!label.hasAttribute?(@dataLabelSuffixAutoCompleteField))
+            && (!label.hasAttribute?(@dataLabelPrefixAutoCompleteField)) \
+            && (!label.hasAttribute?(@dataLabelSuffixAutoCompleteField))
           ariaAutocomplete = self.getARIAAutoComplete(autoCompleteField)
           unless ariaAutocomplete.nil?
             if ariaAutocomplete == 'both'
@@ -168,22 +168,22 @@ module Hatemile
         if field.hasAttribute?('type')
           type = field.getAttribute('type').downcase
         end
-        if (tagName == 'TEXTAREA') or ((tagName == 'INPUT') and (!(('button' == type) or ('submit' == type) or ('reset' == type) or ('image' == type) or ('file' == type) or ('checkbox' == type) or ('radio' == type) or ('hidden' == type))))
+        if (tagName == 'TEXTAREA') || ((tagName == 'INPUT') && (!(('button' == type) || ('submit' == type) || ('reset' == type) || ('image' == type) || ('file' == type) || ('checkbox' == type) || ('radio' == type) || ('hidden' == type))))
           value = nil
           if field.hasAttribute?('autocomplete')
             value = field.getAttribute('autocomplete').downcase
           else
             form = @parser.find(field).findAncestors('form').firstResult
-            if (form.nil?) and (field.hasAttribute?('form'))
+            if (form.nil?) && (field.hasAttribute?('form'))
               form = @parser.find("##{field.getAttribute('form')}").firstResult
             end
-            if (!form.nil?) and (form.hasAttribute?('autocomplete'))
+            if (!form.nil?) && (form.hasAttribute?('autocomplete'))
               value = form.getAttribute('autocomplete').downcase
             end
           end
           if 'on' == value
             return 'both'
-          elsif (field.hasAttribute?('list')) and (!@parser.find("datalist[id=\"#{field.getAttribute('list')}\"]").firstResult.nil?)
+          elsif (field.hasAttribute?('list')) && (!@parser.find("datalist[id=\"#{field.getAttribute('list')}\"]").firstResult.nil?)
             return 'list'
           elsif 'off' == value
             return 'none'
@@ -206,7 +206,7 @@ module Hatemile
         if field.hasAttribute?('id')
           labels = @parser.find("label[for=\"#{field.getAttribute('id')}\"]").listResults
         end
-        if (labels.nil?) or (labels.empty?)
+        if (labels.nil?) || (labels.empty?)
           labels = @parser.find(field).findAncestors('label').listResults
         end
         return labels

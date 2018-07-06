@@ -41,9 +41,9 @@ module Hatemile
       def keyboardAccess(element)
         unless element.hasAttribute?('tabindex')
           tag = element.getTagName
-          if (tag == 'A') and (!element.hasAttribute?('href'))
+          if (tag == 'A') && (!element.hasAttribute?('href'))
             element.setAttribute('tabindex', '0')
-          elsif (tag != 'A') and (tag != 'INPUT') and (tag != 'BUTTON') and (tag != 'SELECT') and (tag != 'TEXTAREA')
+          elsif (tag != 'A') && (tag != 'INPUT') && (tag != 'BUTTON') && (tag != 'SELECT') && (tag != 'TEXTAREA')
             element.setAttribute('tabindex', '0')
           end
         end
@@ -53,7 +53,7 @@ module Hatemile
       # Include the scripts used by solutions.
       def generateMainScripts
         head = @parser.find('head').firstResult
-        if (!head.nil?) and (@parser.find("##{@idScriptEventListener}").firstResult.nil?)
+        if (!head.nil?) && (@parser.find("##{@idScriptEventListener}").firstResult.nil?)
           if @storeScriptsContent
             if @@eventListenerScriptContent.nil?
               @@eventListenerScriptContent = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')

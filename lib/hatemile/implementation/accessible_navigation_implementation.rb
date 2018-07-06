@@ -42,7 +42,7 @@ module Hatemile
           description = element.getAttribute('alt')
         elsif element.hasAttribute?('label')
           description = element.getAttribute('label')
-        elsif (element.hasAttribute?('aria-labelledby')) or (element.hasAttribute?('aria-describedby'))
+        elsif (element.hasAttribute?('aria-labelledby')) || (element.hasAttribute?('aria-describedby'))
           if element.hasAttribute?('aria-labelledby')
             descriptionIds = element.getAttribute('aria-labelledby').split(/[ \n\t\r]+/)
           else
@@ -55,9 +55,9 @@ module Hatemile
               break
             end
           end
-        elsif (element.getTagName == 'INPUT') and (element.hasAttribute?('type'))
+        elsif (element.getTagName == 'INPUT') && (element.hasAttribute?('type'))
           type = element.getAttribute('type').downcase
-          if ((type == 'button') or (type == 'submit') or (type == 'reset')) and element.hasAttribute?('value')
+          if ((type == 'button') || (type == 'submit') || (type == 'reset')) && element.hasAttribute?('value')
             description = element.getAttribute('value')
           end
         end
@@ -381,19 +381,19 @@ module Hatemile
           windows = userAgent.include?('windows')
           chrome = userAgent.include?('chrome')
           firefox = !userAgent.match('firefox/[2-9]|minefield/3').nil?
-          ie = userAgent.include?('msie') or userAgent.include?('trident')
+          ie = userAgent.include?('msie') || userAgent.include?('trident')
 
           if opera
             @prefix = 'SHIFT + ESC'
-          elsif chrome and mac and (!spoofer)
+          elsif chrome && mac && (!spoofer)
             @prefix = 'CTRL + OPTION'
-          elsif safari and (!windows) and (!spoofer)
+          elsif safari && (!windows) && (!spoofer)
             @prefix = 'CTRL + ALT'
-          elsif (!windows) and (safari or mac or konqueror)
+          elsif (!windows) && (safari || mac || konqueror)
             @prefix = 'CTRL'
           elsif firefox
             @prefix = 'ALT + SHIFT'
-          elsif chrome or ie
+          elsif chrome || ie
             @prefix = 'ALT'
           else
             @prefix = @standartPrefix

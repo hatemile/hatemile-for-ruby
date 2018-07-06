@@ -109,7 +109,7 @@ module Hatemile
 
         def getParentElement
           parent = @data.parent
-          if (!parent.nil?) and (parent.element?)
+          if (!parent.nil?) && (parent.element?)
             return NokogiriHTMLDOMElement.new(parent)
           else
             return nil
@@ -175,7 +175,7 @@ module Hatemile
             node.attributes.each do |attribute, value|
               string += " #{attribute}=\"#{value}\""
             end
-            if (node.children.empty?) and (self.self_closing_tag?(node.name))
+            if (node.children.empty?) && (self.self_closing_tag?(node.name))
               string += ' />'
             else
               string += '>'
@@ -195,7 +195,7 @@ module Hatemile
             string += self.toString(child)
           end
 
-          if node.element? and !((node.children.empty?) and (self.self_closing_tag?(node.name)))
+          if node.element? && !((node.children.empty?) && (self.self_closing_tag?(node.name)))
             string += "</#{node.name.downcase}>"
           end
           return string
