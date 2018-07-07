@@ -362,7 +362,9 @@ module Hatemile
         @listSkippers = nil
         @listShortcuts = nil
 
-        unless userAgent.nil?
+        if userAgent.nil?
+          @prefix = @standartPrefix
+        else
           userAgent = userAgent.downcase
           opera = userAgent.include?('opera')
           mac = userAgent.include?('mac')
@@ -389,8 +391,6 @@ module Hatemile
                     else
                       @standartPrefix
                     end
-        else
-          @prefix = @standartPrefix
         end
       end
 
