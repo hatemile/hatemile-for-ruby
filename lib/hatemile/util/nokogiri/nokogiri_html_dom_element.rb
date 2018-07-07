@@ -166,11 +166,11 @@ module Hatemile
             node.attributes.each do |attribute, value|
               string += " #{attribute}=\"#{value}\""
             end
-            if node.children.empty? && self_closing_tag?(node.name)
-              string += ' />'
-            else
-              string += '>'
-            end
+            string += if node.children.empty? && self_closing_tag?(node.name)
+                        ' />'
+                      else
+                        '>'
+                      end
           elsif node.comment?
             string += node.to_s
           elsif node.cdata?

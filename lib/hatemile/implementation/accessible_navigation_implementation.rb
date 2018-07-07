@@ -43,11 +43,11 @@ module Hatemile
         elsif element.hasAttribute?('label')
           description = element.getAttribute('label')
         elsif element.hasAttribute?('aria-labelledby') || element.hasAttribute?('aria-describedby')
-          if element.hasAttribute?('aria-labelledby')
-            descriptionIds = element.getAttribute('aria-labelledby').split(/[ \n\t\r]+/)
-          else
-            descriptionIds = element.getAttribute('aria-describedby').split(/[ \n\t\r]+/)
-          end
+          descriptionIds = if element.hasAttribute?('aria-labelledby')
+                             element.getAttribute('aria-labelledby').split(/[ \n\t\r]+/)
+                           else
+                             element.getAttribute('aria-describedby').split(/[ \n\t\r]+/)
+                           end
           descriptionIds.each do |descriptionId|
             elementDescription = @parser.find("##{descriptionId}").firstResult
             unless elementDescription.nil?
@@ -374,21 +374,21 @@ module Hatemile
           firefox = !userAgent.match('firefox/[2-9]|minefield/3').nil?
           ie = userAgent.include?('msie') || userAgent.include?('trident')
 
-          if opera
-            @prefix = 'SHIFT + ESC'
-          elsif chrome && mac && !spoofer
-            @prefix = 'CTRL + OPTION'
-          elsif safari && !windows && !spoofer
-            @prefix = 'CTRL + ALT'
-          elsif !windows && (safari || mac || konqueror)
-            @prefix = 'CTRL'
-          elsif firefox
-            @prefix = 'ALT + SHIFT'
-          elsif chrome || ie
-            @prefix = 'ALT'
-          else
-            @prefix = @standartPrefix
-          end
+          @prefix = if opera
+                      'SHIFT + ESC'
+                    elsif chrome && mac && !spoofer
+                      'CTRL + OPTION'
+                    elsif safari && !windows && !spoofer
+                      'CTRL + ALT'
+                    elsif !windows && (safari || mac || konqueror)
+                      'CTRL'
+                    elsif firefox
+                      'ALT + SHIFT'
+                    elsif chrome || ie
+                      'ALT'
+                    else
+                      @standartPrefix
+                    end
         else
           @prefix = @standartPrefix
         end
