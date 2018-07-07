@@ -185,19 +185,12 @@ module Hatemile
       # Integer The level of heading.
       def getHeadingLevel(element)
         tag = element.getTagName
-        if tag == 'H1'
-          return 1
-        elsif tag == 'H2'
-          return 2
-        elsif tag == 'H3'
-          return 3
-        elsif tag == 'H4'
-          return 4
-        elsif tag == 'H5'
-          return 5
-        elsif tag == 'H6'
-          return 6
-        end
+        return 1 if tag == 'H1'
+        return 2 if tag == 'H2'
+        return 3 if tag == 'H3'
+        return 4 if tag == 'H4'
+        return 5 if tag == 'H5'
+        return 6 if tag == 'H6'
         -1
       end
 
@@ -216,11 +209,8 @@ module Hatemile
         elements.each do |element|
           level = getHeadingLevel(element)
           if level == 1
-            if countMainHeading == 1
-              return false
-            else
-              countMainHeading = 1
-            end
+            return false if countMainHeading == 1
+            countMainHeading = 1
           end
           return false if (level - lastLevel) > 1
           lastLevel = level
@@ -303,11 +293,11 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def executeFixSkipper(element)
-        unless @listSkippers.nil?
-          @skippers.each do |skipper|
-            if @parser.find(skipper.getSelector).listResults.include?(element)
-              fixSkipper(element, skipper)
-            end
+        return if @listSkippers.nil?
+
+        @skippers.each do |skipper|
+          if @parser.find(skipper.getSelector).listResults.include?(element)
+            fixSkipper(element, skipper)
           end
         end
       end
@@ -395,27 +385,27 @@ module Hatemile
       end
 
       def fixShortcut(element)
-        if element.hasAttribute?('accesskey')
-          description = getDescription(element)
-          unless element.hasAttribute?('title')
-            element.setAttribute('title', description)
-          end
+        return unless element.hasAttribute?('accesskey')
 
-          @listShortcuts = generateListShortcuts unless @listShortcutsAdded
+        description = getDescription(element)
+        unless element.hasAttribute?('title')
+          element.setAttribute('title', description)
+        end
 
-          unless @listShortcuts.nil?
-            keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
-            keys.each do |key|
-              key = key.upcase
+        @listShortcuts = generateListShortcuts unless @listShortcutsAdded
 
-              next unless @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult.nil?
+        return if @listShortcuts.nil?
 
-              item = @parser.createElement('li')
-              item.setAttribute(@dataAccessKey, key)
-              item.appendText("#{@prefix} + #{key}: #{description}")
-              @listShortcuts.appendElement(item)
-            end
-          end
+        keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
+        keys.each do |key|
+          key = key.upcase
+
+          next unless @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult.nil?
+
+          item = @parser.createElement('li')
+          item.setAttribute(@dataAccessKey, key)
+          item.appendText("#{@prefix} + #{key}: #{description}")
+          @listShortcuts.appendElement(item)
         end
       end
 
@@ -428,30 +418,32 @@ module Hatemile
 
       def fixSkipper(element, skipper)
         @listSkippers = generateListSkippers unless @listSkippersAdded
-        unless @listSkippers.nil?
-          anchor = generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
-          unless anchor.nil?
-            itemLink = @parser.createElement('li')
-            link = @parser.createElement('a')
-            link.setAttribute('href', "##{anchor.getAttribute('name')}")
-            link.appendText(skipper.getDefaultText)
 
-            shortcuts = skipper.getShortcuts
-            unless shortcuts.empty?
-              shortcut = shortcuts[0]
-              unless shortcut.empty?
-                freeShortcut(shortcut)
-                link.setAttribute('accesskey', shortcut)
-              end
-            end
-            Hatemile::Util::CommonFunctions.generateId(link, @prefixId)
+        return if @listSkippers.nil?
 
-            itemLink.appendElement(link)
-            @listSkippers.appendElement(itemLink)
+        anchor = generateAnchorFor(element, @dataAnchorFor, @classSkipperAnchor)
 
-            executeFixShortcut(link)
+        return if anchor.nil?
+
+        itemLink = @parser.createElement('li')
+        link = @parser.createElement('a')
+        link.setAttribute('href', "##{anchor.getAttribute('name')}")
+        link.appendText(skipper.getDefaultText)
+
+        shortcuts = skipper.getShortcuts
+        unless shortcuts.empty?
+          shortcut = shortcuts[0]
+          unless shortcut.empty?
+            freeShortcut(shortcut)
+            link.setAttribute('accesskey', shortcut)
           end
         end
+        Hatemile::Util::CommonFunctions.generateId(link, @prefixId)
+
+        itemLink.appendElement(link)
+        @listSkippers.appendElement(itemLink)
+
+        executeFixShortcut(link)
       end
 
       def fixSkippers
@@ -481,36 +473,39 @@ module Hatemile
 
       def fixHeading(element)
         @validHeading = isValidHeading unless @validateHeading
-        if @validHeading
-          anchor = generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
-          unless anchor.nil?
-            list = nil
-            level = getHeadingLevel(element)
-            if level == 1
-              list = generateListHeading
-            else
-              superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{level - 1}\"]").lastResult
-              unless superItem.nil?
-                list = @parser.find(superItem).findChildren('ol').firstResult
-                if list.nil?
-                  list = @parser.createElement('ol')
-                  superItem.appendElement(list)
-                end
-              end
-            end
-            unless list.nil?
-              item = @parser.createElement('li')
-              item.setAttribute(@dataHeadingLevel, level.to_s)
 
-              link = @parser.createElement('a')
-              link.setAttribute('href', "##{anchor.getAttribute('name')}")
-              link.appendText(element.getTextContent)
+        return unless @validHeading
 
-              item.appendElement(link)
-              list.appendElement(item)
+        anchor = generateAnchorFor(element, @dataHeadingAnchorFor, @classHeadingAnchor)
+
+        return if anchor.nil?
+
+        list = nil
+        level = getHeadingLevel(element)
+        if level == 1
+          list = generateListHeading
+        else
+          superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{level - 1}\"]").lastResult
+          unless superItem.nil?
+            list = @parser.find(superItem).findChildren('ol').firstResult
+            if list.nil?
+              list = @parser.createElement('ol')
+              superItem.appendElement(list)
             end
           end
         end
+
+        return if list.nil?
+
+        item = @parser.createElement('li')
+        item.setAttribute(@dataHeadingLevel, level.to_s)
+
+        link = @parser.createElement('a')
+        link.setAttribute('href', "##{anchor.getAttribute('name')}")
+        link.appendText(element.getTextContent)
+
+        item.appendElement(link)
+        list.appendElement(item)
       end
 
       def fixHeadings

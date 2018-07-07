@@ -131,13 +131,9 @@ module Hatemile
         return false if header.empty?
         length = -1
         header.each do |row|
-          if row.empty?
-            return false
-          elsif length == -1
-            length = row.size
-          elsif row.size != length
-            return false
-          end
+          return false if row.empty?
+          length = row.size if length == -1
+          return false if row.size != length
         end
         true
       end

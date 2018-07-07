@@ -41,24 +41,25 @@ module Hatemile
       end
 
       def fixLongDescription(element)
-        if element.hasAttribute?('longdesc')
-          Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
-          id = element.getAttribute('id')
-          if @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").firstResult.nil?
-            if element.hasAttribute?('alt')
-              text = "#{@prefixLongDescriptionLink} #{element.getAttribute('alt')} #{@suffixLongDescriptionLink}"
-            else
-              text = "#{@prefixLongDescriptionLink} #{@suffixLongDescriptionLink}"
-            end
-            anchor = @parser.createElement('a')
-            anchor.setAttribute('href', element.getAttribute('longdesc'))
-            anchor.setAttribute('target', '_blank')
-            anchor.setAttribute(@dataLongDescriptionForImage, id)
-            anchor.setAttribute('class', @classLongDescriptionLink)
-            anchor.appendText(text)
-            element.insertAfter(anchor)
-          end
+        return unless element.hasAttribute?('longdesc')
+
+        Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
+        id = element.getAttribute('id')
+
+        return unless @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").firstResult.nil?
+
+        if element.hasAttribute?('alt')
+          text = "#{@prefixLongDescriptionLink} #{element.getAttribute('alt')} #{@suffixLongDescriptionLink}"
+        else
+          text = "#{@prefixLongDescriptionLink} #{@suffixLongDescriptionLink}"
         end
+        anchor = @parser.createElement('a')
+        anchor.setAttribute('href', element.getAttribute('longdesc'))
+        anchor.setAttribute('target', '_blank')
+        anchor.setAttribute(@dataLongDescriptionForImage, id)
+        anchor.setAttribute('class', @classLongDescriptionLink)
+        anchor.appendText(text)
+        element.insertAfter(anchor)
       end
 
       def fixLongDescriptions

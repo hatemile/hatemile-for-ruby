@@ -39,13 +39,13 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       def keyboardAccess(element)
-        unless element.hasAttribute?('tabindex')
-          tag = element.getTagName
-          if (tag == 'A') && !element.hasAttribute?('href')
-            element.setAttribute('tabindex', '0')
-          elsif (tag != 'A') && (tag != 'INPUT') && (tag != 'BUTTON') && (tag != 'SELECT') && (tag != 'TEXTAREA')
-            element.setAttribute('tabindex', '0')
-          end
+        return if element.hasAttribute?('tabindex')
+
+        tag = element.getTagName
+        if (tag == 'A') && !element.hasAttribute?('href')
+          element.setAttribute('tabindex', '0')
+        elsif (tag != 'A') && (tag != 'INPUT') && (tag != 'BUTTON') && (tag != 'SELECT') && (tag != 'TEXTAREA')
+          element.setAttribute('tabindex', '0')
         end
       end
 
@@ -117,10 +117,10 @@ module Hatemile
       def addEventInElement(element, event)
         generateMainScripts unless @mainScriptAdded
 
-        unless @scriptList.nil?
-          Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
-          @scriptList.appendText("#{event}Elements.push('#{element.getAttribute('id')}');")
-        end
+        return if @scriptList.nil?
+
+        Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
+        @scriptList.appendText("#{event}Elements.push('#{element.getAttribute('id')}');")
       end
 
       public
