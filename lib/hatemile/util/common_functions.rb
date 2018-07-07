@@ -71,7 +71,7 @@ module Hatemile
       # String True if the list contains the item or false is not contains.
       def self.increaseInList(list, stringToIncrease)
         if !list.nil? && !list.empty? && !stringToIncrease.nil? && !stringToIncrease.empty?
-          if self.inList(list, stringToIncrease)
+          if inList(list, stringToIncrease)
             return list
           else
             return "#{list} #{stringToIncrease}"
