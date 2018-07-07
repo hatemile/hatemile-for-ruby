@@ -463,7 +463,7 @@ module Hatemile
             unless element.hasAttribute?(@dataIgnore)
               if count
                 defaultText = "#{skipper.getDefaultText} #{index}"
-                index = index + 1
+                index += 1
               else
                 defaultText = skipper.getDefaultText
               end
