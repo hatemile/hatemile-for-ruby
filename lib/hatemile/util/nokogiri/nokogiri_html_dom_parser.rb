@@ -48,10 +48,10 @@ module Hatemile
           end
           array = []
           groups.each do |group|
-            col = group.sort { |element1, element2|
+            col = group.sort do |element1, element2|
               children = element1.parent.children
               children.index(element1) <=> children.index(element2)
-            }
+            end
             array = array.concat(col)
           end
           array
