@@ -488,7 +488,7 @@ module Hatemile
             if level == 1
               list = generateListHeading
             else
-              superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{(level - 1).to_s}\"]").lastResult
+              superItem = @parser.find("##{@idContainerHeading}").findDescendants("[#{@dataHeadingLevel}=\"#{level - 1}\"]").lastResult
               unless superItem.nil?
                 list = @parser.find(superItem).findChildren('ol').firstResult
                 if list.nil?
