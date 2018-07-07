@@ -467,7 +467,7 @@ module Hatemile
               else
                 defaultText = skipper.getDefaultText
               end
-              if shortcuts.size > 0
+              if !shortcuts.empty?
                 fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
                 shortcuts.delete_at(shortcuts.size - 1)
               else
