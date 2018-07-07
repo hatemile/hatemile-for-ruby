@@ -212,7 +212,7 @@ module Hatemile
         elements = @parser.find('h1,h2,h3,h4,h5,h6').listResults
         lastLevel = 0
         countMainHeading = 0
-        validateHeading = true
+        @validateHeading = true
         elements.each do |element|
           level = getHeadingLevel(element)
           if level == 1
