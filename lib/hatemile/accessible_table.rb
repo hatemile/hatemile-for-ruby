@@ -24,13 +24,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +table+ The table.
-    def fixAssociationCellsTable(table)
+    def fix_association_cells_table(table)
       # Interface method
     end
 
     ##
     # Associate data cells with header cells of tables.
-    def fixAssociationCellsTables
+    def fix_association_cells_tables
       # Interface method
     end
   end

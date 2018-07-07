@@ -24,13 +24,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +requiredField+ The required field.
-    def fixRequiredField(requiredField)
+    def fix_required_field(requiredField)
       # Interface method
     end
 
     ##
     # Display that the fields is required.
-    def fixRequiredFields
+    def fix_required_fields
       # Interface method
     end
 
@@ -41,13 +41,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +rangeField+ The range field.
-    def fixRangeField(rangeField)
+    def fix_range_field(rangeField)
       # Interface method
     end
 
     ##
     # Display that the fields have range.
-    def fixRangeFields
+    def fix_range_fields
       # Interface method
     end
 
@@ -58,13 +58,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +autoCompleteField+ The field with autocomplete.
-    def fixAutoCompleteField(autoCompleteField)
+    def fix_autocomplete_field(autoCompleteField)
       # Interface method
     end
 
     ##
     # Display that the fields have autocomplete.
-    def fixAutoCompleteFields
+    def fix_autocomplete_fields
       # Interface method
     end
 
@@ -75,13 +75,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
-    def fixLabel(label)
+    def fix_label(label)
       # Interface method
     end
 
     ##
     # Associate labels with fields.
-    def fixLabels
+    def fix_labels
       # Interface method
     end
   end

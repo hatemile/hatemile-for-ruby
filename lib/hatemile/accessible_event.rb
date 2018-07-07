@@ -24,7 +24,7 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with drop event.
-    def fixDrop(element)
+    def fix_drop(element)
       # Interface method
     end
 
@@ -35,13 +35,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with drag event.
-    def fixDrag(element)
+    def fix_drag(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has Drag-and-Drop events.
-    def fixDragsandDrops
+    def fix_drags_and_drops
       # Interface method
     end
 
@@ -52,13 +52,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with hover event.
-    def fixHover(element)
+    def fix_hover(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has inaccessible hover events.
-    def fixHovers
+    def fix_hovers
       # Interface method
     end
 
@@ -69,13 +69,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with active event.
-    def fixActive(element)
+    def fix_active(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has inaccessible active events.
-    def fixActives
+    def fix_actives
       # Interface method
     end
   end

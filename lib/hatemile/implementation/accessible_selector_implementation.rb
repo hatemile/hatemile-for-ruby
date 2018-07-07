@@ -31,16 +31,16 @@ module Hatemile
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @changes = configure.getSelectorChanges
+        @changes = configure.get_selector_changes
         @dataIgnore = 'data-ignoreaccessibilityfix'
       end
 
-      def fixSelectors
+      def fix_selectors
         @changes.each do |change|
-          elements = @parser.find(change.getSelector).listResults
+          elements = @parser.find(change.get_selector).list_results
           elements.each do |element|
-            unless element.hasAttribute?(@dataIgnore)
-              element.setAttribute(change.getAttribute, change.getValueForAttribute)
+            unless element.has_attribute?(@dataIgnore)
+              element.set_attribute(change.get_attribute, change.get_value_for_attribute)
             end
           end
         end

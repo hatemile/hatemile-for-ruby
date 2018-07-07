@@ -41,7 +41,7 @@ module Hatemile
       #
       # Return:
       # String The selector.
-      def getSelector
+      def get_selector
         @selector
       end
 
@@ -52,7 +52,7 @@ module Hatemile
       #
       # Return:
       # String The default text of skipper.
-      def getDefaultText
+      def get_default_text
         @defaultText
       end
 
@@ -63,7 +63,7 @@ module Hatemile
       #
       # Return:
       # String The shortcuts of skipper.
-      def getShortcuts
+      def get_shortcuts
         @shortcuts.clone
       end
     end

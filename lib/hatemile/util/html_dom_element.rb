@@ -25,7 +25,7 @@ module Hatemile
       #
       # Return:
       # String The tag name of element in uppercase letters.
-      def getTagName
+      def get_tag_name
         # Interface method
       end
 
@@ -39,7 +39,7 @@ module Hatemile
       # Return:
       # String The value of the attribute, if the element not contains the
       # attribute returns nil.
-      def getAttribute(name)
+      def get_attribute(name)
         # Interface method
       end
 
@@ -51,7 +51,7 @@ module Hatemile
       # Parameters:
       #  1. String +name+ The name of attribute.
       #  2. String +value+ The value of attribute.
-      def setAttribute(name, value)
+      def set_attribute(name, value)
         # Interface method
       end
 
@@ -62,7 +62,7 @@ module Hatemile
       #
       # Parameters:
       #  1. String +name+ The name of attribute.
-      def removeAttribute(name)
+      def remove_attribute(name)
         # Interface method
       end
 
@@ -76,7 +76,7 @@ module Hatemile
       # Return:
       # Boolean True if the element has the attribute or false if the element not
       # has the attribute.
-      def hasAttribute?(name)
+      def has_attribute?(name)
         # Interface method
       end
 
@@ -88,7 +88,7 @@ module Hatemile
       # Return:
       # Boolean True if the element has attributes or false if the element not
       # has attributes.
-      def hasAttributes?
+      def has_attributes?
         # Interface method
       end
 
@@ -99,7 +99,7 @@ module Hatemile
       #
       # Return:
       # String The text of element.
-      def getTextContent
+      def get_text_content
         # Interface method
       end
 
@@ -112,7 +112,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that be inserted.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element inserted.
-      def insertBefore(newElement)
+      def insert_before(newElement)
         # Interface method
       end
 
@@ -125,7 +125,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that be inserted.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element inserted.
-      def insertAfter(newElement)
+      def insert_after(newElement)
         # Interface method
       end
 
@@ -136,7 +136,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The removed element.
-      def removeElement
+      def remove_element
         # Interface method
       end
 
@@ -149,7 +149,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that replace this element.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element replaced.
-      def replaceElement(newElement)
+      def replace_element(newElement)
         # Interface method
       end
 
@@ -162,7 +162,7 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element that be inserted.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element inserted.
-      def appendElement(element)
+      def append_element(element)
         # Interface method
       end
 
@@ -173,7 +173,7 @@ module Hatemile
       #
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The children of this element.
-      def getChildren
+      def get_children
         # Interface method
       end
 
@@ -184,7 +184,7 @@ module Hatemile
       #
       # Parameters:
       #  1. String The text.
-      def appendText(text)
+      def append_text(text)
         # Interface method
       end
 
@@ -196,7 +196,7 @@ module Hatemile
       # Return:
       # Boolean True if the element has children or false if the element not has
       # children.
-      def hasChildren?
+      def has_children?
         # Interface method
       end
 
@@ -207,7 +207,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The parent element of this element.
-      def getParentElement
+      def get_parent_element
         # Interface method
       end
 
@@ -218,7 +218,7 @@ module Hatemile
       #
       # Return:
       # String The inner HTML code of this element.
-      def getInnerHTML
+      def get_inner_html
         # Interface method
       end
 
@@ -229,7 +229,7 @@ module Hatemile
       #
       # Parameters:
       #  1. String The HTML code.
-      def setInnerHTML(html)
+      def set_inner_html(html)
         # Interface method
       end
 
@@ -240,7 +240,7 @@ module Hatemile
       #
       # Return:
       # String The HTML code of this element.
-      def getOuterHTML
+      def get_outer_html
         # Interface method
       end
 
@@ -251,7 +251,7 @@ module Hatemile
       #
       # Return:
       # Object The native object of this element.
-      def getData
+      def get_data
         # Interface method
       end
 
@@ -262,7 +262,7 @@ module Hatemile
       #
       # Parameters:
       #  1. Object The native object of this element.
-      def setData(data)
+      def set_data(data)
         # Interface method
       end
 
@@ -273,7 +273,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The first element child of this element.
-      def getFirstElementChild
+      def get_first_element_child
         # Interface method
       end
 
@@ -284,7 +284,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The last element child of this element.
-      def getLastElementChild
+      def get_last_element_child
         # Interface method
       end
 
@@ -295,7 +295,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The clone.
-      def cloneElement
+      def clone_element
         # Interface method
       end
     end

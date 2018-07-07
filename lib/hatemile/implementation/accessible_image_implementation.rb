@@ -32,40 +32,40 @@ module Hatemile
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @prefixId = configure.getParameter('prefix-generated-ids')
+        @prefixId = configure.get_parameter('prefix-generated-ids')
         @classLongDescriptionLink = 'longdescription-link'
         @dataLongDescriptionForImage = 'data-longdescriptionfor'
         @dataIgnore = 'data-ignoreaccessibilityfix'
-        @prefixLongDescriptionLink = configure.getParameter('prefix-longdescription')
-        @suffixLongDescriptionLink = configure.getParameter('suffix-longdescription')
+        @prefixLongDescriptionLink = configure.get_parameter('prefix-longdescription')
+        @suffixLongDescriptionLink = configure.get_parameter('suffix-longdescription')
       end
 
-      def fixLongDescription(element)
-        return unless element.hasAttribute?('longdesc')
+      def fix_long_description(element)
+        return unless element.has_attribute?('longdesc')
 
-        Hatemile::Util::CommonFunctions.generateId(element, @prefixId)
-        id = element.getAttribute('id')
+        Hatemile::Util::CommonFunctions.generate_id(element, @prefixId)
+        id = element.get_attribute('id')
 
-        return unless @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").firstResult.nil?
+        return unless @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").first_result.nil?
 
-        if element.hasAttribute?('alt')
-          text = "#{@prefixLongDescriptionLink} #{element.getAttribute('alt')} #{@suffixLongDescriptionLink}"
+        if element.has_attribute?('alt')
+          text = "#{@prefixLongDescriptionLink} #{element.get_attribute('alt')} #{@suffixLongDescriptionLink}"
         else
           text = "#{@prefixLongDescriptionLink} #{@suffixLongDescriptionLink}"
         end
-        anchor = @parser.createElement('a')
-        anchor.setAttribute('href', element.getAttribute('longdesc'))
-        anchor.setAttribute('target', '_blank')
-        anchor.setAttribute(@dataLongDescriptionForImage, id)
-        anchor.setAttribute('class', @classLongDescriptionLink)
-        anchor.appendText(text)
-        element.insertAfter(anchor)
+        anchor = @parser.create_element('a')
+        anchor.set_attribute('href', element.get_attribute('longdesc'))
+        anchor.set_attribute('target', '_blank')
+        anchor.set_attribute(@dataLongDescriptionForImage, id)
+        anchor.set_attribute('class', @classLongDescriptionLink)
+        anchor.append_text(text)
+        element.insert_after(anchor)
       end
 
-      def fixLongDescriptions
-        elements = @parser.find('[longdesc]').listResults
+      def fix_long_descriptions
+        elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
-          fixLongDescription(element) unless element.hasAttribute?(@dataIgnore)
+          fix_long_description(element) unless element.has_attribute?(@dataIgnore)
         end
       end
     end

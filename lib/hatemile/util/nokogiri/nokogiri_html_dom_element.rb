@@ -34,60 +34,60 @@ module Hatemile
           @data = element
         end
 
-        def getTagName
+        def get_tag_name
           @data.name.upcase
         end
 
-        def getAttribute(name)
+        def get_attribute(name)
           @data.get_attribute(name)
         end
 
-        def setAttribute(name, value)
+        def set_attribute(name, value)
           @data.set_attribute(name, value)
         end
 
-        def removeAttribute(name)
+        def remove_attribute(name)
           @data.remove_attribute(name) if hasAttribute?(name)
         end
 
-        def hasAttribute?(name)
+        def has_attribute?(name)
           !@data.attributes[name].nil?
         end
 
-        def hasAttributes?
+        def has_attributes?
           !@data.attributes.empty?
         end
 
-        def getTextContent
+        def get_text_content
           @data.text
         end
 
-        def insertBefore(newElement)
-          @data.before(newElement.getData)
+        def insert_before(newElement)
+          @data.before(newElement.get_data)
           newElement
         end
 
-        def insertAfter(newElement)
-          @data.after(newElement.getData)
+        def insert_after(newElement)
+          @data.after(newElement.get_data)
           newElement
         end
 
-        def removeElement
+        def remove_element
           @data.remove
           self
         end
 
-        def replaceElement(newElement)
-          @data.replace(newElement.getData)
+        def replace_element(newElement)
+          @data.replace(newElement.get_data)
           newElement
         end
 
-        def appendElement(element)
-          @data.add_child(element.getData)
+        def append_element(element)
+          @data.add_child(element.get_data)
           element
         end
 
-        def getChildren
+        def get_children
           array = []
           @data.children do |child|
             array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
@@ -95,15 +95,15 @@ module Hatemile
           array
         end
 
-        def appendText(text)
+        def append_text(text)
           @data.add_child(Nokogiri::XML::Text.new(text, @data.document))
         end
 
-        def hasChildren?
+        def has_children?
           @data.children.empty? == false
         end
 
-        def getParentElement
+        def get_parent_element
           parent = @data.parent
           if !parent.nil? && parent.element?
             return NokogiriHTMLDOMElement.new(parent)
@@ -111,41 +111,41 @@ module Hatemile
           nil
         end
 
-        def getInnerHTML
+        def get_inner_html
           html = ''
-          getChildren do |child|
-            html += child.getOuterHTML
+          get_children do |child|
+            html += child.get_outer_html
           end
           html
         end
 
-        def setInnerHTML(html)
+        def set_inner_html(html)
           @data.inner_html = html
         end
 
-        def getOuterHTML
-          toString(@data)
+        def get_outer_html
+          to_string(@data)
         end
 
-        def getData
+        def get_data
           @data
         end
 
-        def setData(data)
+        def set_data(data)
           @data = data
         end
 
-        def cloneElement
+        def clone_element
           NokogiriHTMLDOMElement.new(@data.clone)
         end
 
-        def getFirstElementChild
-          return nil unless hasChildren?
+        def get_first_element_child
+          return nil unless has_children?
           NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
-        def getLastElementChild
-          return nil unless hasChildren?
+        def get_last_element_child
+          return nil unless has_children?
           children = @data.children
           NokogiriHTMLDOMElement.new(children[children.length - 1])
         end
@@ -159,7 +159,7 @@ module Hatemile
         #  1. Nokogiri::XML::Node +node+ The Nokogiri Node.
         # Return:
         # String The HTML code of the Nokogiri Node.
-        def toString(node)
+        def to_string(node)
           string = ''
           if node.element?
             string += "<#{node.name.downcase}"
@@ -183,7 +183,7 @@ module Hatemile
           end
 
           node.children.each do |child|
-            string += toString(child)
+            string += to_string(child)
           end
 
           if node.element? && !(node.children.empty? && self_closing_tag?(node.name))

@@ -39,7 +39,7 @@ module Hatemile
       #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
-      def findChildren(selector)
+      def find_children(selector)
         # Interface method
       end
 
@@ -53,7 +53,7 @@ module Hatemile
       #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
-      def findDescendants(selector)
+      def find_descendants(selector)
         # Interface method
       end
 
@@ -66,7 +66,7 @@ module Hatemile
       #  1. String|Hatemile::Util::HTMLDOMElement +selector+ The selector.
       # Return:
       # Hatemile::Util::Parser The parser with the elements found.
-      def findAncestors(selector)
+      def find_ancestors(selector)
         # Interface method
       end
 
@@ -77,7 +77,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The first element found or null if not have elements found.
-      def firstResult
+      def first_result
         # Interface method
       end
 
@@ -88,7 +88,7 @@ module Hatemile
       #
       # Return:
       # Hatemile::Util::HTMLDOMElement The last element found or null if not have elements found.
-      def lastResult
+      def last_result
         # Interface method
       end
 
@@ -99,7 +99,7 @@ module Hatemile
       #
       # Return:
       # Array(Hatemile::Util::HTMLDOMElement) The list with all elements found.
-      def listResults
+      def list_results
         # Interface method
       end
 
@@ -112,7 +112,7 @@ module Hatemile
       #  1. String +tag+ The tag of element.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element created.
-      def createElement(tag)
+      def create_element(tag)
         # Interface method
       end
 
@@ -123,7 +123,7 @@ module Hatemile
       #
       # Return:
       # String The HTML code of parser.
-      def getHTML
+      def get_html
         # Interface method
       end
 
@@ -134,13 +134,13 @@ module Hatemile
       #
       # Return:
       # Object The parser or root element of the parser.
-      def getParser
+      def get_parser
         # Interface method
       end
 
       ##
       # Clear the memory of this object.
-      def clearParser
+      def clear_parser
         # Interface method
       end
     end

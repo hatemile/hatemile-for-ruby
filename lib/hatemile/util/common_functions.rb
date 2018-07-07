@@ -29,16 +29,16 @@ module Hatemile
       # Parameters:
       #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
       #  2. String +prefix+ The prefix of id.
-      def self.generateId(element, prefix)
-        return if element.hasAttribute?('id')
+      def self.generate_id(element, prefix)
+        return if element.has_attribute?('id')
 
-        element.setAttribute('id', prefix + @@count.to_s)
+        element.set_attribute('id', prefix + @@count.to_s)
         @@count += 1
       end
 
       ##
       # Reset the count number of ids.
-      def self.resetCount
+      def self.reset_count
         @@count = 0
       end
 
@@ -51,10 +51,10 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element1+ The element that have attributes copied.
       #  2. Hatemile::Util::HTMLDOMElement +element2+ The element that copy the attributes.
       #  3. Array(String) +attributes+ The list of attributes that will be copied.
-      def self.setListAttributes(element1, element2, attributes)
+      def self.set_list_attributes(element1, element2, attributes)
         attributes.each do |attribute|
-          if element1.hasAttribute?(attribute)
-            element2.setAttribute(attribute, element1.getAttribute(attribute))
+          if element1.has_attribute?(attribute)
+            element2.set_attribute(attribute, element1.get_attribute(attribute))
           end
         end
       end
@@ -69,9 +69,9 @@ module Hatemile
       #  2. String +stringToIncrease+ The value of item.
       # Return:
       # String True if the list contains the item or false is not contains.
-      def self.increaseInList(list, stringToIncrease)
+      def self.increase_in_list(list, stringToIncrease)
         if !list.nil? && !list.empty? && !stringToIncrease.nil? && !stringToIncrease.empty?
-          return list if inList(list, stringToIncrease)
+          return list if in_list(list, stringToIncrease)
           return "#{list} #{stringToIncrease}"
         elsif !list.nil? && !list.empty?
           return list
@@ -89,7 +89,7 @@ module Hatemile
       #  2. String +stringToSearch+ The value of item.
       # Return:
       # Boolean True if the list contains the item or false is not contains.
-      def self.inList(list, stringToSearch)
+      def self.in_list(list, stringToSearch)
         if !list.nil? && !list.empty? && !stringToSearch.nil? && !stringToSearch.empty?
           elements = list.split(/[ \n\t\r]+/)
           elements.each do |element|

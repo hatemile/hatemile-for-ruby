@@ -34,7 +34,7 @@ module Hatemile
         #  1. Array(Nokogiri::XML::Node) +results+ The disordened results.
         # Return:
         # Array(Nokogiri::XML::Node) The ordened results.
-        def orderResults(results)
+        def order_results(results)
           parents = []
           groups = []
           results.each do |result|
@@ -80,17 +80,17 @@ module Hatemile
 
         def find(selector)
           @results = if selector.class == NokogiriHTMLDOMElement
-                       [selector.getData]
+                       [selector.get_data]
                      else
                        @document.css(selector)
                      end
           self
         end
 
-        def findChildren(selector)
+        def find_children(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
-            element = selector.getData
+            element = selector.get_data
             @results.each do |result|
               if result.children.include?(element)
                 array.push(element)
@@ -108,10 +108,10 @@ module Hatemile
           self
         end
 
-        def findDescendants(selector)
+        def find_descendants(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
-            element = selector.getData
+            element = selector.get_data
             parents = element.ancestors
             @results.each do |result|
               if parents.include?(result)
@@ -128,10 +128,10 @@ module Hatemile
           self
         end
 
-        def findAncestors(selector)
+        def find_ancestors(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
-            element = selector.getData
+            element = selector.get_data
             @results.each do |result|
               parents = result.ancestors
               if parents.include?(element)
@@ -148,37 +148,37 @@ module Hatemile
           self
         end
 
-        def firstResult
+        def first_result
           return nil if @results.nil? || @results.empty?
           NokogiriHTMLDOMElement.new(@results[0])
         end
 
-        def lastResult
+        def last_result
           return nil if @results.nil? || @results.empty?
           NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 
-        def listResults
+        def list_results
           array = []
-          orderResults(@results).each do |result|
+          order_results(@results).each do |result|
             array.push(NokogiriHTMLDOMElement.new(result))
           end
           array
         end
 
-        def createElement(tag)
+        def create_element(tag)
           NokogiriHTMLDOMElement.new(@document.create_element(tag))
         end
 
-        def getHTML
-          NokogiriHTMLDOMElement.new(@document).getOuterHTML
+        def get_html
+          NokogiriHTMLDOMElement.new(@document).get_outer_html
         end
 
-        def getParser
+        def get_parser
           @document
         end
 
-        def clearParser
+        def clear_parser
           @document = nil
           @results.clear
           @results = nil

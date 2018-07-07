@@ -24,13 +24,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element with shortcuts.
-    def fixShortcut(element)
+    def fix_shortcut(element)
       # Interface method
     end
 
     ##
     # Display the shortcuts of elements.
-    def fixShortcuts
+    def fix_shortcuts
       # Interface method
     end
 
@@ -42,13 +42,13 @@ module Hatemile
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
     #  2. Hatemile::Util::Skipper +skipper+ The skipper.
-    def fixSkipper(element, skipper)
+    def fix_skipper(element, skipper)
       # Interface method
     end
 
     ##
     # Provide content skippers.
-    def fixSkippers
+    def fix_skippers
       # Interface method
     end
 
@@ -59,13 +59,13 @@ module Hatemile
     #
     # Parameters:
     #  1. Hatemile::Util::HTMLDOMElement +element+ The heading element.
-    def fixHeading(element)
+    def fix_heading(element)
       # Interface method
     end
 
     ##
     # Provide a navigation by headings.
-    def fixHeadings
+    def fix_headings
       # Interface method
     end
   end
