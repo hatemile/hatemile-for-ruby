@@ -273,24 +273,24 @@ module Hatemile
         elements = @parser.find('[accesskey]').listResults
         elements.each do |element|
           shortcuts = element.getAttribute('accesskey').downcase
-          if Hatemile::Util::CommonFunctions.inList(shortcuts, shortcut)
-            (0..alphaNumbers.length - 1).each do |i|
-              key = alphaNumbers[i, i + 1]
-              found = true
-              elements.each do |elementWithShortcuts|
-                shortcuts = elementWithShortcuts.getAttribute('accesskey').downcase
-                if Hatemile::Util::CommonFunctions.inList(shortcuts, key)
-                  found = false
-                  break
-                end
-              end
-              if found
-                element.setAttribute('accesskey', key)
-                break
-              end
+
+          next unless Hatemile::Util::CommonFunctions.inList(shortcuts, shortcut)
+
+          (0..alphaNumbers.length - 1).each do |i|
+            key = alphaNumbers[i, i + 1]
+            found = true
+            elements.each do |elementWithShortcuts|
+              shortcuts = elementWithShortcuts.getAttribute('accesskey').downcase
+
+              next unless Hatemile::Util::CommonFunctions.inList(shortcuts, key)
+
+              element.setAttribute('accesskey', key)
+              found = false
+              break
             end
             break if found
           end
+          break if found
         end
       end
 
@@ -407,12 +407,13 @@ module Hatemile
             keys = element.getAttribute('accesskey').split(/[ \n\t\r]+/)
             keys.each do |key|
               key = key.upcase
-              if @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult.nil?
-                item = @parser.createElement('li')
-                item.setAttribute(@dataAccessKey, key)
-                item.appendText("#{@prefix} + #{key}: #{description}")
-                @listShortcuts.appendElement(item)
-              end
+
+              next unless @parser.find(@listShortcuts).findChildren("[#{@dataAccessKey}=\"#{key}\"]").firstResult.nil?
+
+              item = @parser.createElement('li')
+              item.setAttribute(@dataAccessKey, key)
+              item.appendText("#{@prefix} + #{key}: #{description}")
+              @listShortcuts.appendElement(item)
             end
           end
         end
@@ -460,19 +461,19 @@ module Hatemile
           index = 1 if count
           shortcuts = skipper.getShortcuts
           elements.each do |element|
-            unless element.hasAttribute?(@dataIgnore)
-              if count
-                defaultText = "#{skipper.getDefaultText} #{index}"
-                index += 1
-              else
-                defaultText = skipper.getDefaultText
-              end
-              if !shortcuts.empty?
-                fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
-                shortcuts.delete_at(shortcuts.size - 1)
-              else
-                fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, ''))
-              end
+            next if element.hasAttribute?(@dataIgnore)
+
+            if count
+              defaultText = "#{skipper.getDefaultText} #{index}"
+              index += 1
+            else
+              defaultText = skipper.getDefaultText
+            end
+            if !shortcuts.empty?
+              fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
+              shortcuts.delete_at(shortcuts.size - 1)
+            else
+              fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, ''))
             end
           end
         end

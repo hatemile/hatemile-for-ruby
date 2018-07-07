@@ -69,15 +69,17 @@ module Hatemile
                 m = j + columnIndex
               end
               row[m] = cell
-              if cell.hasAttribute?('rowspan')
-                rowspan = cell.getAttribute('rowspan').to_i
-                if rowspan > 1
-                  (1..rowspan - 1).each do |k|
-                    n = i + k
-                    table[n] = [] if table[n].nil?
-                    table[n][m] = cell
-                  end
-                end
+
+              next unless cell.hasAttribute?('rowspan')
+
+              rowspan = cell.getAttribute('rowspan').to_i
+
+              next unless rowspan > 1
+
+              (1..rowspan - 1).each do |k|
+                n = i + k
+                table[n] = [] if table[n].nil?
+                table[n][m] = cell
               end
             end
           end
@@ -101,13 +103,15 @@ module Hatemile
         size = row.size
         (0..size - 1).each do |i|
           cell = cells[i]
-          if cell.hasAttribute?('colspan')
-            colspan = cell.getAttribute('colspan').to_i
-            if colspan > 1
-              (1..colspan - 1).each do |j|
-                copy.insert(i + j, cell)
-              end
-            end
+
+          next unless cell.hasAttribute?('colspan')
+
+          colspan = cell.getAttribute('colspan').to_i
+
+          next unless colspan > 1
+
+          (1..colspan - 1).each do |j|
+            copy.insert(i + j, cell)
           end
         end
         copy
@@ -171,23 +175,21 @@ module Hatemile
         table.each do |cells|
           headersIds.clear
           cells.each do |cell|
-            if cell.getTagName == 'TH'
-              Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
-              headersIds.push(cell.getAttribute('id'))
+            next unless cell.getTagName == 'TH'
 
-              cell.setAttribute('scope', 'row')
-            end
+            Hatemile::Util::CommonFunctions.generateId(cell, @prefixId)
+            headersIds.push(cell.getAttribute('id'))
+            cell.setAttribute('scope', 'row')
           end
-          unless headersIds.empty?
-            cells.each do |cell|
-              if cell.getTagName == 'TD'
-                headers = cell.getAttribute('headers')
-                headersIds.each do |headerId|
-                  headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headerId)
-                end
-                cell.setAttribute('headers', headers)
-              end
+
+          cells.each do |cell|
+            next unless cell.getTagName == 'TD'
+
+            headers = cell.getAttribute('headers')
+            headersIds.each do |headerId|
+              headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headerId)
             end
+            cell.setAttribute('headers', headers)
           end
         end
       end
@@ -240,17 +242,17 @@ module Hatemile
               fakeTable = fakeTable.concat(generatePart(footer))
             end
             fakeTable.each do |cells|
-              if cells.size == lengthHeader
-                i = 0
-                cells.each do |cell|
-                  headersIds = returnListIdsColumns(headerCells, i)
-                  headers = cell.getAttribute('headers')
-                  headersIds.each do |headersId|
-                    headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headersId)
-                  end
-                  cell.setAttribute('headers', headers)
-                  i += 1
+              next unless cells.size == lengthHeader
+
+              i = 0
+              cells.each do |cell|
+                headersIds = returnListIdsColumns(headerCells, i)
+                headers = cell.getAttribute('headers')
+                headersIds.each do |headersId|
+                  headers = Hatemile::Util::CommonFunctions.increaseInList(headers, headersId)
                 end
+                cell.setAttribute('headers', headers)
+                i += 1
               end
             end
           end
