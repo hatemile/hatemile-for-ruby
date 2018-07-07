@@ -272,7 +272,7 @@ module Hatemile
         alphaNumbers = '1234567890abcdefghijklmnopqrstuvwxyz'
         elements = @parser.find('[accesskey]').listResults
         elements.each do |element|
-          shortcuts = element.getAttribute('accesskey').downcase;
+          shortcuts = element.getAttribute('accesskey').downcase
           if Hatemile::Util::CommonFunctions.inList(shortcuts, shortcut)
             (0..alphaNumbers.length - 1).each do |i|
               key = alphaNumbers[i, i + 1]
@@ -469,7 +469,7 @@ module Hatemile
               end
               if shortcuts.size > 0
                 fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, shortcuts[shortcuts.size - 1]))
-                shortcuts.delete_at(shortcuts.size - 1);
+                shortcuts.delete_at(shortcuts.size - 1)
               else
                 fixSkipper(element, Hatemile::Util::Skipper.new(skipper.getSelector, defaultText, ''))
               end
