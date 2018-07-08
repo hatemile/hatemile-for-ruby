@@ -32,32 +32,32 @@ module Hatemile
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @prefixId = configure.get_parameter('prefix-generated-ids')
-        @classLongDescriptionLink = 'longdescription-link'
-        @dataLongDescriptionForImage = 'data-longdescriptionfor'
-        @dataIgnore = 'data-ignoreaccessibilityfix'
-        @prefixLongDescriptionLink = configure.get_parameter('prefix-longdescription')
-        @suffixLongDescriptionLink = configure.get_parameter('suffix-longdescription')
+        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @class_long_description_link = 'longdescription-link'
+        @data_long_description_for_image = 'data-longdescriptionfor'
+        @data_ignore = 'data-ignoreaccessibilityfix'
+        @prefix_long_description_link = configure.get_parameter('prefix-longdescription')
+        @suffix_long_description_link = configure.get_parameter('suffix-longdescription')
       end
 
       def fix_long_description(element)
         return unless element.has_attribute?('longdesc')
 
-        Hatemile::Util::CommonFunctions.generate_id(element, @prefixId)
+        Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
         id = element.get_attribute('id')
 
-        return unless @parser.find("[#{@dataLongDescriptionForImage}=\"#{id}\"]").first_result.nil?
+        return unless @parser.find("[#{@data_long_description_for_image}=\"#{id}\"]").first_result.nil?
 
         if element.has_attribute?('alt')
-          text = "#{@prefixLongDescriptionLink} #{element.get_attribute('alt')} #{@suffixLongDescriptionLink}"
+          text = "#{@prefix_long_description_link} #{element.get_attribute('alt')} #{@suffix_long_description_link}"
         else
-          text = "#{@prefixLongDescriptionLink} #{@suffixLongDescriptionLink}"
+          text = "#{@prefix_long_description_link} #{@suffix_long_description_link}"
         end
         anchor = @parser.create_element('a')
         anchor.set_attribute('href', element.get_attribute('longdesc'))
         anchor.set_attribute('target', '_blank')
-        anchor.set_attribute(@dataLongDescriptionForImage, id)
-        anchor.set_attribute('class', @classLongDescriptionLink)
+        anchor.set_attribute(@data_long_description_for_image, id)
+        anchor.set_attribute('class', @class_long_description_link)
         anchor.append_text(text)
         element.insert_after(anchor)
       end
@@ -65,7 +65,7 @@ module Hatemile
       def fix_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
-          fix_long_description(element) unless element.has_attribute?(@dataIgnore)
+          fix_long_description(element) unless element.has_attribute?(@data_ignore)
         end
       end
     end

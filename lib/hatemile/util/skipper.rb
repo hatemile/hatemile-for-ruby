@@ -22,11 +22,11 @@ module Hatemile
       #
       # Parameters:
       #  1. String +selector+ The selector.
-      #  2. String +defaultText+ The default text of skipper.
+      #  2. String +default_text+ The default text of skipper.
       #  3. String +shortcuts+ The shortcuts of skipper.
-      def initialize(selector, defaultText, shortcuts)
+      def initialize(selector, default_text, shortcuts)
         @selector = selector
-        @defaultText = defaultText
+        @default_text = default_text
         @shortcuts = if shortcuts.empty?
                        []
                      else
@@ -53,7 +53,7 @@ module Hatemile
       # Return:
       # String The default text of skipper.
       def get_default_text
-        @defaultText
+        @default_text
       end
 
       ##

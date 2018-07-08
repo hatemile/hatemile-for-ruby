@@ -66,17 +66,17 @@ module Hatemile
       #
       # Parameters:
       #  1. String +list+ The list.
-      #  2. String +stringToIncrease+ The value of item.
+      #  2. String +string_to_increase+ The value of item.
       # Return:
       # String True if the list contains the item or false is not contains.
-      def self.increase_in_list(list, stringToIncrease)
-        if !list.nil? && !list.empty? && !stringToIncrease.nil? && !stringToIncrease.empty?
-          return list if in_list(list, stringToIncrease)
-          return "#{list} #{stringToIncrease}"
+      def self.increase_in_list(list, string_to_increase)
+        if !list.nil? && !list.empty? && !string_to_increase.nil? && !string_to_increase.empty?
+          return list if in_list(list, string_to_increase)
+          return "#{list} #{string_to_increase}"
         elsif !list.nil? && !list.empty?
           return list
         end
-        stringToIncrease
+        string_to_increase
       end
 
       ##
@@ -86,14 +86,14 @@ module Hatemile
       #
       # Parameters:
       #  1. String +list+ The list.
-      #  2. String +stringToSearch+ The value of item.
+      #  2. String +string_to_search+ The value of item.
       # Return:
       # Boolean True if the list contains the item or false is not contains.
-      def self.in_list(list, stringToSearch)
-        if !list.nil? && !list.empty? && !stringToSearch.nil? && !stringToSearch.empty?
+      def self.in_list(list, string_to_search)
+        if !list.nil? && !list.empty? && !string_to_search.nil? && !string_to_search.empty?
           elements = list.split(/[ \n\t\r]+/)
           elements.each do |element|
-            return true if element == stringToSearch
+            return true if element == string_to_search
           end
         end
         false

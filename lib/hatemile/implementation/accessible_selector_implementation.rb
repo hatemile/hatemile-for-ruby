@@ -32,14 +32,14 @@ module Hatemile
       def initialize(parser, configure)
         @parser = parser
         @changes = configure.get_selector_changes
-        @dataIgnore = 'data-ignoreaccessibilityfix'
+        @data_ignore = 'data-ignoreaccessibilityfix'
       end
 
       def fix_selectors
         @changes.each do |change|
           elements = @parser.find(change.get_selector).list_results
           elements.each do |element|
-            unless element.has_attribute?(@dataIgnore)
+            unless element.has_attribute?(@data_ignore)
               element.set_attribute(change.get_attribute, change.get_value_for_attribute)
             end
           end

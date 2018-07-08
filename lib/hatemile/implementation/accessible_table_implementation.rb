@@ -54,19 +54,19 @@ module Hatemile
         copy = [].concat(rows)
         table = []
         unless rows.empty?
-          lengthRows = rows.size
-          (0..lengthRows - 1).each do |i|
-            columnIndex = 0
+          length_rows = rows.size
+          (0..length_rows - 1).each do |i|
+            column_index = 0
             cells = [].concat(copy[i])
             table[i] = [] if table.size <= i
-            lengthCells = cells.size
-            (0..lengthCells - 1).each do |j|
+            length_cells = cells.size
+            (0..length_cells - 1).each do |j|
               cell = cells[j]
-              m = j + columnIndex
+              m = j + column_index
               row = table[i]
               until row[m].nil?
-                columnIndex += 1
-                m = j + columnIndex
+                column_index += 1
+                m = j + column_index
               end
               row[m] = cell
 
@@ -167,14 +167,14 @@ module Hatemile
       #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
       def fix_body_or_footer(element)
         table = generate_part(element)
-        headersIds = []
+        headers_ids = []
         table.each do |cells|
-          headersIds.clear
+          headers_ids.clear
           cells.each do |cell|
             next unless cell.get_tag_name == 'TH'
 
-            Hatemile::Util::CommonFunctions.generate_id(cell, @prefixId)
-            headersIds.push(cell.get_attribute('id'))
+            Hatemile::Util::CommonFunctions.generate_id(cell, @prefix_id)
+            headers_ids.push(cell.get_attribute('id'))
             cell.set_attribute('scope', 'row')
           end
 
@@ -182,8 +182,8 @@ module Hatemile
             next unless cell.get_tag_name == 'TD'
 
             headers = cell.get_attribute('headers')
-            headersIds.each do |headerId|
-              headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, headerId)
+            headers_ids.each do |header_id|
+              headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, header_id)
             end
             cell.set_attribute('headers', headers)
           end
@@ -196,11 +196,11 @@ module Hatemile
       # ---
       #
       # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +tableHeader+ The table header.
-      def fix_header(tableHeader)
-        cells = @parser.find(tableHeader).find_children('tr').find_children('th').list_results
+      #  1. Hatemile::Util::HTMLDOMElement +table_header+ The table header.
+      def fix_header(table_header)
+        cells = @parser.find(table_header).find_children('tr').find_children('th').list_results
         cells.each do |cell|
-          Hatemile::Util::CommonFunctions.generate_id(cell, @prefixId)
+          Hatemile::Util::CommonFunctions.generate_id(cell, @prefix_id)
 
           cell.set_attribute('scope', 'col')
         end
@@ -219,8 +219,8 @@ module Hatemile
       #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @prefixId = configure.get_parameter('prefix-generated-ids')
-        @dataIgnore = 'data-ignoreaccessibilityfix'
+        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @data_ignore = 'data-ignoreaccessibilityfix'
       end
 
       def fix_association_cells_table(table)
@@ -230,22 +230,22 @@ module Hatemile
         unless header.nil?
           fix_header(header)
 
-          headerCells = generate_part(header)
-          if !body.nil? && validate_header(headerCells)
-            lengthHeader = headerCells[0].size
-            fakeTable = generate_part(body)
+          header_cells = generate_part(header)
+          if !body.nil? && validate_header(header_cells)
+            length_header = header_cells[0].size
+            fake_table = generate_part(body)
             unless footer.nil?
-              fakeTable = fakeTable.concat(generate_part(footer))
+              fake_table = fake_table.concat(generate_part(footer))
             end
-            fakeTable.each do |cells|
-              next unless cells.size == lengthHeader
+            fake_table.each do |cells|
+              next unless cells.size == length_header
 
               i = 0
               cells.each do |cell|
-                headersIds = return_list_ids_columns(headerCells, i)
+                headers_ids = return_list_ids_columns(header_cells, i)
                 headers = cell.get_attribute('headers')
-                headersIds.each do |headersId|
-                  headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, headersId)
+                headers_ids.each do |headers_id|
+                  headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, headers_id)
                 end
                 cell.set_attribute('headers', headers)
                 i += 1
@@ -260,7 +260,7 @@ module Hatemile
       def fix_association_cells_tables
         tables = @parser.find('table').list_results
         tables.each do |table|
-          unless table.has_attribute?(@dataIgnore)
+          unless table.has_attribute?(@data_ignore)
             fix_association_cells_table(table)
           end
         end

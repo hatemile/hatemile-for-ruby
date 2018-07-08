@@ -109,10 +109,10 @@ module Hatemile
       # ---
       #
       # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that be inserted.
+      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that be inserted.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element inserted.
-      def insert_before(newElement)
+      def insert_before(new_element)
         # Interface method
       end
 
@@ -122,10 +122,10 @@ module Hatemile
       # ---
       #
       # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that be inserted.
+      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that be inserted.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element inserted.
-      def insert_after(newElement)
+      def insert_after(new_element)
         # Interface method
       end
 
@@ -146,10 +146,10 @@ module Hatemile
       # ---
       #
       # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +newElement+ The element that replace this element.
+      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that replace this element.
       # Return:
       # Hatemile::Util::HTMLDOMElement The element replaced.
-      def replace_element(newElement)
+      def replace_element(new_element)
         # Interface method
       end
 

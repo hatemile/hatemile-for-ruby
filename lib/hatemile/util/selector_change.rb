@@ -23,11 +23,11 @@ module Hatemile
       # Parameters:
       #  1. String +selector+ The selector.
       #  2. String +attribute+ The attribute.
-      #  3. String +valueForAttribute+ The value of the attribute.
-      def initialize(selector, attribute, valueForAttribute)
+      #  3. String +value_for_attribute+ The value of the attribute.
+      def initialize(selector, attribute, value_for_attribute)
         @selector = selector
         @attribute = attribute
-        @valueForAttribute = valueForAttribute
+        @value_for_attribute = value_for_attribute
       end
 
       ##
@@ -60,7 +60,7 @@ module Hatemile
       # Return:
       # String The value of the attribute.
       def get_value_for_attribute
-        @valueForAttribute
+        @value_for_attribute
       end
     end
   end

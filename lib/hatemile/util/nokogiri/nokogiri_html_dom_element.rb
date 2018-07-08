@@ -47,7 +47,7 @@ module Hatemile
         end
 
         def remove_attribute(name)
-          @data.remove_attribute(name) if hasAttribute?(name)
+          @data.remove_attribute(name) if has_attribute?(name)
         end
 
         def has_attribute?(name)
@@ -62,14 +62,14 @@ module Hatemile
           @data.text
         end
 
-        def insert_before(newElement)
-          @data.before(newElement.get_data)
-          newElement
+        def insert_before(new_element)
+          @data.before(new_element.get_data)
+          new_element
         end
 
-        def insert_after(newElement)
-          @data.after(newElement.get_data)
-          newElement
+        def insert_after(new_element)
+          @data.after(new_element.get_data)
+          new_element
         end
 
         def remove_element
@@ -77,9 +77,9 @@ module Hatemile
           self
         end
 
-        def replace_element(newElement)
-          @data.replace(newElement.get_data)
-          newElement
+        def replace_element(new_element)
+          @data.replace(new_element.get_data)
+          new_element
         end
 
         def append_element(element)

@@ -25,15 +25,15 @@ module Hatemile
       # ---
       #
       # Parameters:
-      #  1. String +fileName+ The full path of file.
-      def initialize(fileName = nil)
+      #  1. String +file_name+ The full path of file.
+      def initialize(file_name = nil)
         @parameters = {}
-        @selectorChanges = []
+        @selector_changes = []
         @skippers = []
-        if fileName.nil?
-          fileName = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
+        if file_name.nil?
+          file_name = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
         end
-        document = REXML::Document.new(File.read(fileName))
+        document = REXML::Document.new(File.read(file_name))
         document.elements.each('configure/parameters/parameter') do |parameter|
           if parameter.text.class != NilClass
             @parameters[parameter.attribute('name').value] = parameter.text
@@ -41,8 +41,8 @@ module Hatemile
             @parameters[parameter.attribute('name').value] = ''
           end
         end
-        document.elements.each('configure/selector-changes/selector-change') do |selectorChange|
-          @selectorChanges.push(SelectorChange.new(selectorChange.attribute('selector').value, selectorChange.attribute('attribute').value, selectorChange.attribute('value-attribute').value))
+        document.elements.each('configure/selector-changes/selector-change') do |selector_change|
+          @selector_changes.push(SelectorChange.new(selector_change.attribute('selector').value, selector_change.attribute('attribute').value, selector_change.attribute('value-attribute').value))
         end
         document.elements.each('configure/skippers/skipper') do |skipper|
           @skippers.push(Skipper.new(skipper.attribute('selector').value, skipper.attribute('default-text').value, skipper.attribute('shortcut').value))
@@ -81,7 +81,7 @@ module Hatemile
       # Return:
       # Array(SelectorChange) The changes that will be done in selectors.
       def get_selector_changes
-        @selectorChanges.clone
+        @selector_changes.clone
       end
 
       ##

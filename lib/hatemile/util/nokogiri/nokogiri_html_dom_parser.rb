@@ -65,15 +65,15 @@ module Hatemile
         # ---
         #
         # Parameters:
-        #  1. String|Nokogiri::HTML::Document +codeOrParser+
+        #  1. String|Nokogiri::HTML::Document +code_or_parser+
         #   * String The HTML code.
         #   * Nokogiri::HTML::Document The parser of Nokogiri.
         #  2. String +encoding+ The enconding of code.
-        def initialize(codeOrParser, encoding = 'UTF-8')
-          @document = if codeOrParser.class == String
-                        Nokogiri::HTML::Document.parse(codeOrParser, nil, encoding)
+        def initialize(code_or_parser, encoding = 'UTF-8')
+          @document = if code_or_parser.class == String
+                        Nokogiri::HTML::Document.parse(code_or_parser, nil, encoding)
                       else
-                        codeOrParser
+                        code_or_parser
                       end
           @results = nil
         end
@@ -99,8 +99,8 @@ module Hatemile
             end
           else
             @results.each do |result|
-              result.css(selector).each do |foundElement|
-                array.push(foundElement) if foundElement.parent == result
+              result.css(selector).each do |found_element|
+                array.push(found_element) if found_element.parent == result
               end
             end
           end
