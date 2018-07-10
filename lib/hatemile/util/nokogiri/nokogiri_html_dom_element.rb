@@ -21,7 +21,10 @@ module Hatemile
       class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
         public_class_method :new
 
-        @@self_closing_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr']
+        @@self_closing_tags = %w[
+          area base br col embed hr img input keygen
+          link menuitem meta param source track wbr
+        ]
 
         ##
         # Initializes a new object that encapsulate the Nokogiri Node.
