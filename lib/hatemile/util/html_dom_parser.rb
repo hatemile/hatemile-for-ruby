@@ -15,12 +15,15 @@ module Hatemile
     ##
     # The HTMLDOMParser interface contains the methods for access a native
     # parser.
+    #
+    # @abstract
     class HTMLDOMParser
       private_class_method :new
 
       ##
       # Find all elements in the parser by selector.
       #
+      # @abstract
       # @param selector [String, Hatemile::Util::HTMLDOMElement] The selector.
       # @return [Hatemile::Util::Parser] The parser with the elements found.
       def find(selector)
@@ -30,6 +33,7 @@ module Hatemile
       ##
       # Find all elements in the parser by selector, children of found elements.
       #
+      # @abstract
       # @param selector [String, Hatemile::Util::HTMLDOMElement] The selector.
       # @return [Hatemile::Util::Parser] The parser with the elements found.
       def find_children(selector)
@@ -40,6 +44,7 @@ module Hatemile
       # Find all elements in the parser by selector, descendants of found
       # elements.
       #
+      # @abstract
       # @param selector [String, Hatemile::Util::HTMLDOMElement] The selector.
       # @return [Hatemile::Util::Parser] The parser with the elements found.
       def find_descendants(selector)
@@ -50,6 +55,7 @@ module Hatemile
       # Find all elements in the parser by selector, ancestors of found
       # elements.
       #
+      # @abstract
       # @param selector [String, Hatemile::Util::HTMLDOMElement] The selector.
       # @return [Hatemile::Util::Parser] The parser with the elements found.
       def find_ancestors(selector)
@@ -59,6 +65,7 @@ module Hatemile
       ##
       # Returns the first element found.
       #
+      # @abstract
       # @return [Hatemile::Util::HTMLDOMElement] The first element found or null
       #   if not have elements found.
       def first_result
@@ -68,6 +75,7 @@ module Hatemile
       ##
       # Returns the last element found.
       #
+      # @abstract
       # @return [Hatemile::Util::HTMLDOMElement] The last element found or null
       #   if not have elements found.
       def last_result
@@ -77,6 +85,7 @@ module Hatemile
       ##
       # Returns a list with all elements found.
       #
+      # @abstract
       # @return [Array<Hatemile::Util::HTMLDOMElement>] The list with all
       #   elements found.
       def list_results
@@ -86,6 +95,7 @@ module Hatemile
       ##
       # Create a element.
       #
+      # @abstract
       # @param tag [String] The tag of element.
       # @return [Hatemile::Util::HTMLDOMElement] The element created.
       def create_element(tag)
@@ -95,6 +105,7 @@ module Hatemile
       ##
       # Returns the HTML code of parser.
       #
+      # @abstract
       # @return [String] The HTML code of parser.
       def get_html
         # Interface method
@@ -103,6 +114,7 @@ module Hatemile
       ##
       # Returns the parser.
       #
+      # @abstract
       # @return [Object] The parser or root element of the parser.
       def get_parser
         # Interface method
@@ -111,6 +123,7 @@ module Hatemile
       ##
       # Clear the memory of this object.
       #
+      # @abstract
       # @return [void]
       def clear_parser
         # Interface method

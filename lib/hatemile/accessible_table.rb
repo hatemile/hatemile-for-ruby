@@ -14,12 +14,15 @@ module Hatemile
   ##
   # The AccessibleTable interface fixes accessibility problems associated
   # with tables.
+  #
+  # @abstract
   class AccessibleTable
     private_class_method :new
 
     ##
     # Associate data cells with header cells of table.
     #
+    # @abstract
     # @param table [Hatemile::Util::HTMLDOMElement] The table.
     # @return [void]
     def fix_association_cells_table(table)
@@ -29,6 +32,7 @@ module Hatemile
     ##
     # Associate data cells with header cells of tables.
     #
+    # @abstract
     # @return [void]
     def fix_association_cells_tables
       # Interface method

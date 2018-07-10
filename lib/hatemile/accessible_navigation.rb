@@ -14,12 +14,15 @@ module Hatemile
   ##
   # The AccessibleNavigation interface fixes accessibility problems associated
   # with navigation.
+  #
+  # @abstract
   class AccessibleNavigation
     private_class_method :new
 
     ##
     # Display the shortcuts of element.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with
     #   shortcuts.
     # @return [void]
@@ -30,6 +33,7 @@ module Hatemile
     ##
     # Display the shortcuts of elements.
     #
+    # @abstract
     # @return [void]
     def fix_shortcuts
       # Interface method
@@ -38,6 +42,7 @@ module Hatemile
     ##
     # Provide content skipper for element.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element.
     # @param skipper [Hatemile::Util::Skipper] The skipper.
     # @return [void]
@@ -48,6 +53,7 @@ module Hatemile
     ##
     # Provide content skippers.
     #
+    # @abstract
     # @return [void]
     def fix_skippers
       # Interface method
@@ -56,6 +62,7 @@ module Hatemile
     ##
     # Provide a navigation by heading.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The heading element.
     # @return [void]
     def fix_heading(element)
@@ -65,6 +72,7 @@ module Hatemile
     ##
     # Provide a navigation by headings.
     #
+    # @abstract
     # @return [void]
     def fix_headings
       # Interface method

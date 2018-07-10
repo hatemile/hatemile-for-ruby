@@ -14,12 +14,15 @@ module Hatemile
   ##
   # The AccessibleEvent interface fixes accessibility problems associated with
   # JavaScript events in elements.
+  #
+  # @abstract
   class AccessibleEvent
     private_class_method :new
 
     ##
     # Provide a solution for the element that has drop events.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with drop
     #   event.
     # @return [void]
@@ -30,6 +33,7 @@ module Hatemile
     ##
     # Provide a solution for the element that has drag events.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with drag
     #   event.
     # @return [void]
@@ -40,6 +44,7 @@ module Hatemile
     ##
     # Provide a solution for elements that has Drag-and-Drop events.
     #
+    # @abstract
     # @return [void]
     def fix_drags_and_drops
       # Interface method
@@ -48,6 +53,7 @@ module Hatemile
     ##
     # Provide a solution for the element that has inaccessible hover events.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with hover
     #   event.
     # @return [void]
@@ -58,6 +64,7 @@ module Hatemile
     ##
     # Provide a solution for elements that has inaccessible hover events.
     #
+    # @abstract
     # @return [void]
     def fix_hovers
       # Interface method
@@ -66,6 +73,7 @@ module Hatemile
     ##
     # Provide a solution for the element that has inaccessible active events.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with active
     #   event.
     # @return [void]
@@ -76,6 +84,7 @@ module Hatemile
     ##
     # Provide a solution for elements that has inaccessible active events.
     #
+    # @abstract
     # @return [void]
     def fix_actives
       # Interface method

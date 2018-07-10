@@ -14,12 +14,15 @@ module Hatemile
   ##
   # The AccessibleImage interface fixes accessibility problems associated with
   # images.
+  #
+  # @abstract
   class AccessibleImage
     private_class_method :new
 
     ##
     # Provide an alternative way to access the long description of element.
     #
+    # @abstract
     # @param element [Hatemile::Util::HTMLDOMElement] The element with long
     #   description.
     # @return [void]
@@ -30,6 +33,7 @@ module Hatemile
     ##
     # Provide an alternative way to access the longs descriptions of elements.
     #
+    # @abstract
     # @return [void]
     def fix_long_descriptions
       # Interface method

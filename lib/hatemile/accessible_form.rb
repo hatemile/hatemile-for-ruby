@@ -14,12 +14,15 @@ module Hatemile
   ##
   # The AccessibleForm interface fixes accessibility problems associated with
   # forms.
+  #
+  # @abstract
   class AccessibleForm
     private_class_method :new
 
     ##
     # Display that the field is required.
     #
+    # @abstract
     # @param required_field [Hatemile::Util::HTMLDOMElement] The required field.
     # @return [void]
     def fix_required_field(required_field)
@@ -29,6 +32,7 @@ module Hatemile
     ##
     # Display that the fields is required.
     #
+    # @abstract
     # @return [void]
     def fix_required_fields
       # Interface method
@@ -37,6 +41,7 @@ module Hatemile
     ##
     # Display that the field have range.
     #
+    # @abstract
     # @param range_field [Hatemile::Util::HTMLDOMElement] The range field.
     # @return [void]
     def fix_range_field(range_field)
@@ -46,6 +51,7 @@ module Hatemile
     ##
     # Display that the fields have range.
     #
+    # @abstract
     # @return [void]
     def fix_range_fields
       # Interface method
@@ -54,6 +60,7 @@ module Hatemile
     ##
     # Display that the field have autocomplete.
     #
+    # @abstract
     # @param autocomplete_field [Hatemile::Util::HTMLDOMElement] The field with
     #   autocomplete.
     # @return [void]
@@ -64,6 +71,7 @@ module Hatemile
     ##
     # Display that the fields have autocomplete.
     #
+    # @abstract
     # @return [void]
     def fix_autocomplete_fields
       # Interface method
@@ -72,6 +80,7 @@ module Hatemile
     ##
     # Associate label with field.
     #
+    # @abstract
     # @param label [Hatemile::Util::HTMLDOMElement] The label.
     # @return [void]
     def fix_label(label)
@@ -81,6 +90,7 @@ module Hatemile
     ##
     # Associate labels with fields.
     #
+    # @abstract
     # @return [void]
     def fix_labels
       # Interface method

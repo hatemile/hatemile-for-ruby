@@ -13,12 +13,15 @@
 module Hatemile
   ##
   # The AccessibleSelector interface perform changes in selectors.
+  #
+  # @abstract
   class AccessibleSelector
     private_class_method :new
 
     ##
     # Change the selectors.
     #
+    # @abstract
     # @return [void]
     def fix_selectors
       # Interface method
