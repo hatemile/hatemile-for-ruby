@@ -18,12 +18,9 @@ module Hatemile
       ##
       # Inicializes a new object with the values pre-defineds.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +selector+ The selector.
-      #  2. String +attribute+ The attribute.
-      #  3. String +value_for_attribute+ The value of the attribute.
+      # @param selector [String] The selector.
+      # @param attribute [String] The attribute.
+      # @param value_for_attribute [String] The value of the attribute.
       def initialize(selector, attribute, value_for_attribute)
         @selector = selector
         @attribute = attribute
@@ -33,10 +30,7 @@ module Hatemile
       ##
       # Returns the selector.
       #
-      # ---
-      #
-      # Return:
-      # String The selector.
+      # @return [String] The selector.
       def get_selector
         @selector
       end
@@ -44,10 +38,7 @@ module Hatemile
       ##
       # Returns the attribute.
       #
-      # ---
-      #
-      # Return:
-      # String The attribute.
+      # @return [String] The attribute.
       def get_attribute
         @attribute
       end
@@ -55,10 +46,7 @@ module Hatemile
       ##
       # Returns the value of the attribute.
       #
-      # ---
-      #
-      # Return:
-      # String The value of the attribute.
+      # @return [String] The value of the attribute.
       def get_value_for_attribute
         @value_for_attribute
       end

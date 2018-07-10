@@ -21,10 +21,7 @@ module Hatemile
       ##
       # Returns the tag name of element.
       #
-      # ---
-      #
-      # Return:
-      # String The tag name of element in uppercase letters.
+      # @return [String] The tag name of element in uppercase letters.
       def get_tag_name
         # Interface method
       end
@@ -32,13 +29,9 @@ module Hatemile
       ##
       # Returns the value of a attribute.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +name+ The name of attribute.
-      # Return:
-      # String The value of the attribute, if the element not contains the
-      # attribute returns nil.
+      # @param name [String] The name of attribute.
+      # @return [String] The value of the attribute, if the element not contains
+      #   the attribute returns nil.
       def get_attribute(name)
         # Interface method
       end
@@ -46,11 +39,9 @@ module Hatemile
       ##
       # Create or modify a attribute.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +name+ The name of attribute.
-      #  2. String +value+ The value of attribute.
+      # @param name [String] The name of attribute.
+      # @param value [String] The value of attribute.
+      # @return [void]
       def set_attribute(name, value)
         # Interface method
       end
@@ -58,10 +49,8 @@ module Hatemile
       ##
       # Remove a attribute of element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +name+ The name of attribute.
+      # @param name [String] The name of attribute.
+      # @return [void]
       def remove_attribute(name)
         # Interface method
       end
@@ -69,13 +58,9 @@ module Hatemile
       ##
       # Returns if the element has an attribute.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +name+ The name of attribute.
-      # Return:
-      # Boolean True if the element has the attribute or false if the element not
-      # has the attribute.
+      # @param name [String] The name of attribute.
+      # @return [Boolean] True if the element has the attribute or false if the
+      #   element not has the attribute.
       def has_attribute?(name)
         # Interface method
       end
@@ -83,11 +68,8 @@ module Hatemile
       ##
       # Returns if the element has attributes.
       #
-      # ---
-      #
-      # Return:
-      # Boolean True if the element has attributes or false if the element not
-      # has attributes.
+      # @return [Boolean] True if the element has attributes or false if the
+      #   element not has attributes.
       def has_attributes?
         # Interface method
       end
@@ -95,10 +77,7 @@ module Hatemile
       ##
       # Returns the text of element.
       #
-      # ---
-      #
-      # Return:
-      # String The text of element.
+      # @return [String] The text of element.
       def get_text_content
         # Interface method
       end
@@ -106,12 +85,9 @@ module Hatemile
       ##
       # Insert a element before this element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that be inserted.
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The element inserted.
+      # @param new_element [Hatemile::Util::HTMLDOMElement] The element that be
+      #   inserted.
+      # @return [Hatemile::Util::HTMLDOMElement] The element inserted.
       def insert_before(new_element)
         # Interface method
       end
@@ -119,12 +95,9 @@ module Hatemile
       ##
       # Insert a element after this element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that be inserted.
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The element inserted.
+      # @param new_element [Hatemile::Util::HTMLDOMElement] The element that be
+      #   inserted.
+      # @return [Hatemile::Util::HTMLDOMElement] The element inserted.
       def insert_after(new_element)
         # Interface method
       end
@@ -132,10 +105,7 @@ module Hatemile
       ##
       # Remove this element of the parser.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The removed element.
+      # @return [Hatemile::Util::HTMLDOMElement] The removed element.
       def remove_element
         # Interface method
       end
@@ -143,12 +113,9 @@ module Hatemile
       ##
       # Replace this element for other element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +new_element+ The element that replace this element.
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The element replaced.
+      # @param new_element [Hatemile::Util::HTMLDOMElement] The element that
+      #   replace this element.
+      # @return [Hatemile::Util::HTMLDOMElement] The element replaced.
       def replace_element(new_element)
         # Interface method
       end
@@ -156,12 +123,9 @@ module Hatemile
       ##
       # Append a element child.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element that be inserted.
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The element inserted.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element that be
+      #   inserted.
+      # @return [Hatemile::Util::HTMLDOMElement] The element inserted.
       def append_element(element)
         # Interface method
       end
@@ -169,10 +133,8 @@ module Hatemile
       ##
       # Returns the children of this element.
       #
-      # ---
-      #
-      # Return:
-      # Array(Hatemile::Util::HTMLDOMElement) The children of this element.
+      # @return [Array<Hatemile::Util::HTMLDOMElement>] The children of this
+      #   element.
       def get_children
         # Interface method
       end
@@ -180,10 +142,8 @@ module Hatemile
       ##
       # Append a text child.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String The text.
+      # @param text [String] The text.
+      # @return [void]
       def append_text(text)
         # Interface method
       end
@@ -191,11 +151,8 @@ module Hatemile
       ##
       # Returns if the element has children.
       #
-      # ---
-      #
-      # Return:
-      # Boolean True if the element has children or false if the element not has
-      # children.
+      # @return [Boolean] True if the element has children or false if the
+      #   element not has children.
       def has_children?
         # Interface method
       end
@@ -203,10 +160,8 @@ module Hatemile
       ##
       # Returns the parent element of this element.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The parent element of this element.
+      # @return [Hatemile::Util::HTMLDOMElement] The parent element of this
+      #   element.
       def get_parent_element
         # Interface method
       end
@@ -214,10 +169,7 @@ module Hatemile
       ##
       # Returns the inner HTML code of this element.
       #
-      # ---
-      #
-      # Return:
-      # String The inner HTML code of this element.
+      # @return [String] The inner HTML code of this element.
       def get_inner_html
         # Interface method
       end
@@ -225,10 +177,8 @@ module Hatemile
       ##
       # Modify the inner HTML code of this element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String The HTML code.
+      # @param html [String] The HTML code.
+      # @return [void]
       def set_inner_html(html)
         # Interface method
       end
@@ -236,10 +186,7 @@ module Hatemile
       ##
       # Returns the HTML code of this element.
       #
-      # ---
-      #
-      # Return:
-      # String The HTML code of this element.
+      # @return [String] The HTML code of this element.
       def get_outer_html
         # Interface method
       end
@@ -247,10 +194,7 @@ module Hatemile
       ##
       # Returns the native object of this element.
       #
-      # ---
-      #
-      # Return:
-      # Object The native object of this element.
+      # @return [Object] The native object of this element.
       def get_data
         # Interface method
       end
@@ -258,10 +202,8 @@ module Hatemile
       ##
       # Modify the native object of this element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Object The native object of this element.
+      # @param data [Object] The native object of this element.
+      # @return [void]
       def set_data(data)
         # Interface method
       end
@@ -269,10 +211,8 @@ module Hatemile
       ##
       # Returns the first element child of this element.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The first element child of this element.
+      # @return [Hatemile::Util::HTMLDOMElement] The first element child of this
+      #   element.
       def get_first_element_child
         # Interface method
       end
@@ -280,10 +220,8 @@ module Hatemile
       ##
       # Returns the last element child of this element.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The last element child of this element.
+      # @return [Hatemile::Util::HTMLDOMElement] The last element child of this
+      #   element.
       def get_last_element_child
         # Interface method
       end
@@ -291,10 +229,7 @@ module Hatemile
       ##
       # Clone this element.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The clone.
+      # @return [Hatemile::Util::HTMLDOMElement] The clone.
       def clone_element
         # Interface method
       end

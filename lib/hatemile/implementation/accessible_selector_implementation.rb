@@ -21,14 +21,12 @@ module Hatemile
       public_class_method :new
 
       ##
-      # Initializes a new object that manipulate the accessibility through of the
-      # selectors of the configuration file.
+      # Initializes a new object that manipulate the accessibility through of
+      # the selectors of the configuration file.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
+      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
         @changes = configure.get_selector_changes

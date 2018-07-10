@@ -18,12 +18,9 @@ module Hatemile
       ##
       # Inicializes a new object with the values pre-defineds.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +selector+ The selector.
-      #  2. String +default_text+ The default text of skipper.
-      #  3. String +shortcuts+ The shortcuts of skipper.
+      # @param selector [String] The selector.
+      # @param default_text [String] The default text of skipper.
+      # @param shortcuts [String] The shortcuts of skipper.
       def initialize(selector, default_text, shortcuts)
         @selector = selector
         @default_text = default_text
@@ -37,10 +34,7 @@ module Hatemile
       ##
       # Returns the selector.
       #
-      # ---
-      #
-      # Return:
-      # String The selector.
+      # @return [String] The selector.
       def get_selector
         @selector
       end
@@ -48,10 +42,7 @@ module Hatemile
       ##
       # Returns the default text of skipper.
       #
-      # ---
-      #
-      # Return:
-      # String The default text of skipper.
+      # @return [String] The default text of skipper.
       def get_default_text
         @default_text
       end
@@ -59,10 +50,7 @@ module Hatemile
       ##
       # Returns the shortcuts of skipper.
       #
-      # ---
-      #
-      # Return:
-      # String The shortcuts of skipper.
+      # @return [String] The shortcuts of skipper.
       def get_shortcuts
         @shortcuts.clone
       end

@@ -18,8 +18,8 @@ module Hatemile
   module Util
     module NokogiriLib
       ##
-      # The class NokogiriHTMLDOMParser is official implementation of HTMLDOMParser
-      # interface for the Nokogiri library.
+      # The class NokogiriHTMLDOMParser is official implementation of
+      # HTMLDOMParser interface for the Nokogiri library.
       class NokogiriHTMLDOMParser < Hatemile::Util::HTMLDOMParser
         public_class_method :new
 
@@ -28,12 +28,8 @@ module Hatemile
         ##
         # Order the results.
         #
-        # ---
-        #
-        # Parameters:
-        #  1. Array(Nokogiri::XML::Node) +results+ The disordened results.
-        # Return:
-        # Array(Nokogiri::XML::Node) The ordened results.
+        # @param results [Array<Nokogiri::XML::Node>] The disordened results.
+        # @return [Array<Nokogiri::XML::Node>] The ordened results.
         def order_results(results)
           parents = []
           groups = []
@@ -62,13 +58,9 @@ module Hatemile
         ##
         # Initializes a new object that encapsulate the parser of Jsoup.
         #
-        # ---
-        #
-        # Parameters:
-        #  1. String|Nokogiri::HTML::Document +code_or_parser+
-        #   * String The HTML code.
-        #   * Nokogiri::HTML::Document The parser of Nokogiri.
-        #  2. String +encoding+ The enconding of code.
+        # @param code_or_parser [String, Nokogiri::HTML::Document] The HTML code
+        #   or the parser of Nokogiri.
+        # @param encoding [String] The enconding of code.
         def initialize(code_or_parser, encoding = 'UTF-8')
           @document = if code_or_parser.class == String
                         Nokogiri::HTML::Document.parse(code_or_parser, nil, encoding)

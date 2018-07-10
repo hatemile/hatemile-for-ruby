@@ -24,11 +24,9 @@ module Hatemile
       ##
       # Generate a id for a element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
-      #  2. String +prefix+ The prefix of id.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param prefix [String] The prefix of id.
+      # @return [void]
       def self.generate_id(element, prefix)
         return if element.has_attribute?('id')
 
@@ -38,6 +36,8 @@ module Hatemile
 
       ##
       # Reset the count number of ids.
+      #
+      # @return [void]
       def self.reset_count
         @@count = 0
       end
@@ -62,13 +62,10 @@ module Hatemile
       ##
       # Increase a item in a list.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +list+ The list.
-      #  2. String +string_to_increase+ The value of item.
-      # Return:
-      # String True if the list contains the item or false is not contains.
+      # @param list [String] The list.
+      # @param string_to_increase [String] The value of item.
+      # @return [String] True if the list contains the item or false is not
+      #   contains.
       def self.increase_in_list(list, string_to_increase)
         if !list.nil? && !list.empty? && !string_to_increase.nil? && !string_to_increase.empty?
           return list if in_list(list, string_to_increase)
@@ -82,13 +79,10 @@ module Hatemile
       ##
       # Verify if the list contains the item.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +list+ The list.
-      #  2. String +string_to_search+ The value of item.
-      # Return:
-      # Boolean True if the list contains the item or false is not contains.
+      # @param list [String] The list.
+      # @param string_to_search [String] The value of item.
+      # @return [Boolean] True if the list contains the item or false is not
+      #   contains.
       def self.in_list(list, string_to_search)
         if !list.nil? && !list.empty? && !string_to_search.nil? && !string_to_search.empty?
           elements = list.split(/[ \n\t\r]+/)

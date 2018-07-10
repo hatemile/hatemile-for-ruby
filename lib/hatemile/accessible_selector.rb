@@ -18,6 +18,8 @@ module Hatemile
 
     ##
     # Change the selectors.
+    #
+    # @return [void]
     def fix_selectors
       # Interface method
     end

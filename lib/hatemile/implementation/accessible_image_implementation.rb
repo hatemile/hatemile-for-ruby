@@ -25,11 +25,9 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the images
       # of parser.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
+      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
         @prefix_id = configure.get_parameter('prefix-generated-ids')

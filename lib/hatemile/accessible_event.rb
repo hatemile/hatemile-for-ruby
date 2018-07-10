@@ -20,10 +20,9 @@ module Hatemile
     ##
     # Provide a solution for the element that has drop events.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +element+ The element with drop event.
+    # @param element [Hatemile::Util::HTMLDOMElement] The element with drop
+    #   event.
+    # @return [void]
     def fix_drop(element)
       # Interface method
     end
@@ -31,16 +30,17 @@ module Hatemile
     ##
     # Provide a solution for the element that has drag events.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +element+ The element with drag event.
+    # @param element [Hatemile::Util::HTMLDOMElement] The element with drag
+    #   event.
+    # @return [void]
     def fix_drag(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has Drag-and-Drop events.
+    #
+    # @return [void]
     def fix_drags_and_drops
       # Interface method
     end
@@ -48,16 +48,17 @@ module Hatemile
     ##
     # Provide a solution for the element that has inaccessible hover events.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +element+ The element with hover event.
+    # @param element [Hatemile::Util::HTMLDOMElement] The element with hover
+    #   event.
+    # @return [void]
     def fix_hover(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has inaccessible hover events.
+    #
+    # @return [void]
     def fix_hovers
       # Interface method
     end
@@ -65,16 +66,17 @@ module Hatemile
     ##
     # Provide a solution for the element that has inaccessible active events.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +element+ The element with active event.
+    # @param element [Hatemile::Util::HTMLDOMElement] The element with active
+    #   event.
+    # @return [void]
     def fix_active(element)
       # Interface method
     end
 
     ##
     # Provide a solution for elements that has inaccessible active events.
+    #
+    # @return [void]
     def fix_actives
       # Interface method
     end

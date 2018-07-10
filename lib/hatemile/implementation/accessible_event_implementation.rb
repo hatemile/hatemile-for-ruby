@@ -34,10 +34,8 @@ module Hatemile
       ##
       # Provide keyboard access for element, if it not has.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @return [void]
       def keyboard_access(element)
         return if element.has_attribute?('tabindex')
 
@@ -51,6 +49,8 @@ module Hatemile
 
       ##
       # Include the scripts used by solutions.
+      #
+      # @return [void]
       def generate_main_scripts
         head = @parser.find('head').first_result
         if !head.nil? && @parser.find("##{@id_script_event_listener}").first_result.nil?
@@ -109,11 +109,9 @@ module Hatemile
       ##
       # Add a type of event in element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
-      #  2. String +event+ The type of event.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param event [String] The type of event.
+      # @return [void]
       def add_event_in_element(element, event)
         generate_main_scripts unless @main_script_added
 
@@ -129,13 +127,11 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the
       # Javascript events of elements of parser.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
-      #  3. Boolean +store_scripts_content+ The state that indicates if the
-      #  scripts used are stored or deleted, after use.
+      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
+      # @param store_scripts_content [Boolean] The state that indicates if the
+      #   scripts used are stored or deleted, after use.
       def initialize(parser, configure, store_scripts_content)
         @parser = parser
         @store_scripts_content = store_scripts_content

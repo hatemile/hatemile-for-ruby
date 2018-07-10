@@ -26,12 +26,10 @@ module Hatemile
       ##
       # Returns a list that represents the table.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +part+ The table header, table footer or table body.
-      # Return:
-      # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table.
+      # @param part [Hatemile::Util::HTMLDOMElement] The table header, table
+      #   footer or table body.
+      # @return [Array<Array<Hatemile::Util::HTMLDOMElement>>] The list that
+      #   represents the table.
       def generate_part(part)
         rows = @parser.find(part).find_children('tr').list_results
         table = []
@@ -44,12 +42,10 @@ module Hatemile
       ##
       # Returns a list that represents the table with the rowspans.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +rows+ The list that represents the table without the rowspans.
-      # Return:
-      # Array(Array(Hatemile::Util::HTMLDOMElement)) The list that represents the table with the rowspans.
+      # @param rows [Array<Array<Hatemile::Util::HTMLDOMElement>>] The list that
+      #   represents the table without the rowspans.
+      # @return [Array<Array<Hatemile::Util::HTMLDOMElement>>] The list that
+      #   represents the table with the rowspans.
       def generate_rowspan(rows)
         copy = [].concat(rows)
         table = []
@@ -90,13 +86,10 @@ module Hatemile
       ##
       # Returns a list that represents the line of table with the colspans.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Array(Hatemile::Util::HTMLDOMElement) +row+ The list that represents the line of table without the
-      #  colspans.
-      # Return:
-      # Array(Hatemile::Util::HTMLDOMElement) The list that represents the line of table with the colspans.
+      # @param row [Array<Hatemile::Util::HTMLDOMElement>] The list that
+      #   represents the line of table without the colspans.
+      # @return [Array<Hatemile::Util::HTMLDOMElement>] The list that represents
+      #   the line of table with the colspans.
       def generate_colspan(row)
         copy = [].concat(row)
         cells = [].concat(row)
@@ -120,13 +113,10 @@ module Hatemile
       ##
       # Validate the list that represents the table header.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +header+ The list that represents the table header.
-      # Return:
-      # Boolean True if the table header is valid or false if the table header is
-      # not valid.
+      # @param header [Array<Array<Hatemile::Util::HTMLDOMElement>>] The list
+      #   that represents the table header.
+      # @return [Boolean] True if the table header is valid or false if the
+      #   table header is not valid.
       def validate_header(header)
         return false if header.empty?
         length = -1
@@ -141,13 +131,10 @@ module Hatemile
       ##
       # Returns a list with ids of rows of same column.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Array(Array(Hatemile::Util::HTMLDOMElement)) +header+ The list that represents the table header.
-      #  2. Integer +index+ The index of columns.
-      # Return:
-      # Array(String) The list with ids of rows of same column.
+      # @param header [Array<Array<Hatemile::Util::HTMLDOMElement>>] The list
+      #   that represents the table header.
+      # @param index [Integer] The index of columns.
+      # @return [Array<String>] The list with ids of rows of same column.
       def return_list_ids_columns(header, index)
         ids = []
         header.each do |row|
@@ -161,10 +148,9 @@ module Hatemile
       ##
       # Fix the table body or table footer.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The table body or table footer.
+      # @param element [Hatemile::Util::HTMLDOMElement] The table body or table
+      #   footer.
+      # @return [void]
       def fix_body_or_footer(element)
         table = generate_part(element)
         headers_ids = []
@@ -193,10 +179,8 @@ module Hatemile
       ##
       # Fix the table header.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +table_header+ The table header.
+      # @param table_header [Hatemile::Util::HTMLDOMElement] The table header.
+      # @return [void]
       def fix_header(table_header)
         cells = @parser.find(table_header).find_children('tr').find_children('th').list_results
         cells.each do |cell|
@@ -212,11 +196,9 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the tables
       # of parser.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
+      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
         @prefix_id = configure.get_parameter('prefix-generated-ids')

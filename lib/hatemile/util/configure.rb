@@ -22,10 +22,7 @@ module Hatemile
       ##
       # Initializes a new object that contains the configuration of HaTeMiLe.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +file_name+ The full path of file.
+      # @param file_name [String] The full path of file.
       def initialize(file_name = nil)
         @parameters = {}
         @selector_changes = []
@@ -52,10 +49,7 @@ module Hatemile
       ##
       # Returns the parameters of configuration.
       #
-      # ---
-      #
-      # Return:
-      # Hash(String, String) The parameters of configuration.
+      # @return [Hash] The parameters of configuration.
       def get_parameters
         @parameters.clone
       end
@@ -63,12 +57,8 @@ module Hatemile
       ##
       # Returns the value of a parameter of configuration.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. String +parameter+ The parameter.
-      # Return:
-      # String The value of the parameter.
+      # @param parameter [String] The parameter.
+      # @return [String] The value of the parameter.
       def get_parameter(parameter)
         @parameters[parameter]
       end
@@ -76,10 +66,8 @@ module Hatemile
       ##
       # Returns the changes that will be done in selectors.
       #
-      # ---
-      #
-      # Return:
-      # Array(SelectorChange) The changes that will be done in selectors.
+      # @return [Array<SelectorChange>] The changes that will be done in
+      #   selectors.
       def get_selector_changes
         @selector_changes.clone
       end
@@ -87,10 +75,7 @@ module Hatemile
       ##
       # Returns the skippers.
       #
-      # ---
-      #
-      # Return:
-      # Array(Skipper) The skippers.
+      # @return [Array<Skipper>] The skippers.
       def get_skippers
         @skippers.clone
       end

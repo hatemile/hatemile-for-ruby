@@ -20,16 +20,16 @@ module Hatemile
     ##
     # Display that the field is required.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +required_field+ The required field.
+    # @param required_field [Hatemile::Util::HTMLDOMElement] The required field.
+    # @return [void]
     def fix_required_field(required_field)
       # Interface method
     end
 
     ##
     # Display that the fields is required.
+    #
+    # @return [void]
     def fix_required_fields
       # Interface method
     end
@@ -37,16 +37,16 @@ module Hatemile
     ##
     # Display that the field have range.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +range_field+ The range field.
+    # @param range_field [Hatemile::Util::HTMLDOMElement] The range field.
+    # @return [void]
     def fix_range_field(range_field)
       # Interface method
     end
 
     ##
     # Display that the fields have range.
+    #
+    # @return [void]
     def fix_range_fields
       # Interface method
     end
@@ -54,16 +54,17 @@ module Hatemile
     ##
     # Display that the field have autocomplete.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +autocomplete_field+ The field with autocomplete.
+    # @param autocomplete_field [Hatemile::Util::HTMLDOMElement] The field with
+    #   autocomplete.
+    # @return [void]
     def fix_autocomplete_field(autocomplete_field)
       # Interface method
     end
 
     ##
     # Display that the fields have autocomplete.
+    #
+    # @return [void]
     def fix_autocomplete_fields
       # Interface method
     end
@@ -71,16 +72,16 @@ module Hatemile
     ##
     # Associate label with field.
     #
-    # ---
-    #
-    # Parameters:
-    #  1. Hatemile::Util::HTMLDOMElement +label+ The label.
+    # @param label [Hatemile::Util::HTMLDOMElement] The label.
+    # @return [void]
     def fix_label(label)
       # Interface method
     end
 
     ##
     # Associate labels with fields.
+    #
+    # @return [void]
     def fix_labels
       # Interface method
     end

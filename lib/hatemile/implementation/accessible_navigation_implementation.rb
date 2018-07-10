@@ -26,12 +26,9 @@ module Hatemile
       ##
       # Returns the description of element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element with description.
-      # Return:
-      # String The description of element.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element with
+      #   description.
+      # @return [String] The description of element.
       def get_description(element)
         description = nil
         if element.has_attribute?('title')
@@ -68,10 +65,7 @@ module Hatemile
       ##
       # Generate the list of shortcuts of page.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The list of shortcuts of page.
+      # @return [Hatemile::Util::HTMLDOMElement] The list of shortcuts of page.
       def generate_list_shortcuts
         container = @parser.find("##{@id_container_shortcuts}").first_result
 
@@ -109,10 +103,7 @@ module Hatemile
       ##
       # Generate the list of skippers of page.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The list of skippers of page.
+      # @return [Hatemile::Util::HTMLDOMElement] The list of skippers of page.
       def generate_list_skippers
         container = @parser.find("##{@id_container_skippers}").first_result
         html_list = nil
@@ -139,10 +130,8 @@ module Hatemile
       ##
       # Generate the list of heading links of page.
       #
-      # ---
-      #
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The list of heading links of page.
+      # @return [Hatemile::Util::HTMLDOMElement] The list of heading links of
+      #   page.
       def generate_list_heading
         container = @parser.find("##{@id_container_heading}").first_result
         html_list = nil
@@ -177,12 +166,8 @@ module Hatemile
       ##
       # Returns the level of heading.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The heading.
-      # Return:
-      # Integer The level of heading.
+      # @param element [Hatemile::Util::HTMLDOMElement] The heading.
+      # @return [Integer] The level of heading.
       def get_heading_level(element)
         tag = element.get_tag_name
         return 1 if tag == 'H1'
@@ -197,10 +182,8 @@ module Hatemile
       ##
       # Inform if the headings of page are sintatic correct.
       #
-      # ---
-      #
-      # Return:
-      # Boolean True if the headings of page are sintatic correct or false if not.
+      # @return [Boolean] True if the headings of page are sintatic correct or
+      #   false if not.
       def is_valid_heading
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         last_level = 0
@@ -221,15 +204,11 @@ module Hatemile
       ##
       # Generate an anchor for the element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
-      #  2. String +data_attribute+ The name of attribute that links the element with
-      #   the anchor.
-      #  3. String +anchor_class+ The HTML class of anchor.
-      # Return:
-      # Hatemile::Util::HTMLDOMElement The anchor.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param data_attribute [String] The name of attribute that links the
+      #   element with the anchor.
+      # @param anchor_class [String] The HTML class of anchor.
+      # @return [Hatemile::Util::HTMLDOMElement] The anchor.
       def generate_anchor_for(element, data_attribute, anchor_class)
         Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
         anchor = nil
@@ -253,10 +232,8 @@ module Hatemile
       ##
       # Replace the shortcut of elements, that has the shortcut passed.
       #
-      # ---
-      #
-      # Parameters:
-      #   1. String +shortcut+ The shortcut.
+      # @param shortcut [String] The shortcut.
+      # @return [void]
       def free_shortcut(shortcut)
         found = false
         alpha_numbers = '1234567890abcdefghijklmnopqrstuvwxyz'
@@ -288,10 +265,8 @@ module Hatemile
       # Call fix_skipper method for element, if the page has the container of
       # skippers.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @return [void]
       def execute_fix_skipper(element)
         return if @list_skippers.nil?
 
@@ -306,10 +281,8 @@ module Hatemile
       # Call fix_shortcut method for element, if the page has the container of
       # shortcuts.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element+ The element.
+      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @return [void]
       def execute_fix_shortcut(element)
         fix_shortcut(element) unless @list_shortcuts.nil?
       end
@@ -320,12 +293,10 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the
       # navigation of parser.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMParser +parser+ The HTML parser.
-      #  2. Hatemile::Util::Configure +configure+ The configuration of HaTeMiLe.
-      #  3. String +user_agent+ The user agent of the user.
+      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
+      # @param user_agent [String] The user agent of the user.
       def initialize(parser, configure, user_agent = nil)
         @parser = parser
         @id_container_shortcuts = 'container-shortcuts'

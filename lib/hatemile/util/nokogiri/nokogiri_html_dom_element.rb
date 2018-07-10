@@ -16,8 +16,8 @@ module Hatemile
   module Util
     module NokogiriLib
       ##
-      # The NokogiriHTMLDOMElement class is official implementation of HTMLDOMElement
-      # interface for the Nokogiri library.
+      # The NokogiriHTMLDOMElement class is official implementation of
+      # HTMLDOMElement interface for the Nokogiri library.
       class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
         public_class_method :new
 
@@ -26,10 +26,7 @@ module Hatemile
         ##
         # Initializes a new object that encapsulate the Nokogiri Node.
         #
-        # ---
-        #
-        # Parameters:
-        #  1. Nokogiri::XML::Node +element+ The Nokogiri Node.
+        # @param element [Nokogiri::XML::Node] The Nokogiri Node.
         def initialize(element)
           @data = element
         end
@@ -153,12 +150,8 @@ module Hatemile
         ##
         # Convert a Nokogiri Node to a HTML code.
         #
-        # ---
-        #
-        # Parameters:
-        #  1. Nokogiri::XML::Node +node+ The Nokogiri Node.
-        # Return:
-        # String The HTML code of the Nokogiri Node.
+        # @param node [Nokogiri::XML::Node] The Nokogiri Node.
+        # @return [String] The HTML code of the Nokogiri Node.
         def to_string(node)
           string = ''
           if node.element?
@@ -195,12 +188,8 @@ module Hatemile
         ##
         # Returns if the tag is self closing.
         #
-        # ---
-        #
-        # Parameters:
-        #  1. String +tag+ The element tag.
-        # Return:
-        # True if the tag is self closing or false if not.
+        # @param tag [String] The element tag.
+        # @return [Boolean] True if the tag is self closing or false if not.
         def self_closing_tag?(tag)
           @@self_closing_tags.include?(tag.downcase)
         end
