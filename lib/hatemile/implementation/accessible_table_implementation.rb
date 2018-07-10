@@ -34,7 +34,11 @@ module Hatemile
         rows = @parser.find(part).find_children('tr').list_results
         table = []
         rows.each do |row|
-          table.push(generate_colspan(@parser.find(row).find_children('td,th').list_results))
+          table.push(
+            generate_colspan(
+              @parser.find(row).find_children('td,th').list_results
+            )
+          )
         end
         generate_rowspan(table)
       end
@@ -169,7 +173,10 @@ module Hatemile
 
             headers = cell.get_attribute('headers')
             headers_ids.each do |header_id|
-              headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, header_id)
+              headers = Hatemile::Util::CommonFunctions.increase_in_list(
+                headers,
+                header_id
+              )
             end
             cell.set_attribute('headers', headers)
           end
@@ -182,7 +189,9 @@ module Hatemile
       # @param table_header [Hatemile::Util::HTMLDOMElement] The table header.
       # @return [void]
       def fix_header(table_header)
-        cells = @parser.find(table_header).find_children('tr').find_children('th').list_results
+        cells = @parser.find(table_header).find_children('tr').find_children(
+          'th'
+        ).list_results
         cells.each do |cell|
           Hatemile::Util::CommonFunctions.generate_id(cell, @prefix_id)
 
@@ -227,7 +236,10 @@ module Hatemile
                 headers_ids = return_list_ids_columns(header_cells, i)
                 headers = cell.get_attribute('headers')
                 headers_ids.each do |headers_id|
-                  headers = Hatemile::Util::CommonFunctions.increase_in_list(headers, headers_id)
+                  headers = Hatemile::Util::CommonFunctions.increase_in_list(
+                    headers,
+                    headers_id
+                  )
                 end
                 cell.set_attribute('headers', headers)
                 i += 1

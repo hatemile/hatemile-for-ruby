@@ -34,7 +34,11 @@ module Hatemile
         tag = element.get_tag_name
         if (tag == 'A') && !element.has_attribute?('href')
           element.set_attribute('tabindex', '0')
-        elsif (tag != 'A') && (tag != 'INPUT') && (tag != 'BUTTON') && (tag != 'SELECT') && (tag != 'TEXTAREA')
+        elsif (tag != 'A') &&
+              (tag != 'INPUT') &&
+              (tag != 'BUTTON') &&
+              (tag != 'SELECT') &&
+              (tag != 'TEXTAREA')
           element.set_attribute('tabindex', '0')
         end
       end
@@ -45,11 +49,14 @@ module Hatemile
       # @return [void]
       def generate_main_scripts
         head = @parser.find('head').first_result
-        if !head.nil? && @parser.find("##{@id_script_event_listener}").first_result.nil?
+        if !head.nil? &&
+           @parser.find("##{@id_script_event_listener}").first_result.nil?
           script = @parser.create_element('script')
           script.set_attribute('id', @id_script_event_listener)
           script.set_attribute('type', 'text/javascript')
-          script.append_text(File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js'))
+          script.append_text(
+            File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
+          )
           if head.has_children?
             head.get_first_element_child.insert_before(script)
           else
@@ -73,7 +80,9 @@ module Hatemile
             script_function = @parser.create_element('script')
             script_function.set_attribute('id', @id_function_script_fix)
             script_function.set_attribute('type', 'text/javascript')
-            script_function.append_text(File.read(File.dirname(__FILE__) + '/../../js/include.js'))
+            script_function.append_text(
+              File.read(File.dirname(__FILE__) + '/../../js/include.js')
+            )
             local.append_element(script_function)
           end
         end
@@ -92,7 +101,9 @@ module Hatemile
         return if @script_list.nil?
 
         Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
-        @script_list.append_text("#{event}Elements.push('#{element.get_attribute('id')}');")
+        @script_list.append_text(
+          "#{event}Elements.push('#{element.get_attribute('id')}');"
+        )
       end
 
       public
@@ -130,13 +141,17 @@ module Hatemile
       end
 
       def fix_drags_and_drops
-        draggable_elements = @parser.find('[ondrag],[ondragstart],[ondragend]').list_results
+        draggable_elements = @parser.find(
+          '[ondrag],[ondragstart],[ondragend]'
+        ).list_results
         draggable_elements.each do |draggable_element|
           unless draggable_element.has_attribute?(@data_ignore)
             fix_drag(draggable_element)
           end
         end
-        droppable_elements = @parser.find('[ondrop],[ondragenter],[ondragleave],[ondragover]').list_results
+        droppable_elements = @parser.find(
+          '[ondrop],[ondragenter],[ondragleave],[ondragover]'
+        ).list_results
         droppable_elements.each do |droppable_element|
           unless droppable_element.has_attribute?(@data_ignore)
             fix_drop(droppable_element)
@@ -164,7 +179,9 @@ module Hatemile
       end
 
       def fix_actives
-        elements = @parser.find('[onclick],[onmousedown],[onmouseup],[ondblclick]').list_results
+        elements = @parser.find(
+          '[onclick],[onmousedown],[onmouseup],[ondblclick]'
+        ).list_results
         elements.each do |element|
           fix_active(element) unless element.has_attribute?(@data_ignore)
         end

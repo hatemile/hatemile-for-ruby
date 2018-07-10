@@ -38,11 +38,25 @@ module Hatemile
             @parameters[parameter.attribute('name').value] = ''
           end
         end
-        document.elements.each('configure/selector-changes/selector-change') do |selector_change|
-          @selector_changes.push(SelectorChange.new(selector_change.attribute('selector').value, selector_change.attribute('attribute').value, selector_change.attribute('value-attribute').value))
+        document.elements.each(
+          'configure/selector-changes/selector-change'
+        ) do |selector_change|
+          @selector_changes.push(
+            SelectorChange.new(
+              selector_change.attribute('selector').value,
+              selector_change.attribute('attribute').value,
+              selector_change.attribute('value-attribute').value
+            )
+          )
         end
         document.elements.each('configure/skippers/skipper') do |skipper|
-          @skippers.push(Skipper.new(skipper.attribute('selector').value, skipper.attribute('default-text').value, skipper.attribute('shortcut').value))
+          @skippers.push(
+            Skipper.new(
+              skipper.attribute('selector').value,
+              skipper.attribute('default-text').value,
+              skipper.attribute('shortcut').value
+            )
+          )
         end
       end
 

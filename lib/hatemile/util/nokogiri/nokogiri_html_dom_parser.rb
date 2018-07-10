@@ -63,7 +63,11 @@ module Hatemile
         # @param encoding [String] The enconding of code.
         def initialize(code_or_parser, encoding = 'UTF-8')
           @document = if code_or_parser.class == String
-                        Nokogiri::HTML::Document.parse(code_or_parser, nil, encoding)
+                        Nokogiri::HTML::Document.parse(
+                          code_or_parser,
+                          nil,
+                          encoding
+                        )
                       else
                         code_or_parser
                       end

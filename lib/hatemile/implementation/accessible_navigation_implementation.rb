@@ -39,22 +39,31 @@ module Hatemile
           description = element.get_attribute('alt')
         elsif element.has_attribute?('label')
           description = element.get_attribute('label')
-        elsif element.has_attribute?('aria-labelledby') || element.has_attribute?('aria-describedby')
+        elsif element.has_attribute?('aria-labelledby') ||
+              element.has_attribute?('aria-describedby')
           description_ids = if element.has_attribute?('aria-labelledby')
-                              element.get_attribute('aria-labelledby').split(/[ \n\t\r]+/)
+                              element.get_attribute(
+                                'aria-labelledby'
+                              ).split(/[ \n\t\r]+/)
                             else
-                              element.get_attribute('aria-describedby').split(/[ \n\t\r]+/)
+                              element.get_attribute(
+                                'aria-describedby'
+                              ).split(/[ \n\t\r]+/)
                             end
           description_ids.each do |description_id|
-            element_description = @parser.find("##{description_id}").first_result
+            element_description = @parser.find(
+              "##{description_id}"
+            ).first_result
             unless element_description.nil?
               description = element_description.get_text_content
               break
             end
           end
-        elsif (element.get_tag_name == 'INPUT') && element.has_attribute?('type')
+        elsif (element.get_tag_name == 'INPUT') &&
+              element.has_attribute?('type')
           type = element.get_attribute('type').downcase
-          if ((type == 'button') || (type == 'submit') || (type == 'reset')) && element.has_attribute?('value')
+          if ((type == 'button') || (type == 'submit') || (type == 'reset')) &&
+             element.has_attribute?('value')
             description = element.get_attribute('value')
           end
         end
@@ -212,7 +221,9 @@ module Hatemile
       def generate_anchor_for(element, data_attribute, anchor_class)
         Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
         anchor = nil
-        if @parser.find("[#{data_attribute}=\"#{element.get_attribute('id')}\"]").first_result.nil?
+        if @parser.find(
+          "[#{data_attribute}=\"#{element.get_attribute('id')}\"]"
+        ).first_result.nil?
           if element.get_tag_name == 'A'
             anchor = element
           else
@@ -241,15 +252,21 @@ module Hatemile
         elements.each do |element|
           shortcuts = element.get_attribute('accesskey').downcase
 
-          next unless Hatemile::Util::CommonFunctions.in_list(shortcuts, shortcut)
+          unless Hatemile::Util::CommonFunctions.in_list(shortcuts, shortcut)
+            next
+          end
 
           (0..alpha_numbers.length - 1).each do |i|
             key = alpha_numbers[i, i + 1]
             found = true
             elements.each do |element_with_shortcuts|
-              shortcuts = element_with_shortcuts.get_attribute('accesskey').downcase
+              shortcuts = element_with_shortcuts.get_attribute(
+                'accesskey'
+              ).downcase
 
-              next unless Hatemile::Util::CommonFunctions.in_list(shortcuts, key)
+              unless Hatemile::Util::CommonFunctions.in_list(shortcuts, key)
+                next
+              end
 
               element.set_attribute('accesskey', key)
               found = false
@@ -314,7 +331,9 @@ module Hatemile
         @prefix_id = configure.get_parameter('prefix-generated-ids')
         @text_shortcuts = configure.get_parameter('text-shortcuts')
         @text_heading = configure.get_parameter('text-heading')
-        @standart_prefix = configure.get_parameter('text-standart-shortcut-prefix')
+        @standart_prefix = configure.get_parameter(
+          'text-standart-shortcut-prefix'
+        )
         @skippers = configure.get_skippers
         @list_shortcuts_added = false
         @list_skippers_added = false
@@ -371,7 +390,11 @@ module Hatemile
         keys.each do |key|
           key = key.upcase
 
-          next unless @parser.find(@list_shortcuts).find_children("[#{@data_access_key}=\"#{key}\"]").first_result.nil?
+          unless @parser.find(@list_shortcuts).find_children(
+            "[#{@data_access_key}=\"#{key}\"]"
+          ).first_result.nil?
+            next
+          end
 
           item = @parser.create_element('li')
           item.set_attribute(@data_access_key, key)
@@ -392,7 +415,11 @@ module Hatemile
 
         return if @list_skippers.nil?
 
-        anchor = generate_anchor_for(element, @data_anchor_for, @class_skipper_anchor)
+        anchor = generate_anchor_for(
+          element,
+          @data_anchor_for,
+          @class_skipper_anchor
+        )
 
         return if anchor.nil?
 
@@ -433,10 +460,24 @@ module Hatemile
               default_text = skipper.get_default_text
             end
             if !shortcuts.empty?
-              fix_skipper(element, Hatemile::Util::Skipper.new(skipper.get_selector, default_text, shortcuts[shortcuts.size - 1]))
+              fix_skipper(
+                element,
+                Hatemile::Util::Skipper.new(
+                  skipper.get_selector,
+                  default_text,
+                  shortcuts[shortcuts.size - 1]
+                )
+              )
               shortcuts.delete_at(shortcuts.size - 1)
             else
-              fix_skipper(element, Hatemile::Util::Skipper.new(skipper.get_selector, default_text, ''))
+              fix_skipper(
+                element,
+                Hatemile::Util::Skipper.new(
+                  skipper.get_selector,
+                  default_text,
+                  ''
+                )
+              )
             end
           end
         end
@@ -447,7 +488,11 @@ module Hatemile
 
         return unless @valid_heading
 
-        anchor = generate_anchor_for(element, @data_heading_anchor_for, @class_heading_anchor)
+        anchor = generate_anchor_for(
+          element,
+          @data_heading_anchor_for,
+          @class_heading_anchor
+        )
 
         return if anchor.nil?
 
@@ -456,7 +501,11 @@ module Hatemile
         if level == 1
           list = generate_list_heading
         else
-          super_item = @parser.find("##{@id_container_heading}").find_descendants("[#{@data_heading_level}=\"#{level - 1}\"]").last_result
+          super_item = @parser.find(
+            "##{@id_container_heading}"
+          ).find_descendants(
+            "[#{@data_heading_level}=\"#{level - 1}\"]"
+          ).last_result
           unless super_item.nil?
             list = @parser.find(super_item).find_children('ol').first_result
             if list.nil?

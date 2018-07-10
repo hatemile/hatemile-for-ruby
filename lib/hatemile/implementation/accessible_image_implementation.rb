@@ -34,8 +34,12 @@ module Hatemile
         @class_long_description_link = 'longdescription-link'
         @data_long_description_for_image = 'data-longdescriptionfor'
         @data_ignore = 'data-ignoreaccessibilityfix'
-        @prefix_long_description_link = configure.get_parameter('prefix-longdescription')
-        @suffix_long_description_link = configure.get_parameter('suffix-longdescription')
+        @prefix_long_description_link = configure.get_parameter(
+          'prefix-longdescription'
+        )
+        @suffix_long_description_link = configure.get_parameter(
+          'suffix-longdescription'
+        )
       end
 
       def fix_long_description(element)
@@ -44,13 +48,17 @@ module Hatemile
         Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
         id = element.get_attribute('id')
 
-        return unless @parser.find("[#{@data_long_description_for_image}=\"#{id}\"]").first_result.nil?
+        selector = "[#{@data_long_description_for_image}=\"#{id}\"]"
+        return unless @parser.find(selector).first_result.nil?
 
-        if element.has_attribute?('alt')
-          text = "#{@prefix_long_description_link} #{element.get_attribute('alt')} #{@suffix_long_description_link}"
-        else
-          text = "#{@prefix_long_description_link} #{@suffix_long_description_link}"
-        end
+        text = if element.has_attribute?('alt')
+                 "#{@prefix_long_description_link} " \
+                 "#{element.get_attribute('alt')} " \
+                 "#{@suffix_long_description_link}"
+               else
+                 "#{@prefix_long_description_link} " \
+                 "#{@suffix_long_description_link}"
+               end
         anchor = @parser.create_element('a')
         anchor.set_attribute('href', element.get_attribute('longdesc'))
         anchor.set_attribute('target', '_blank')
@@ -63,7 +71,9 @@ module Hatemile
       def fix_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
-          fix_long_description(element) unless element.has_attribute?(@data_ignore)
+          unless element.has_attribute?(@data_ignore)
+            fix_long_description(element)
+          end
         end
       end
     end

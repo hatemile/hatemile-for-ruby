@@ -182,7 +182,8 @@ module Hatemile
             string += to_string(child)
           end
 
-          if node.element? && !(node.children.empty? && self_closing_tag?(node.name))
+          if node.element? &&
+             !(node.children.empty? && self_closing_tag?(node.name))
             string += "</#{node.name.downcase}>"
           end
           string

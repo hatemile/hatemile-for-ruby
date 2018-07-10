@@ -68,7 +68,10 @@ module Hatemile
       # @return [String] True if the list contains the item or false is not
       #   contains.
       def self.increase_in_list(list, string_to_increase)
-        if !list.nil? && !list.empty? && !string_to_increase.nil? && !string_to_increase.empty?
+        if !list.nil? &&
+           !list.empty? &&
+           !string_to_increase.nil? &&
+           !string_to_increase.empty?
           return list if in_list(list, string_to_increase)
           return "#{list} #{string_to_increase}"
         elsif !list.nil? && !list.empty?
@@ -85,7 +88,10 @@ module Hatemile
       # @return [Boolean] True if the list contains the item or false is not
       #   contains.
       def self.in_list(list, string_to_search)
-        if !list.nil? && !list.empty? && !string_to_search.nil? && !string_to_search.empty?
+        if !list.nil? &&
+           !list.empty? &&
+           !string_to_search.nil? &&
+           !string_to_search.empty?
           elements = list.split(/[ \n\t\r]+/)
           elements.each do |element|
             return true if element == string_to_search

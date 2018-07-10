@@ -33,7 +33,14 @@ module Hatemile
       # @param data_prefix [String] The name of prefix attribute.
       # @param data_suffix [String] The name of suffix attribute.
       # @return [void]
-      def add_prefix_suffix(label, field, prefix, suffix, data_prefix, data_suffix)
+      def add_prefix_suffix(
+        label,
+        field,
+        prefix,
+        suffix,
+        data_prefix,
+        data_suffix
+      )
         content = field.get_attribute('aria-label')
         unless prefix.empty?
           label.set_attribute(data_prefix, prefix)
@@ -54,13 +61,24 @@ module Hatemile
       #   field.
       # @return [void]
       def fix_label_required_field(label, required_field)
-        if (required_field.has_attribute?('required') || (required_field.has_attribute?('aria-required') \
-            && required_field.get_attribute('aria-required').casecmp('true').zero?)) \
-            && required_field.has_attribute?('aria-label') \
-            && !label.has_attribute?(@data_label_prefix_required_field) \
-            && !label.has_attribute?(@data_label_suffix_required_field)
-          add_prefix_suffix(label, required_field, @prefix_required_field, @suffix_required_field \
-              , @data_label_prefix_required_field, @data_label_suffix_required_field)
+        if (
+          required_field.has_attribute?('required') ||
+          (
+            required_field.has_attribute?('aria-required') &&
+            required_field.get_attribute('aria-required').casecmp('true').zero?
+          )
+        ) &&
+           required_field.has_attribute?('aria-label') &&
+           !label.has_attribute?(@data_label_prefix_required_field) &&
+           !label.has_attribute?(@data_label_suffix_required_field)
+          add_prefix_suffix(
+            label,
+            required_field,
+            @prefix_required_field,
+            @suffix_required_field,
+            @data_label_prefix_required_field,
+            @data_label_suffix_required_field
+          )
         end
       end
 
@@ -73,29 +91,45 @@ module Hatemile
       def fix_label_range_field(label, range_field)
         return unless range_field.has_attribute?('aria-label')
 
-        if (range_field.has_attribute?('min') || range_field.has_attribute?('aria-valuemin')) \
-            && !label.has_attribute?(@data_label_prefix_range_min_field) \
-            && !label.has_attribute?(@data_label_suffix_range_min_field)
+        if (
+          range_field.has_attribute?('min') ||
+          range_field.has_attribute?('aria-valuemin')
+        ) &&
+           !label.has_attribute?(@data_label_prefix_range_min_field) &&
+           !label.has_attribute?(@data_label_suffix_range_min_field)
           value = if range_field.has_attribute?('min')
                     range_field.get_attribute('min')
                   else
                     range_field.get_attribute('aria-valuemin')
                   end
-          add_prefix_suffix(label, range_field, @prefix_range_min_field.gsub(/{{value}}/, value) \
-              , @suffix_range_min_field.gsub(/{{value}}/, value) \
-              , @data_label_prefix_range_min_field, @data_label_suffix_range_min_field)
+          add_prefix_suffix(
+            label,
+            range_field,
+            @prefix_range_min_field.gsub(/{{value}}/, value),
+            @suffix_range_min_field.gsub(/{{value}}/, value),
+            @data_label_prefix_range_min_field,
+            @data_label_suffix_range_min_field
+          )
         end
-        if (range_field.has_attribute?('max') || range_field.has_attribute?('aria-valuemax')) \
-            && !label.has_attribute?(@data_label_prefix_range_max_field) \
-            && !label.has_attribute?(@data_label_suffix_range_max_field)
+        if (
+          range_field.has_attribute?('max') ||
+          range_field.has_attribute?('aria-valuemax')
+        ) &&
+           !label.has_attribute?(@data_label_prefix_range_max_field) &&
+           !label.has_attribute?(@data_label_suffix_range_max_field)
           value = if range_field.has_attribute?('max')
                     range_field.get_attribute('max')
                   else
                     range_field.get_attribute('aria-valuemax')
                   end
-          add_prefix_suffix(label, range_field, @prefix_range_max_field.gsub(/{{value}}/, value) \
-              , @suffix_range_max_field.gsub(/{{value}}/, value) \
-              , @data_label_prefix_range_max_field, @data_label_suffix_range_max_field)
+          add_prefix_suffix(
+            label,
+            range_field,
+            @prefix_range_max_field.gsub(/{{value}}/, value),
+            @suffix_range_max_field.gsub(/{{value}}/, value),
+            @data_label_prefix_range_max_field,
+            @data_label_suffix_range_max_field
+          )
         end
       end
 
@@ -109,36 +143,65 @@ module Hatemile
       def fix_label_autocomplete_field(label, autocomplete_field)
         prefix_autocomplete_field_modified = ''
         suffix_autocomplete_field_modified = ''
-        if autocomplete_field.has_attribute?('aria-label') \
-            && !label.has_attribute?(@data_label_prefix_autocomplete_field) \
-            && !label.has_attribute?(@data_label_suffix_autocomplete_field)
+        if autocomplete_field.has_attribute?('aria-label') &&
+           !label.has_attribute?(@data_label_prefix_autocomplete_field) &&
+           !label.has_attribute?(@data_label_suffix_autocomplete_field)
           aria_autocomplete = get_aria_autocomplete(autocomplete_field)
           unless aria_autocomplete.nil?
             if aria_autocomplete == 'both'
               unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified = @prefix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_both)
+                prefix_autocomplete_field_modified =
+                  @prefix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_both
+                  )
               end
               unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified = @suffix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_both)
+                suffix_autocomplete_field_modified =
+                  @suffix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_both
+                  )
               end
             elsif aria_autocomplete == 'none'
               unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified = @prefix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_none)
+                prefix_autocomplete_field_modified =
+                  @prefix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_none
+                  )
               end
               unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified = @suffix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_none)
+                suffix_autocomplete_field_modified =
+                  @suffix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_none
+                  )
               end
             elsif aria_autocomplete == 'list'
               unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified = @prefix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_list)
+                prefix_autocomplete_field_modified =
+                  @prefix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_list
+                  )
               end
               unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified = @suffix_autocomplete_field.gsub(/{{value}}/, @text_autocomplete_value_list)
+                suffix_autocomplete_field_modified =
+                  @suffix_autocomplete_field.gsub(
+                    /{{value}}/,
+                    @text_autocomplete_value_list
+                  )
               end
             end
-            add_prefix_suffix(label, autocomplete_field, prefix_autocomplete_field_modified \
-                , suffix_autocomplete_field_modified, @data_label_prefix_autocomplete_field \
-                , @data_label_suffix_autocomplete_field)
+            add_prefix_suffix(
+              label,
+              autocomplete_field,
+              prefix_autocomplete_field_modified,
+              suffix_autocomplete_field_modified,
+              @data_label_prefix_autocomplete_field,
+              @data_label_suffix_autocomplete_field
+            )
           end
         end
       end
@@ -154,14 +217,29 @@ module Hatemile
         if field.has_attribute?('type')
           type = field.get_attribute('type').downcase
         end
-        if (tag_name == 'TEXTAREA') || ((tag_name == 'INPUT') && !((type == 'button') || (type == 'submit') || (type == 'reset') || (type == 'image') || (type == 'file') || (type == 'checkbox') || (type == 'radio') || (type == 'hidden')))
+        if (tag_name == 'TEXTAREA') ||
+           (
+             (tag_name == 'INPUT') &&
+             !(
+               (type == 'button') ||
+               (type == 'submit') ||
+               (type == 'reset') ||
+               (type == 'image') ||
+               (type == 'file') ||
+               (type == 'checkbox') ||
+               (type == 'radio') ||
+               (type == 'hidden')
+             )
+           )
           value = nil
           if field.has_attribute?('autocomplete')
             value = field.get_attribute('autocomplete').downcase
           else
             form = @parser.find(field).find_ancestors('form').first_result
             if form.nil? && field.has_attribute?('form')
-              form = @parser.find("##{field.get_attribute('form')}").first_result
+              form = @parser.find(
+                "##{field.get_attribute('form')}"
+              ).first_result
             end
             if !form.nil? && form.has_attribute?('autocomplete')
               value = form.get_attribute('autocomplete').downcase
@@ -169,7 +247,12 @@ module Hatemile
           end
           return 'both' if value == 'on'
           return 'none' if value == 'off'
-          return 'list' if field.has_attribute?('list') && !@parser.find("datalist[id=\"#{field.get_attribute('list')}\"]").first_result.nil?
+          if field.has_attribute?('list')
+            list_id = field.get_attribute('list')
+            unless @parser.find("datalist[id=\"#{list_id}\"]").first_result.nil?
+              return 'list'
+            end
+          end
         end
         nil
       end
@@ -182,7 +265,9 @@ module Hatemile
       def get_labels(field)
         labels = nil
         if field.has_attribute?('id')
-          labels = @parser.find("label[for=\"#{field.get_attribute('id')}\"]").list_results
+          labels = @parser.find(
+            "label[for=\"#{field.get_attribute('id')}\"]"
+          ).list_results
         end
         if labels.nil? || labels.empty?
           labels = @parser.find(field).find_ancestors('label').list_results
@@ -211,18 +296,42 @@ module Hatemile
         @data_label_suffix_autocomplete_field = 'data-suffixautocompletefield'
         @data_ignore = 'data-ignoreaccessibilityfix'
         @prefix_id = configure.get_parameter('prefix-generated-ids')
-        @prefix_required_field = configure.get_parameter('prefix-required-field')
-        @suffix_required_field = configure.get_parameter('suffix-required-field')
-        @prefix_range_min_field = configure.get_parameter('prefix-range-min-field')
-        @suffix_range_min_field = configure.get_parameter('suffix-range-min-field')
-        @prefix_range_max_field = configure.get_parameter('prefix-range-max-field')
-        @suffix_range_max_field = configure.get_parameter('suffix-range-max-field')
-        @prefix_autocomplete_field = configure.get_parameter('prefix-autocomplete-field')
-        @suffix_autocomplete_field = configure.get_parameter('suffix-autocomplete-field')
-        @text_autocomplete_value_both = configure.get_parameter('text-autocomplete-value-both')
-        @text_autocomplete_value_list = configure.get_parameter('text-autocomplete-value-list')
-        @text_autocomplete_value_inline = configure.get_parameter('text-autocomplete-value-inline')
-        @text_autocomplete_value_none = configure.get_parameter('text-autocomplete-value-none')
+        @prefix_required_field = configure.get_parameter(
+          'prefix-required-field'
+        )
+        @suffix_required_field = configure.get_parameter(
+          'suffix-required-field'
+        )
+        @prefix_range_min_field = configure.get_parameter(
+          'prefix-range-min-field'
+        )
+        @suffix_range_min_field = configure.get_parameter(
+          'suffix-range-min-field'
+        )
+        @prefix_range_max_field = configure.get_parameter(
+          'prefix-range-max-field'
+        )
+        @suffix_range_max_field = configure.get_parameter(
+          'suffix-range-max-field'
+        )
+        @prefix_autocomplete_field = configure.get_parameter(
+          'prefix-autocomplete-field'
+        )
+        @suffix_autocomplete_field = configure.get_parameter(
+          'suffix-autocomplete-field'
+        )
+        @text_autocomplete_value_both = configure.get_parameter(
+          'text-autocomplete-value-both'
+        )
+        @text_autocomplete_value_list = configure.get_parameter(
+          'text-autocomplete-value-list'
+        )
+        @text_autocomplete_value_inline = configure.get_parameter(
+          'text-autocomplete-value-inline'
+        )
+        @text_autocomplete_value_none = configure.get_parameter(
+          'text-autocomplete-value-none'
+        )
       end
 
       def fix_required_field(required_field)
@@ -247,10 +356,16 @@ module Hatemile
 
       def fix_range_field(range_field)
         if range_field.has_attribute?('min')
-          range_field.set_attribute('aria-valuemin', range_field.get_attribute('min'))
+          range_field.set_attribute(
+            'aria-valuemin',
+            range_field.get_attribute('min')
+          )
         end
         if range_field.has_attribute?('max')
-          range_field.set_attribute('aria-valuemax', range_field.get_attribute('max'))
+          range_field.set_attribute(
+            'aria-valuemax',
+            range_field.get_attribute('max')
+          )
         end
         labels = get_labels(range_field)
         labels.each do |label|
@@ -261,7 +376,9 @@ module Hatemile
       def fix_range_fields
         range_fields = @parser.find('[min],[max]').list_results
         range_fields.each do |range_field|
-          fix_range_field(range_field) unless range_field.has_attribute?(@data_ignore)
+          unless range_field.has_attribute?(@data_ignore)
+            fix_range_field(range_field)
+          end
         end
       end
 
@@ -279,7 +396,10 @@ module Hatemile
       end
 
       def fix_autocomplete_fields
-        elements = @parser.find('input[autocomplete],textarea[autocomplete],form[autocomplete] input,form[autocomplete] textarea,[list],[form]').list_results
+        elements = @parser.find(
+          'input[autocomplete],textarea[autocomplete],form[autocomplete] ' \
+          'input,form[autocomplete] textarea,[list],[form]'
+        ).list_results
         elements.each do |element|
           unless element.has_attribute?(@data_ignore)
             fix_autocomplete_field(element)
@@ -293,7 +413,9 @@ module Hatemile
         if label.has_attribute?('for')
           field = @parser.find("##{label.get_attribute('for')}").first_result
         else
-          field = @parser.find(label).find_descendants('input,select,textarea').first_result
+          field = @parser.find(label).find_descendants(
+            'input,select,textarea'
+          ).first_result
 
           unless field.nil?
             Hatemile::Util::CommonFunctions.generate_id(field, @prefix_id)
@@ -304,7 +426,10 @@ module Hatemile
         return if field.nil?
 
         unless field.has_attribute?('aria-label')
-          field.set_attribute('aria-label', label.get_text_content.gsub(/[ \n\r\t]+/, ' '))
+          field.set_attribute(
+            'aria-label',
+            label.get_text_content.gsub(/[ \n\r\t]+/, ' ')
+          )
         end
 
         fix_label_required_field(label, field)
@@ -312,8 +437,13 @@ module Hatemile
         fix_label_autocomplete_field(label, field)
 
         Hatemile::Util::CommonFunctions.generate_id(label, @prefix_id)
-        field.set_attribute('aria-labelledby', Hatemile::Util::CommonFunctions
-            .increase_in_list(field.get_attribute('aria-labelledby'), label.get_attribute('id')))
+        field.set_attribute(
+          'aria-labelledby',
+          Hatemile::Util::CommonFunctions.increase_in_list(
+            field.get_attribute('aria-labelledby'),
+            label.get_attribute('id')
+          )
+        )
       end
 
       def fix_labels
