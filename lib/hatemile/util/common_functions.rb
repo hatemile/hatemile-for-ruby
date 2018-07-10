@@ -45,12 +45,13 @@ module Hatemile
       ##
       # Copy a list of attributes of a element for other element.
       #
-      # ---
-      #
-      # Parameters:
-      #  1. Hatemile::Util::HTMLDOMElement +element1+ The element that have attributes copied.
-      #  2. Hatemile::Util::HTMLDOMElement +element2+ The element that copy the attributes.
-      #  3. Array(String) +attributes+ The list of attributes that will be copied.
+      # @param element1 [Hatemile::Util::HTMLDOMElement] The element that have
+      #   attributes copied.
+      # @param element2 [Hatemile::Util::HTMLDOMElement] The element that copy
+      #   the attributes.
+      # @param attributes [Array<String>] The list of attributes that will be
+      #   copied.
+      # @return [void]
       def self.set_list_attributes(element1, element2, attributes)
         attributes.each do |attribute|
           if element1.has_attribute?(attribute)
