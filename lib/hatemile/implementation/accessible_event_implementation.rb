@@ -21,14 +21,6 @@ module Hatemile
     class AccessibleEventImplementation < AccessibleEvent
       public_class_method :new
 
-      ##
-      # The content of eventlistener.js.
-      @@event_listener_script_content = nil
-
-      ##
-      # The content of include.js.
-      @@include_script_content = nil
-
       protected
 
       ##
@@ -54,19 +46,10 @@ module Hatemile
       def generate_main_scripts
         head = @parser.find('head').first_result
         if !head.nil? && @parser.find("##{@id_script_event_listener}").first_result.nil?
-          if @store_scripts_content
-            if @@event_listener_script_content.nil?
-              @@event_listener_script_content = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
-            end
-            local_event_listener_script_content = @@event_listener_script_content
-          else
-            local_event_listener_script_content = File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
-          end
-
           script = @parser.create_element('script')
           script.set_attribute('id', @id_script_event_listener)
           script.set_attribute('type', 'text/javascript')
-          script.append_text(local_event_listener_script_content)
+          script.append_text(File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js'))
           if head.has_children?
             head.get_first_element_child.insert_before(script)
           else
@@ -87,19 +70,10 @@ module Hatemile
             local.append_element(@script_list)
           end
           if @parser.find("##{@id_function_script_fix}").first_result.nil?
-            if @store_scripts_content
-              if @@include_script_content.nil?
-                @@include_script_content = File.read(File.dirname(__FILE__) + '/../../js/include.js')
-              end
-              local_include_script_content = @@include_script_content
-            else
-              local_include_script_content = File.read(File.dirname(__FILE__) + '/../../js/include.js')
-            end
-
             script_function = @parser.create_element('script')
             script_function.set_attribute('id', @id_function_script_fix)
             script_function.set_attribute('type', 'text/javascript')
-            script_function.append_text(local_include_script_content)
+            script_function.append_text(File.read(File.dirname(__FILE__) + '/../../js/include.js'))
             local.append_element(script_function)
           end
         end
@@ -130,11 +104,8 @@ module Hatemile
       # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
       # @param configure [Hatemile::Util::Configure] The configuration of
       #   HaTeMiLe.
-      # @param store_scripts_content [Boolean] The state that indicates if the
-      #   scripts used are stored or deleted, after use.
-      def initialize(parser, configure, store_scripts_content)
+      def initialize(parser, configure)
         @parser = parser
-        @store_scripts_content = store_scripts_content
         @prefix_id = configure.get_parameter('prefix-generated-ids')
         @id_script_event_listener = 'script-eventlistener'
         @id_list_ids_script = 'list-ids-script'

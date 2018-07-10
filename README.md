@@ -14,14 +14,14 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     # First install the nokogiri
     #   gem install nokogiri
     # Load required files
-    require 'lib/hatemile/util/Configure';
-    require 'lib/hatemile/util/nokogiri/NokogiriHTMLDOMParser';
-    require 'lib/hatemile/implementation/AccessibleEventImplementation';
-    require 'lib/hatemile/implementation/AccessibleFormImplementation';
-    require 'lib/hatemile/implementation/AccessibleImageImplementation';
-    require 'lib/hatemile/implementation/AccessibleNavigationImplementation';
-    require 'lib/hatemile/implementation/AccessibleSelectorImplementation';
-    require 'lib/hatemile/implementation/AccessibleTableImplementation';
+    require_relative 'lib/hatemile/util/configure';
+    require_relative 'lib/hatemile/util/nokogiri/nokogiri_html_dom_parser';
+    require_relative 'lib/hatemile/implementation/accessible_event_implementation';
+    require_relative 'lib/hatemile/implementation/accessible_form_implementation';
+    require_relative 'lib/hatemile/implementation/accessible_image_implementation';
+    require_relative 'lib/hatemile/implementation/accessible_navigation_implementation';
+    require_relative 'lib/hatemile/implementation/accessible_selector_implementation';
+    require_relative 'lib/hatemile/implementation/accessible_table_implementation';
     
     # Load the configuration of hatemile (hatemile-configure.xml)
     configure = Hatemile::Util::Configure.new('lib/hatemile-configure.xml')
@@ -179,7 +179,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 		</body>
 	</html>')
     # Create instances of modifiers
-    events = Hatemile::Implementation::AccessibleEventImplementation.new(parser, configure, true)
+    events = Hatemile::Implementation::AccessibleEventImplementation.new(parser, configure)
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser, configure)
     images = Hatemile::Implementation::AccessibleImageImplementation.new(parser, configure)
     selectors = Hatemile::Implementation::AccessibleSelectorImplementation.new(parser, configure)
