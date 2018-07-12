@@ -21,6 +21,52 @@ module Hatemile
     class AccessibleFormImplementation < AccessibleForm
       public_class_method :new
 
+      ##
+      # The name of attribute that store the description prefix of required
+      # fields.
+      DATA_LABEL_PREFIX_REQUIRED_FIELD = 'data-prefixrequiredfield'.freeze
+
+      ##
+      # The name of attribute that store the description suffix of required
+      # fields.
+      DATA_LABEL_SUFFIX_REQUIRED_FIELD = 'data-suffixrequiredfield'.freeze
+
+      ##
+      # The name of attribute that store the description prefix of range fields
+      # minimum value.
+      DATA_LABEL_PREFIX_RANGE_MIN_FIELD = 'data-prefixvalueminfield'.freeze
+
+      ##
+      # The name of attribute that store the description suffix of range fields
+      # for minimum value.
+      DATA_LABEL_SUFFIX_RANGE_MIN_FIELD = 'data-suffixvalueminfield'.freeze
+
+      ##
+      # The name of attribute that store the description prefix of range fields
+      # for maximum value.
+      DATA_LABEL_PREFIX_RANGE_MAX_FIELD = 'data-prefixvaluemaxfield'.freeze
+
+      ##
+      # The name of attribute that store the description suffix of range fields
+      # for maximum value.
+      DATA_LABEL_SUFFIX_RANGE_MAX_FIELD = 'data-suffixvaluemaxfield'.freeze
+
+      ##
+      # The name of attribute that store the description prefix of autocomplete
+      # fields.
+      DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD =
+        'data-prefixautocompletefield'.freeze
+
+      ##
+      # The name of attribute that store the description suffix of autocomplete
+      # fields.
+      DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD =
+        'data-suffixautocompletefield'.freeze
+
+      ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
       protected
 
       ##
@@ -69,15 +115,15 @@ module Hatemile
           )
         ) &&
            required_field.has_attribute?('aria-label') &&
-           !label.has_attribute?(@data_label_prefix_required_field) &&
-           !label.has_attribute?(@data_label_suffix_required_field)
+           !label.has_attribute?(DATA_LABEL_PREFIX_REQUIRED_FIELD) &&
+           !label.has_attribute?(DATA_LABEL_SUFFIX_REQUIRED_FIELD)
           add_prefix_suffix(
             label,
             required_field,
             @prefix_required_field,
             @suffix_required_field,
-            @data_label_prefix_required_field,
-            @data_label_suffix_required_field
+            DATA_LABEL_PREFIX_REQUIRED_FIELD,
+            DATA_LABEL_SUFFIX_REQUIRED_FIELD
           )
         end
       end
@@ -95,8 +141,8 @@ module Hatemile
           range_field.has_attribute?('min') ||
           range_field.has_attribute?('aria-valuemin')
         ) &&
-           !label.has_attribute?(@data_label_prefix_range_min_field) &&
-           !label.has_attribute?(@data_label_suffix_range_min_field)
+           !label.has_attribute?(DATA_LABEL_PREFIX_RANGE_MIN_FIELD) &&
+           !label.has_attribute?(DATA_LABEL_SUFFIX_RANGE_MIN_FIELD)
           value = if range_field.has_attribute?('min')
                     range_field.get_attribute('min')
                   else
@@ -107,16 +153,16 @@ module Hatemile
             range_field,
             @prefix_range_min_field.gsub(/{{value}}/, value),
             @suffix_range_min_field.gsub(/{{value}}/, value),
-            @data_label_prefix_range_min_field,
-            @data_label_suffix_range_min_field
+            DATA_LABEL_PREFIX_RANGE_MIN_FIELD,
+            DATA_LABEL_SUFFIX_RANGE_MIN_FIELD
           )
         end
         if (
           range_field.has_attribute?('max') ||
           range_field.has_attribute?('aria-valuemax')
         ) &&
-           !label.has_attribute?(@data_label_prefix_range_max_field) &&
-           !label.has_attribute?(@data_label_suffix_range_max_field)
+           !label.has_attribute?(DATA_LABEL_PREFIX_RANGE_MAX_FIELD) &&
+           !label.has_attribute?(DATA_LABEL_SUFFIX_RANGE_MAX_FIELD)
           value = if range_field.has_attribute?('max')
                     range_field.get_attribute('max')
                   else
@@ -127,8 +173,8 @@ module Hatemile
             range_field,
             @prefix_range_max_field.gsub(/{{value}}/, value),
             @suffix_range_max_field.gsub(/{{value}}/, value),
-            @data_label_prefix_range_max_field,
-            @data_label_suffix_range_max_field
+            DATA_LABEL_PREFIX_RANGE_MAX_FIELD,
+            DATA_LABEL_SUFFIX_RANGE_MAX_FIELD
           )
         end
       end
@@ -144,8 +190,8 @@ module Hatemile
         prefix_autocomplete_field_modified = ''
         suffix_autocomplete_field_modified = ''
         if autocomplete_field.has_attribute?('aria-label') &&
-           !label.has_attribute?(@data_label_prefix_autocomplete_field) &&
-           !label.has_attribute?(@data_label_suffix_autocomplete_field)
+           !label.has_attribute?(DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD) &&
+           !label.has_attribute?(DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD)
           aria_autocomplete = get_aria_autocomplete(autocomplete_field)
           unless aria_autocomplete.nil?
             if aria_autocomplete == 'both'
@@ -199,8 +245,8 @@ module Hatemile
               autocomplete_field,
               prefix_autocomplete_field_modified,
               suffix_autocomplete_field_modified,
-              @data_label_prefix_autocomplete_field,
-              @data_label_suffix_autocomplete_field
+              DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD,
+              DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD
             )
           end
         end
@@ -286,15 +332,6 @@ module Hatemile
       #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @data_label_prefix_required_field = 'data-prefixrequiredfield'
-        @data_label_suffix_required_field = 'data-suffixrequiredfield'
-        @data_label_prefix_range_min_field = 'data-prefixvalueminfield'
-        @data_label_suffix_range_min_field = 'data-suffixvalueminfield'
-        @data_label_prefix_range_max_field = 'data-prefixvaluemaxfield'
-        @data_label_suffix_range_max_field = 'data-suffixvaluemaxfield'
-        @data_label_prefix_autocomplete_field = 'data-prefixautocompletefield'
-        @data_label_suffix_autocomplete_field = 'data-suffixautocompletefield'
-        @data_ignore = 'data-ignoreaccessibilityfix'
         @prefix_id = configure.get_parameter('prefix-generated-ids')
         @prefix_required_field = configure.get_parameter(
           'prefix-required-field'
@@ -348,7 +385,7 @@ module Hatemile
       def fix_required_fields
         required_fields = @parser.find('[required]').list_results
         required_fields.each do |required_field|
-          unless required_field.has_attribute?(@data_ignore)
+          unless required_field.has_attribute?(DATA_IGNORE)
             fix_required_field(required_field)
           end
         end
@@ -376,7 +413,7 @@ module Hatemile
       def fix_range_fields
         range_fields = @parser.find('[min],[max]').list_results
         range_fields.each do |range_field|
-          unless range_field.has_attribute?(@data_ignore)
+          unless range_field.has_attribute?(DATA_IGNORE)
             fix_range_field(range_field)
           end
         end
@@ -401,7 +438,7 @@ module Hatemile
           'input,form[autocomplete] textarea,[list],[form]'
         ).list_results
         elements.each do |element|
-          unless element.has_attribute?(@data_ignore)
+          unless element.has_attribute?(DATA_IGNORE)
             fix_autocomplete_field(element)
           end
         end
@@ -449,7 +486,7 @@ module Hatemile
       def fix_labels
         labels = @parser.find('label').list_results
         labels.each do |label|
-          fix_label(label) unless label.has_attribute?(@data_ignore)
+          fix_label(label) unless label.has_attribute?(DATA_IGNORE)
         end
       end
     end

@@ -21,10 +21,10 @@ module Hatemile
       class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
         public_class_method :new
 
-        @@self_closing_tags = %w[
+        SELF_CLOSING_TAGS = %w[
           area base br col embed hr img input keygen
           link menuitem meta param source track wbr
-        ]
+        ].freeze
 
         ##
         # Initializes a new object that encapsulate the Nokogiri Node.
@@ -195,7 +195,7 @@ module Hatemile
         # @param tag [String] The element tag.
         # @return [Boolean] True if the tag is self closing or false if not.
         def self_closing_tag?(tag)
-          @@self_closing_tags.include?(tag.downcase)
+          SELF_CLOSING_TAGS.include?(tag.downcase)
         end
       end
     end

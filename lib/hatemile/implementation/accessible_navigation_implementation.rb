@@ -21,6 +21,55 @@ module Hatemile
     class AccessibleNavigationImplementation < AccessibleNavigation
       public_class_method :new
 
+      ##
+      # The id of list element that contains the description of shortcuts.
+      ID_CONTAINER_SHORTCUTS = 'container-shortcuts'.freeze
+
+      ##
+      # The id of list element that contains the skippers.
+      ID_CONTAINER_SKIPPERS = 'container-skippers'.freeze
+
+      ##
+      # The id of list element that contains the links for the headings.
+      ID_CONTAINER_HEADING = 'container-heading'.freeze
+
+      ##
+      # The id of text of description of container of shortcuts descriptions.
+      ID_TEXT_SHORTCUTS = 'text-shortcuts'.freeze
+
+      ##
+      # The id of text of description of container of heading links.
+      ID_TEXT_HEADING = 'text-heading'.freeze
+
+      ##
+      # The HTML class of anchor of skipper.
+      CLASS_SKIPPER_ANCHOR = 'skipper-anchor'.freeze
+
+      ##
+      # The HTML class of anchor of heading link.
+      CLASS_HEADING_ANCHOR = 'heading-anchor'.freeze
+
+      ##
+      # The name of attribute that link the list item element with the shortcut.
+      DATA_ACCESS_KEY = 'data-shortcutdescriptionfor'.freeze
+
+      ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
+      ##
+      # The name of attribute that links the anchor of skipper with the element.
+      DATA_ANCHOR_FOR = 'data-anchorfor'.freeze
+
+      ##
+      # The name of attribute that links the anchor of heading link with
+      # heading.
+      DATA_HEADING_ANCHOR_FOR = 'data-headinganchorfor'.freeze
+
+      ##
+      # The name of attribute that indicates the level of heading of link.
+      DATA_HEADING_LEVEL = 'data-headinglevel'.freeze
+
       protected
 
       ##
@@ -76,17 +125,17 @@ module Hatemile
       #
       # @return [Hatemile::Util::HTMLDOMElement] The list of shortcuts of page.
       def generate_list_shortcuts
-        container = @parser.find("##{@id_container_shortcuts}").first_result
+        container = @parser.find("##{ID_CONTAINER_SHORTCUTS}").first_result
 
         html_list = nil
         if container.nil?
           local = @parser.find('body').first_result
           unless local.nil?
             container = @parser.create_element('div')
-            container.set_attribute('id', @id_container_shortcuts)
+            container.set_attribute('id', ID_CONTAINER_SHORTCUTS)
 
             text_container = @parser.create_element('span')
-            text_container.set_attribute('id', @id_text_shortcuts)
+            text_container.set_attribute('id', ID_TEXT_SHORTCUTS)
             text_container.append_text(@text_shortcuts)
 
             container.append_element(text_container)
@@ -114,13 +163,13 @@ module Hatemile
       #
       # @return [Hatemile::Util::HTMLDOMElement] The list of skippers of page.
       def generate_list_skippers
-        container = @parser.find("##{@id_container_skippers}").first_result
+        container = @parser.find("##{ID_CONTAINER_SKIPPERS}").first_result
         html_list = nil
         if container.nil?
           local = @parser.find('body').first_result
           unless local.nil?
             container = @parser.create_element('div')
-            container.set_attribute('id', @id_container_skippers)
+            container.set_attribute('id', ID_CONTAINER_SKIPPERS)
             local.get_first_element_child.insert_before(container)
           end
         end
@@ -142,16 +191,16 @@ module Hatemile
       # @return [Hatemile::Util::HTMLDOMElement] The list of heading links of
       #   page.
       def generate_list_heading
-        container = @parser.find("##{@id_container_heading}").first_result
+        container = @parser.find("##{ID_CONTAINER_HEADING}").first_result
         html_list = nil
         if container.nil?
           local = @parser.find('body').first_result
           unless local.nil?
             container = @parser.create_element('div')
-            container.set_attribute('id', @id_container_heading)
+            container.set_attribute('id', ID_CONTAINER_HEADING)
 
             text_container = @parser.create_element('span')
-            text_container.set_attribute('id', @id_text_heading)
+            text_container.set_attribute('id', ID_TEXT_HEADING)
             text_container.append_text(@text_heading)
 
             container.append_element(text_container)
@@ -316,18 +365,6 @@ module Hatemile
       # @param user_agent [String] The user agent of the user.
       def initialize(parser, configure, user_agent = nil)
         @parser = parser
-        @id_container_shortcuts = 'container-shortcuts'
-        @id_container_skippers = 'container-skippers'
-        @id_container_heading = 'container-heading'
-        @id_text_shortcuts = 'text-shortcuts'
-        @id_text_heading = 'text-heading'
-        @class_skipper_anchor = 'skipper-anchor'
-        @class_heading_anchor = 'heading-anchor'
-        @data_access_key = 'data-shortcutdescriptionfor'
-        @data_ignore = 'data-ignoreaccessibilityfix'
-        @data_anchor_for = 'data-anchorfor'
-        @data_heading_anchor_for = 'data-headinganchorfor'
-        @data_heading_level = 'data-headinglevel'
         @prefix_id = configure.get_parameter('prefix-generated-ids')
         @text_shortcuts = configure.get_parameter('text-shortcuts')
         @text_heading = configure.get_parameter('text-heading')
@@ -391,13 +428,13 @@ module Hatemile
           key = key.upcase
 
           unless @parser.find(@list_shortcuts).find_children(
-            "[#{@data_access_key}=\"#{key}\"]"
+            "[#{DATA_ACCESS_KEY}=\"#{key}\"]"
           ).first_result.nil?
             next
           end
 
           item = @parser.create_element('li')
-          item.set_attribute(@data_access_key, key)
+          item.set_attribute(DATA_ACCESS_KEY, key)
           item.append_text("#{@prefix} + #{key}: #{description}")
           @list_shortcuts.append_element(item)
         end
@@ -406,7 +443,7 @@ module Hatemile
       def fix_shortcuts
         elements = @parser.find('[accesskey]').list_results
         elements.each do |element|
-          fix_shortcut(element) unless element.has_attribute?(@data_ignore)
+          fix_shortcut(element) unless element.has_attribute?(DATA_IGNORE)
         end
       end
 
@@ -417,8 +454,8 @@ module Hatemile
 
         anchor = generate_anchor_for(
           element,
-          @data_anchor_for,
-          @class_skipper_anchor
+          DATA_ANCHOR_FOR,
+          CLASS_SKIPPER_ANCHOR
         )
 
         return if anchor.nil?
@@ -451,7 +488,7 @@ module Hatemile
           index = 1 if count
           shortcuts = skipper.get_shortcuts
           elements.each do |element|
-            next if element.has_attribute?(@data_ignore)
+            next if element.has_attribute?(DATA_IGNORE)
 
             if count
               default_text = "#{skipper.get_default_text} #{index}"
@@ -490,8 +527,8 @@ module Hatemile
 
         anchor = generate_anchor_for(
           element,
-          @data_heading_anchor_for,
-          @class_heading_anchor
+          DATA_HEADING_ANCHOR_FOR,
+          CLASS_HEADING_ANCHOR
         )
 
         return if anchor.nil?
@@ -502,9 +539,9 @@ module Hatemile
           list = generate_list_heading
         else
           super_item = @parser.find(
-            "##{@id_container_heading}"
+            "##{ID_CONTAINER_HEADING}"
           ).find_descendants(
-            "[#{@data_heading_level}=\"#{level - 1}\"]"
+            "[#{DATA_HEADING_LEVEL}=\"#{level - 1}\"]"
           ).last_result
           unless super_item.nil?
             list = @parser.find(super_item).find_children('ol').first_result
@@ -518,7 +555,7 @@ module Hatemile
         return if list.nil?
 
         item = @parser.create_element('li')
-        item.set_attribute(@data_heading_level, level.to_s)
+        item.set_attribute(DATA_HEADING_LEVEL, level.to_s)
 
         link = @parser.create_element('a')
         link.set_attribute('href', "##{anchor.get_attribute('name')}")
@@ -531,7 +568,7 @@ module Hatemile
       def fix_headings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         elements.each do |element|
-          fix_heading(element) unless element.has_attribute?(@data_ignore)
+          fix_heading(element) unless element.has_attribute?(DATA_IGNORE)
         end
       end
     end

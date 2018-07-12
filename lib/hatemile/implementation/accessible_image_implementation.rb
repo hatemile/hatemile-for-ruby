@@ -22,6 +22,19 @@ module Hatemile
       public_class_method :new
 
       ##
+      # The HTML class of element for show the long description of image.
+      CLASS_LONG_DESCRIPTION_LINK = 'longdescription-link'.freeze
+
+      ##
+      # The name of attribute that link the anchor of long description with the
+      # image.
+      DATA_LONG_DESCRIPTION_FOR_IMAGE = 'data-longdescriptionfor'.freeze
+
+      ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
+      ##
       # Initializes a new object that manipulate the accessibility of the images
       # of parser.
       #
@@ -31,9 +44,6 @@ module Hatemile
       def initialize(parser, configure)
         @parser = parser
         @prefix_id = configure.get_parameter('prefix-generated-ids')
-        @class_long_description_link = 'longdescription-link'
-        @data_long_description_for_image = 'data-longdescriptionfor'
-        @data_ignore = 'data-ignoreaccessibilityfix'
         @prefix_long_description_link = configure.get_parameter(
           'prefix-longdescription'
         )
@@ -48,7 +58,7 @@ module Hatemile
         Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
         id = element.get_attribute('id')
 
-        selector = "[#{@data_long_description_for_image}=\"#{id}\"]"
+        selector = "[#{DATA_LONG_DESCRIPTION_FOR_IMAGE}=\"#{id}\"]"
         return unless @parser.find(selector).first_result.nil?
 
         text = if element.has_attribute?('alt')
@@ -62,8 +72,8 @@ module Hatemile
         anchor = @parser.create_element('a')
         anchor.set_attribute('href', element.get_attribute('longdesc'))
         anchor.set_attribute('target', '_blank')
-        anchor.set_attribute(@data_long_description_for_image, id)
-        anchor.set_attribute('class', @class_long_description_link)
+        anchor.set_attribute(DATA_LONG_DESCRIPTION_FOR_IMAGE, id)
+        anchor.set_attribute('class', CLASS_LONG_DESCRIPTION_LINK)
         anchor.append_text(text)
         element.insert_after(anchor)
       end
@@ -71,7 +81,7 @@ module Hatemile
       def fix_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
-          unless element.has_attribute?(@data_ignore)
+          unless element.has_attribute?(DATA_IGNORE)
             fix_long_description(element)
           end
         end

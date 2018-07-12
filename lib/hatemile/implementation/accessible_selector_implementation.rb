@@ -21,6 +21,10 @@ module Hatemile
       public_class_method :new
 
       ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
+      ##
       # Initializes a new object that manipulate the accessibility through of
       # the selectors of the configuration file.
       #
@@ -30,14 +34,13 @@ module Hatemile
       def initialize(parser, configure)
         @parser = parser
         @changes = configure.get_selector_changes
-        @data_ignore = 'data-ignoreaccessibilityfix'
       end
 
       def fix_selectors
         @changes.each do |change|
           elements = @parser.find(change.get_selector).list_results
           elements.each do |element|
-            next if element.has_attribute?(@data_ignore)
+            next if element.has_attribute?(DATA_IGNORE)
 
             element.set_attribute(
               change.get_attribute,

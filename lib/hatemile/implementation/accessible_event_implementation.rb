@@ -21,6 +21,23 @@ module Hatemile
     class AccessibleEventImplementation < AccessibleEvent
       public_class_method :new
 
+      ##
+      # The id of script element that replace the event listener methods.
+      ID_SCRIPT_EVENT_LISTENER = 'script-eventlistener'.freeze
+
+      ##
+      # The id of script element that contains the list of elements that has
+      # inaccessible events.
+      ID_LIST_IDS_SCRIPT = 'list-ids-script'.freeze
+
+      ##
+      # The id of script element that modify the events of elements.
+      ID_FUNCTION_SCRIPT_FIX = 'id-function-script-fix'.freeze
+
+      ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
       protected
 
       ##
@@ -50,9 +67,9 @@ module Hatemile
       def generate_main_scripts
         head = @parser.find('head').first_result
         if !head.nil? &&
-           @parser.find("##{@id_script_event_listener}").first_result.nil?
+           @parser.find("##{ID_SCRIPT_EVENT_LISTENER}").first_result.nil?
           script = @parser.create_element('script')
-          script.set_attribute('id', @id_script_event_listener)
+          script.set_attribute('id', ID_SCRIPT_EVENT_LISTENER)
           script.set_attribute('type', 'text/javascript')
           script.append_text(
             File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
@@ -65,10 +82,10 @@ module Hatemile
         end
         local = @parser.find('body').first_result
         unless local.nil?
-          @script_list = @parser.find("##{@id_list_ids_script}").first_result
+          @script_list = @parser.find("##{ID_LIST_IDS_SCRIPT}").first_result
           if @script_list.nil?
             @script_list = @parser.create_element('script')
-            @script_list.set_attribute('id', @id_list_ids_script)
+            @script_list.set_attribute('id', ID_LIST_IDS_SCRIPT)
             @script_list.set_attribute('type', 'text/javascript')
             @script_list.append_text('var activeElements = [];')
             @script_list.append_text('var hoverElements = [];')
@@ -118,10 +135,6 @@ module Hatemile
       def initialize(parser, configure)
         @parser = parser
         @prefix_id = configure.get_parameter('prefix-generated-ids')
-        @id_script_event_listener = 'script-eventlistener'
-        @id_list_ids_script = 'list-ids-script'
-        @id_function_script_fix = 'id-function-script-fix'
-        @data_ignore = 'data-ignoreaccessibilityfix'
         @main_script_added = false
         @script_list = nil
       end
@@ -145,7 +158,7 @@ module Hatemile
           '[ondrag],[ondragstart],[ondragend]'
         ).list_results
         draggable_elements.each do |draggable_element|
-          unless draggable_element.has_attribute?(@data_ignore)
+          unless draggable_element.has_attribute?(DATA_IGNORE)
             fix_drag(draggable_element)
           end
         end
@@ -153,7 +166,7 @@ module Hatemile
           '[ondrop],[ondragenter],[ondragleave],[ondragover]'
         ).list_results
         droppable_elements.each do |droppable_element|
-          unless droppable_element.has_attribute?(@data_ignore)
+          unless droppable_element.has_attribute?(DATA_IGNORE)
             fix_drop(droppable_element)
           end
         end
@@ -168,7 +181,7 @@ module Hatemile
       def fix_hovers
         elements = @parser.find('[onmouseover],[onmouseout]').list_results
         elements.each do |element|
-          fix_hover(element) unless element.has_attribute?(@data_ignore)
+          fix_hover(element) unless element.has_attribute?(DATA_IGNORE)
         end
       end
 
@@ -183,7 +196,7 @@ module Hatemile
           '[onclick],[onmousedown],[onmouseup],[ondblclick]'
         ).list_results
         elements.each do |element|
-          fix_active(element) unless element.has_attribute?(@data_ignore)
+          fix_active(element) unless element.has_attribute?(DATA_IGNORE)
         end
       end
     end
