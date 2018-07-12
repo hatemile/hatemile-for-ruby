@@ -93,9 +93,9 @@ module Hatemile
             @script_list.append_text('var dropElements = [];')
             local.append_element(@script_list)
           end
-          if @parser.find("##{@id_function_script_fix}").first_result.nil?
+          if @parser.find("##{ID_FUNCTION_SCRIPT_FIX}").first_result.nil?
             script_function = @parser.create_element('script')
-            script_function.set_attribute('id', @id_function_script_fix)
+            script_function.set_attribute('id', ID_FUNCTION_SCRIPT_FIX)
             script_function.set_attribute('type', 'text/javascript')
             script_function.append_text(
               File.read(File.dirname(__FILE__) + '/../../js/include.js')
