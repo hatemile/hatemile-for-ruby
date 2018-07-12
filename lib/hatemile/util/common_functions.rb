@@ -13,13 +13,11 @@
 module Hatemile
   module Util
     ##
-    # The CommonFuncionts class contains the used methods by HaTeMiLe classes.
-    class CommonFunctions
-      private_class_method :new
-
+    # The CommonFuncionts module contains the used methods by HaTeMiLe classes.
+    module CommonFunctions
       ##
-      # Integer Count the number of ids created.
-      @@count = 0
+      # Count the number of ids created.
+      @count = 0
 
       ##
       # Generate a id for a element.
@@ -30,8 +28,8 @@ module Hatemile
       def self.generate_id(element, prefix)
         return if element.has_attribute?('id')
 
-        element.set_attribute('id', prefix + @@count.to_s)
-        @@count += 1
+        element.set_attribute('id', prefix + @count.to_s)
+        @count += 1
       end
 
       ##
@@ -39,7 +37,7 @@ module Hatemile
       #
       # @return [void]
       def self.reset_count
-        @@count = 0
+        @count = 0
       end
 
       ##
