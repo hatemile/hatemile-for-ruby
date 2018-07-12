@@ -13,7 +13,12 @@
 require File.dirname(__FILE__) + '/../accessible_table.rb'
 require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleTableImplementation class is official implementation of
@@ -217,6 +222,8 @@ module Hatemile
         @prefix_id = configure.get_parameter('prefix-generated-ids')
       end
 
+      ##
+      # @see Hatemile::AccessibleTable#fix_association_cells_table
       def fix_association_cells_table(table)
         header = @parser.find(table).find_children('thead').first_result
         body = @parser.find(table).find_children('tbody').first_result
@@ -254,6 +261,8 @@ module Hatemile
         fix_body_or_footer(footer) unless footer.nil?
       end
 
+      ##
+      # @see Hatemile::AccessibleTable#fix_association_cells_tables
       def fix_association_cells_tables
         tables = @parser.find('table').list_results
         tables.each do |table|

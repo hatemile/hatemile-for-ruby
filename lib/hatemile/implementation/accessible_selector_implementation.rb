@@ -12,7 +12,12 @@
 
 require File.dirname(__FILE__) + '/../accessible_selector.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleSelectorImplementation class is official implementation of
@@ -36,6 +41,8 @@ module Hatemile
         @changes = configure.get_selector_changes
       end
 
+      ##
+      # @see Hatemile::AccessibleSelector#fix_selectors
       def fix_selectors
         @changes.each do |change|
           elements = @parser.find(change.get_selector).list_results

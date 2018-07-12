@@ -13,7 +13,12 @@
 require File.dirname(__FILE__) + '/../accessible_form.rb'
 require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleFormImplementation class is official implementation of
@@ -379,6 +384,8 @@ module Hatemile
         )
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_required_field
       def fix_required_field(required_field)
         return unless required_field.has_attribute?('required')
 
@@ -390,6 +397,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_required_fields
       def fix_required_fields
         required_fields = @parser.find('[required]').list_results
         required_fields.each do |required_field|
@@ -399,6 +408,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_range_field
       def fix_range_field(range_field)
         if range_field.has_attribute?('min')
           range_field.set_attribute(
@@ -418,6 +429,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_range_fields
       def fix_range_fields
         range_fields = @parser.find('[min],[max]').list_results
         range_fields.each do |range_field|
@@ -427,6 +440,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_autocomplete_field
       def fix_autocomplete_field(autocomplete_field)
         aria_autocomplete = get_aria_autocomplete(autocomplete_field)
 
@@ -440,6 +455,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_autocomplete_fields
       def fix_autocomplete_fields
         elements = @parser.find(
           'input[autocomplete],textarea[autocomplete],form[autocomplete] ' \
@@ -452,6 +469,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_label
       def fix_label(label)
         return unless label.get_tag_name == 'LABEL'
 
@@ -491,6 +510,8 @@ module Hatemile
         )
       end
 
+      ##
+      # @see Hatemile::AccessibleForm#fix_labels
       def fix_labels
         labels = @parser.find('label').list_results
         labels.each do |label|

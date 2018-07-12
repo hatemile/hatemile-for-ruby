@@ -12,8 +12,15 @@
 
 require File.dirname(__FILE__) + '/../html_dom_element.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Util module contains the utilities of library.
   module Util
+    ##
+    # The Hatemile::Util::NokogiriLib module contains the implementation of HTML
+    # handles for Nokogiri library.
     module NokogiriLib
       ##
       # The NokogiriHTMLDOMElement class is official implementation of
@@ -21,6 +28,8 @@ module Hatemile
       class NokogiriHTMLDOMElement < Hatemile::Util::HTMLDOMElement
         public_class_method :new
 
+        ##
+        # Tags that are self closing.
         SELF_CLOSING_TAGS = %w[
           area base br col embed hr img input keygen
           link menuitem meta param source track wbr
@@ -34,59 +43,85 @@ module Hatemile
           @data = element
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_tag_name
         def get_tag_name
           @data.name.upcase
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_attribute
         def get_attribute(name)
           @data.get_attribute(name)
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#set_attribute
         def set_attribute(name, value)
           @data.set_attribute(name, value)
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#remove_attribute
         def remove_attribute(name)
           @data.remove_attribute(name) if has_attribute?(name)
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#has_attribute?
         def has_attribute?(name)
           !@data.attributes[name].nil?
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#has_attributes?
         def has_attributes?
           !@data.attributes.empty?
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_text_content
         def get_text_content
           @data.text
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#insert_before
         def insert_before(new_element)
           @data.before(new_element.get_data)
           new_element
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#insert_after
         def insert_after(new_element)
           @data.after(new_element.get_data)
           new_element
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#remove_element
         def remove_element
           @data.remove
           self
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#replace_element
         def replace_element(new_element)
           @data.replace(new_element.get_data)
           new_element
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#append_element
         def append_element(element)
           @data.add_child(element.get_data)
           element
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_children
         def get_children
           array = []
           @data.children do |child|
@@ -95,14 +130,20 @@ module Hatemile
           array
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#append_text
         def append_text(text)
           @data.add_child(Nokogiri::XML::Text.new(text, @data.document))
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#has_children?
         def has_children?
           @data.children.empty? == false
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_parent_element
         def get_parent_element
           parent = @data.parent
           if !parent.nil? && parent.element?
@@ -111,6 +152,8 @@ module Hatemile
           nil
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_inner_html
         def get_inner_html
           html = ''
           get_children do |child|
@@ -119,31 +162,45 @@ module Hatemile
           html
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#set_inner_html
         def set_inner_html(html)
           @data.inner_html = html
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_outer_html
         def get_outer_html
           to_string(@data)
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_data
         def get_data
           @data
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#set_data
         def set_data(data)
           @data = data
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#clone_element
         def clone_element
           NokogiriHTMLDOMElement.new(@data.clone)
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_first_element_child
         def get_first_element_child
           return nil unless has_children?
           NokogiriHTMLDOMElement.new(@data.children[0])
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMElement#get_last_element_child
         def get_last_element_child
           return nil unless has_children?
           children = @data.children

@@ -14,7 +14,11 @@ require 'rexml/document'
 require File.dirname(__FILE__) + '/selector_change.rb'
 require File.dirname(__FILE__) + '/skipper.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Util module contains the utilities of library.
   module Util
     ##
     # The Configure class contains the configuration of HaTeMiLe.

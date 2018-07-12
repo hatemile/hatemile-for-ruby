@@ -13,7 +13,12 @@
 require File.dirname(__FILE__) + '/../accessible_image.rb'
 require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleImageImplementation class is official implementation of
@@ -52,6 +57,8 @@ module Hatemile
         )
       end
 
+      ##
+      # @see Hatemile::AccessibleImage#fix_long_description
       def fix_long_description(element)
         return unless element.has_attribute?('longdesc')
 
@@ -78,6 +85,8 @@ module Hatemile
         element.insert_after(anchor)
       end
 
+      ##
+      # @see Hatemile::AccessibleImage#fix_long_descriptions
       def fix_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|

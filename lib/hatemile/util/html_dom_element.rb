@@ -10,7 +10,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Util module contains the utilities of library.
   module Util
     ##
     # The HTMLDOMElement interface contains the methods for access of the HTML

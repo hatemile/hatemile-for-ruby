@@ -13,7 +13,12 @@
 require File.dirname(__FILE__) + '/../accessible_navigation.rb'
 require File.dirname(__FILE__) + '/../util/skipper.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleNavigationImplementation class is official implementation of
@@ -411,6 +416,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_shortcut
       def fix_shortcut(element)
         return unless element.has_attribute?('accesskey')
 
@@ -440,6 +447,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_shortcuts
       def fix_shortcuts
         elements = @parser.find('[accesskey]').list_results
         elements.each do |element|
@@ -447,6 +456,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_skipper
       def fix_skipper(element, skipper)
         @list_skippers = generate_list_skippers unless @list_skippers_added
 
@@ -481,6 +492,8 @@ module Hatemile
         execute_fix_shortcut(link)
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_skippers
       def fix_skippers
         @skippers.each do |skipper|
           elements = @parser.find(skipper.get_selector).list_results
@@ -520,6 +533,8 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_heading
       def fix_heading(element)
         @valid_heading = is_valid_heading unless @validate_heading
 
@@ -565,6 +580,8 @@ module Hatemile
         list.append_element(item)
       end
 
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_headings
       def fix_headings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         elements.each do |element|

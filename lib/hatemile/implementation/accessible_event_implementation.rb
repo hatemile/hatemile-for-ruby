@@ -13,7 +13,12 @@
 require File.dirname(__FILE__) + '/../accessible_event.rb'
 require File.dirname(__FILE__) + '/../util/common_functions.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Implementation module contains the official implementation of
+  # interfaces solutions.
   module Implementation
     ##
     # The AccessibleEventImplementation class is official implementation of
@@ -139,12 +144,16 @@ module Hatemile
         @script_list = nil
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_drop
       def fix_drop(element)
         element.set_attribute('aria-dropeffect', 'none')
 
         add_event_in_element(element, 'drop')
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_drag
       def fix_drag(element)
         keyboard_access(element)
 
@@ -153,6 +162,8 @@ module Hatemile
         add_event_in_element(element, 'drag')
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_drags_and_drops
       def fix_drags_and_drops
         draggable_elements = @parser.find(
           '[ondrag],[ondragstart],[ondragend]'
@@ -172,12 +183,16 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_hover
       def fix_hover(element)
         keyboard_access(element)
 
         add_event_in_element(element, 'hover')
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_hovers
       def fix_hovers
         elements = @parser.find('[onmouseover],[onmouseout]').list_results
         elements.each do |element|
@@ -185,12 +200,16 @@ module Hatemile
         end
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_active
       def fix_active(element)
         keyboard_access(element)
 
         add_event_in_element(element, 'active')
       end
 
+      ##
+      # @see Hatemile::AccessibleEvent#fix_actives
       def fix_actives
         elements = @parser.find(
           '[onclick],[onmousedown],[onmouseup],[ondblclick]'

@@ -14,8 +14,15 @@ require 'nokogiri'
 require File.dirname(__FILE__) + '/../html_dom_parser.rb'
 require File.dirname(__FILE__) + '/nokogiri_html_dom_element.rb'
 
+##
+# The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
+  ##
+  # The Hatemile::Util module contains the utilities of library.
   module Util
+    ##
+    # The Hatemile::Util::NokogiriLib module contains the implementation of HTML
+    # handles for Nokogiri library.
     module NokogiriLib
       ##
       # The class NokogiriHTMLDOMParser is official implementation of
@@ -74,6 +81,8 @@ module Hatemile
           @results = nil
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#find
         def find(selector)
           @results = if selector.class == NokogiriHTMLDOMElement
                        [selector.get_data]
@@ -83,6 +92,8 @@ module Hatemile
           self
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#find_children
         def find_children(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
@@ -104,6 +115,8 @@ module Hatemile
           self
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#find_descendants
         def find_descendants(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
@@ -124,6 +137,8 @@ module Hatemile
           self
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#find_ancestors
         def find_ancestors(selector)
           array = []
           if selector.class == NokogiriHTMLDOMElement
@@ -144,16 +159,22 @@ module Hatemile
           self
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#first_result
         def first_result
           return nil if @results.nil? || @results.empty?
           NokogiriHTMLDOMElement.new(@results[0])
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#last_result
         def last_result
           return nil if @results.nil? || @results.empty?
           NokogiriHTMLDOMElement.new(@results[@results.length - 1])
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#list_results
         def list_results
           array = []
           order_results(@results).each do |result|
@@ -162,18 +183,26 @@ module Hatemile
           array
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#create_element
         def create_element(tag)
           NokogiriHTMLDOMElement.new(@document.create_element(tag))
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#get_html
         def get_html
           NokogiriHTMLDOMElement.new(@document).get_outer_html
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#get_parser
         def get_parser
           @document
         end
 
+        ##
+        # @see Hatemile::Util::HTMLDOMParser#clear_parser
         def clear_parser
           @document = nil
           @results.clear
