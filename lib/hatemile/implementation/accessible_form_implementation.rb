@@ -189,67 +189,75 @@ module Hatemile
       def fix_label_autocomplete_field(label, autocomplete_field)
         prefix_autocomplete_field_modified = ''
         suffix_autocomplete_field_modified = ''
-        if autocomplete_field.has_attribute?('aria-label') &&
-           !label.has_attribute?(DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD) &&
-           !label.has_attribute?(DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD)
-          aria_autocomplete = get_aria_autocomplete(autocomplete_field)
-          unless aria_autocomplete.nil?
-            if aria_autocomplete == 'both'
-              unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified =
-                  @prefix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_both
-                  )
-              end
-              unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified =
-                  @suffix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_both
-                  )
-              end
-            elsif aria_autocomplete == 'none'
-              unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified =
-                  @prefix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_none
-                  )
-              end
-              unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified =
-                  @suffix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_none
-                  )
-              end
-            elsif aria_autocomplete == 'list'
-              unless @prefix_autocomplete_field.empty?
-                prefix_autocomplete_field_modified =
-                  @prefix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_list
-                  )
-              end
-              unless @suffix_autocomplete_field.empty?
-                suffix_autocomplete_field_modified =
-                  @suffix_autocomplete_field.gsub(
-                    /{{value}}/,
-                    @text_autocomplete_value_list
-                  )
-              end
-            end
-            add_prefix_suffix(
-              label,
-              autocomplete_field,
-              prefix_autocomplete_field_modified,
-              suffix_autocomplete_field_modified,
-              DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD,
-              DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD
-            )
+
+        has_aria_label = autocomplete_field.has_attribute?('aria-label')
+        has_data_prefix = label.has_attribute?(
+          DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD
+        )
+        has_data_suffix = label.has_attribute?(
+          DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD
+        )
+
+        return unless has_aria_label && !has_data_prefix && !has_data_suffix
+
+        aria_autocomplete = get_aria_autocomplete(autocomplete_field)
+
+        return if aria_autocomplete.nil?
+
+        if aria_autocomplete == 'both'
+          unless @prefix_autocomplete_field.empty?
+            prefix_autocomplete_field_modified =
+              @prefix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_both
+              )
+          end
+          unless @suffix_autocomplete_field.empty?
+            suffix_autocomplete_field_modified =
+              @suffix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_both
+              )
+          end
+        elsif aria_autocomplete == 'none'
+          unless @prefix_autocomplete_field.empty?
+            prefix_autocomplete_field_modified =
+              @prefix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_none
+              )
+          end
+          unless @suffix_autocomplete_field.empty?
+            suffix_autocomplete_field_modified =
+              @suffix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_none
+              )
+          end
+        elsif aria_autocomplete == 'list'
+          unless @prefix_autocomplete_field.empty?
+            prefix_autocomplete_field_modified =
+              @prefix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_list
+              )
+          end
+          unless @suffix_autocomplete_field.empty?
+            suffix_autocomplete_field_modified =
+              @suffix_autocomplete_field.gsub(
+                /{{value}}/,
+                @text_autocomplete_value_list
+              )
           end
         end
+        add_prefix_suffix(
+          label,
+          autocomplete_field,
+          prefix_autocomplete_field_modified,
+          suffix_autocomplete_field_modified,
+          DATA_LABEL_PREFIX_AUTOCOMPLETE_FIELD,
+          DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD
+        )
       end
 
       ##
