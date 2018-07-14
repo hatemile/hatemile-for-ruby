@@ -11,17 +11,17 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
 ## Example
 
-    # First install the nokogiri
-    #   gem install nokogiri
-    # Load required files
-    require_relative 'lib/hatemile/util/configure';
-    require_relative 'lib/hatemile/util/nokogiri/nokogiri_html_dom_parser';
-    require_relative 'lib/hatemile/implementation/accessible_event_implementation';
-    require_relative 'lib/hatemile/implementation/accessible_form_implementation';
-    require_relative 'lib/hatemile/implementation/accessible_image_implementation';
-    require_relative 'lib/hatemile/implementation/accessible_navigation_implementation';
-    require_relative 'lib/hatemile/implementation/accessible_selector_implementation';
-    require_relative 'lib/hatemile/implementation/accessible_table_implementation';
+    require 'rubygems'
+    require 'bundler/setup'
+
+    require_relative 'lib/hatemile/util/configure'
+    require_relative 'lib/hatemile/util/nokogiri/nokogiri_html_dom_parser'
+    require_relative 'lib/hatemile/implementation/accessible_event_implementation'
+    require_relative 'lib/hatemile/implementation/accessible_form_implementation'
+    require_relative 'lib/hatemile/implementation/accessible_image_implementation'
+    require_relative 'lib/hatemile/implementation/accessible_navigation_implementation'
+    require_relative 'lib/hatemile/implementation/accessible_selector_implementation'
+    require_relative 'lib/hatemile/implementation/accessible_table_implementation'
     
     # Load the configuration of hatemile (hatemile-configure.xml)
     configure = Hatemile::Util::Configure.new('lib/hatemile-configure.xml')
