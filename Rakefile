@@ -15,6 +15,7 @@ end
 
 YARD::Rake::YardocTask.new do |p|
   p.files = ['lib/**/*.rb', '-', 'README.md', 'CODE_OF_CONDUCT.md', 'LICENSE']
+  p.options = %w[--protected --private]
 end
 
 RuboCop::RakeTask.new(:rubocop) do |p|
