@@ -6,7 +6,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
 1.  Instanciate a new object with HTMLDOMParser interface, setting the HTML code;
 2.  Instanciate a new Configuration object;
-3.  Instanciate a new object with AccessibleForm, AccessibleImage, AccessibleNavigation, AccessibleTable, AccessibleEvent or AccessibleSelector interface and call yours methods;
+3.  Instanciate a new object with AccessibleForm, AccessibleImage, AccessibleNavigation, AccessibleTable or AccessibleEvent interface and call yours methods;
 4.  Get the HTML code of object with HTMLDOMParser interface.
 
 ## Example
@@ -20,7 +20,6 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     require_relative 'lib/hatemile/implementation/accessible_form_implementation'
     require_relative 'lib/hatemile/implementation/accessible_image_implementation'
     require_relative 'lib/hatemile/implementation/accessible_navigation_implementation'
-    require_relative 'lib/hatemile/implementation/accessible_selector_implementation'
     require_relative 'lib/hatemile/implementation/accessible_table_implementation'
     
     # Load the configuration of hatemile (hatemile-configure.xml)
@@ -182,7 +181,6 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     events = Hatemile::Implementation::AccessibleEventImplementation.new(parser, configure)
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser, configure)
     images = Hatemile::Implementation::AccessibleImageImplementation.new(parser, configure)
-    selectors = Hatemile::Implementation::AccessibleSelectorImplementation.new(parser, configure)
     navigation = Hatemile::Implementation::AccessibleNavigationImplementation.new(parser, configure)
     tables = Hatemile::Implementation::AccessibleTableImplementation.new(parser, configure)
     # Run fix methods
@@ -196,8 +194,6 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     forms.fixRequiredFields()
     
     images.fixLongDescriptions()
-    
-    selectors.fixSelectors()
     
     navigation.fixShortcuts()
     navigation.fixHeadings()

@@ -11,7 +11,6 @@
 # limitations under the License.
 
 require 'rexml/document'
-require File.dirname(__FILE__) + '/selector_change.rb'
 require File.dirname(__FILE__) + '/skipper.rb'
 
 ##
@@ -29,7 +28,6 @@ module Hatemile
       # @param file_name [String] The full path of file.
       def initialize(file_name = nil)
         @parameters = {}
-        @selector_changes = []
         @skippers = []
         if file_name.nil?
           file_name = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
@@ -41,17 +39,6 @@ module Hatemile
           else
             @parameters[parameter.attribute('name').value] = ''
           end
-        end
-        document.elements.each(
-          'configure/selector-changes/selector-change'
-        ) do |selector_change|
-          @selector_changes.push(
-            SelectorChange.new(
-              selector_change.attribute('selector').value,
-              selector_change.attribute('attribute').value,
-              selector_change.attribute('value-attribute').value
-            )
-          )
         end
         document.elements.each('configure/skippers/skipper') do |skipper|
           @skippers.push(
@@ -79,15 +66,6 @@ module Hatemile
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
         @parameters[parameter]
-      end
-
-      ##
-      # Returns the changes that will be done in selectors.
-      #
-      # @return [Array<SelectorChange>] The changes that will be done in
-      #   selectors.
-      def get_selector_changes
-        @selector_changes.clone
       end
 
       ##
