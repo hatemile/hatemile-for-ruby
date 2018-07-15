@@ -11,7 +11,7 @@
 # limitations under the License.
 
 require 'rexml/document'
-require File.dirname(__FILE__) + '/skipper.rb'
+require File.join(File.dirname(__FILE__), 'skipper')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.

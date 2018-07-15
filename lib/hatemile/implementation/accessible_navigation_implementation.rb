@@ -10,8 +10,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.dirname(__FILE__) + '/../accessible_navigation.rb'
-require File.dirname(__FILE__) + '/../util/skipper.rb'
+require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_navigation')
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'common_functions'
+)
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'skipper'
+)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.

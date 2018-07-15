@@ -11,8 +11,8 @@
 # limitations under the License.
 
 require 'nokogiri'
-require File.dirname(__FILE__) + '/../html_dom_parser.rb'
-require File.dirname(__FILE__) + '/nokogiri_html_dom_element.rb'
+require File.join(File.dirname(File.dirname(__FILE__)), 'html_dom_parser')
+require File.join(File.dirname(__FILE__), 'nokogiri_html_dom_element')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.

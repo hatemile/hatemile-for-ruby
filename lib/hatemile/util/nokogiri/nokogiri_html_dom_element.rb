@@ -10,7 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.dirname(__FILE__) + '/../html_dom_element.rb'
+require File.join(File.dirname(File.dirname(__FILE__)), 'html_dom_element')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.

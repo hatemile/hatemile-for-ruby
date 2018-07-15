@@ -10,8 +10,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.dirname(__FILE__) + '/../accessible_table.rb'
-require File.dirname(__FILE__) + '/../util/common_functions.rb'
+require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_table')
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'common_functions'
+)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
