@@ -20,6 +20,10 @@ module Hatemile
     # The CommonFuncionts module contains the used methods by HaTeMiLe classes.
     module CommonFunctions
       ##
+      # The name of attribute for not modify the elements.
+      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
+
+      ##
       # Count the number of ids created.
       @count = 0
 
@@ -100,6 +104,27 @@ module Hatemile
           end
         end
         false
+      end
+
+      ##
+      # Check that the element can be manipulated by HaTeMiLe.
+      #
+      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
+      # @return [Boolean] True if element can be manipulated or false if element
+      #   cannot be manipulated.
+      def self.is_valid_element?(element)
+        return false if element.has_attribute?(DATA_IGNORE)
+
+        parent_element = element.get_parent_element
+
+        return true if parent_element.nil?
+
+        tag_name = parent_element.get_tag_name
+        if (tag_name != 'BODY') && (tag_name != 'HTML')
+          return is_valid_element?(parent_element)
+        end
+
+        true
       end
     end
   end

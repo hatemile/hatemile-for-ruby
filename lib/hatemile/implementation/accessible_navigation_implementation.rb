@@ -68,10 +68,6 @@ module Hatemile
       DATA_ACCESS_KEY = 'data-shortcutdescriptionfor'.freeze
 
       ##
-      # The name of attribute for not modify the elements.
-      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
-
-      ##
       # The name of attribute that links the anchor of skipper with the element.
       DATA_ANCHOR_FOR = 'data-anchorfor'.freeze
 
@@ -463,7 +459,9 @@ module Hatemile
       def fix_shortcuts
         elements = @parser.find('[accesskey]').list_results
         elements.each do |element|
-          fix_shortcut(element) unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            fix_shortcut(element)
+          end
         end
       end
 
@@ -512,7 +510,9 @@ module Hatemile
           index = 1 if count
           shortcuts = skipper.get_shortcuts
           elements.each do |element|
-            next if element.has_attribute?(DATA_IGNORE)
+            next unless Hatemile::Util::CommonFunctions.is_valid_element?(
+              element
+            )
 
             if count
               default_text = "#{skipper.get_default_text} #{index}"
@@ -596,7 +596,9 @@ module Hatemile
       def fix_headings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         elements.each do |element|
-          fix_heading(element) unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            fix_heading(element)
+          end
         end
       end
     end

@@ -40,10 +40,6 @@ module Hatemile
       DATA_LONG_DESCRIPTION_FOR_IMAGE = 'data-longdescriptionfor'.freeze
 
       ##
-      # The name of attribute for not modify the elements.
-      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
-
-      ##
       # Initializes a new object that manipulate the accessibility of the images
       # of parser.
       #
@@ -94,7 +90,7 @@ module Hatemile
       def fix_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
-          unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             fix_long_description(element)
           end
         end

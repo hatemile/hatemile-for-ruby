@@ -43,10 +43,6 @@ module Hatemile
       # The id of script element that modify the events of elements.
       ID_FUNCTION_SCRIPT_FIX = 'id-function-script-fix'.freeze
 
-      ##
-      # The name of attribute for not modify the elements.
-      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
-
       protected
 
       ##
@@ -173,17 +169,21 @@ module Hatemile
           '[ondrag],[ondragstart],[ondragend]'
         ).list_results
         draggable_elements.each do |draggable_element|
-          unless draggable_element.has_attribute?(DATA_IGNORE)
-            fix_drag(draggable_element)
-          end
+          next unless Hatemile::Util::CommonFunctions.is_valid_element?(
+            draggable_element
+          )
+
+          fix_drag(draggable_element)
         end
         droppable_elements = @parser.find(
           '[ondrop],[ondragenter],[ondragleave],[ondragover]'
         ).list_results
         droppable_elements.each do |droppable_element|
-          unless droppable_element.has_attribute?(DATA_IGNORE)
-            fix_drop(droppable_element)
-          end
+          next unless Hatemile::Util::CommonFunctions.is_valid_element?(
+            droppable_element
+          )
+
+          fix_drop(droppable_element)
         end
       end
 
@@ -200,7 +200,9 @@ module Hatemile
       def fix_hovers
         elements = @parser.find('[onmouseover],[onmouseout]').list_results
         elements.each do |element|
-          fix_hover(element) unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            fix_hover(element)
+          end
         end
       end
 
@@ -219,7 +221,9 @@ module Hatemile
           '[onclick],[onmousedown],[onmouseup],[ondblclick]'
         ).list_results
         elements.each do |element|
-          fix_active(element) unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            fix_active(element)
+          end
         end
       end
     end

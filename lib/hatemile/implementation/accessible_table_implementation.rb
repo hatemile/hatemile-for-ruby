@@ -30,10 +30,6 @@ module Hatemile
     class AccessibleTableImplementation < AccessibleTable
       public_class_method :new
 
-      ##
-      # The name of attribute for not modify the elements.
-      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
-
       protected
 
       ##
@@ -271,7 +267,7 @@ module Hatemile
       def fix_association_cells_tables
         tables = @parser.find('table').list_results
         tables.each do |table|
-          unless table.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(table)
             fix_association_cells_table(table)
           end
         end

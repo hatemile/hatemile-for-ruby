@@ -72,10 +72,6 @@ module Hatemile
       DATA_LABEL_SUFFIX_AUTOCOMPLETE_FIELD =
         'data-suffixautocompletefield'.freeze
 
-      ##
-      # The name of attribute for not modify the elements.
-      DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
-
       protected
 
       ##
@@ -408,7 +404,7 @@ module Hatemile
       def fix_required_fields
         required_fields = @parser.find('[required]').list_results
         required_fields.each do |required_field|
-          unless required_field.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(required_field)
             fix_required_field(required_field)
           end
         end
@@ -440,7 +436,7 @@ module Hatemile
       def fix_range_fields
         range_fields = @parser.find('[min],[max]').list_results
         range_fields.each do |range_field|
-          unless range_field.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(range_field)
             fix_range_field(range_field)
           end
         end
@@ -469,7 +465,7 @@ module Hatemile
           'input,form[autocomplete] textarea,[list],[form]'
         ).list_results
         elements.each do |element|
-          unless element.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             fix_autocomplete_field(element)
           end
         end
@@ -521,7 +517,9 @@ module Hatemile
       def fix_labels
         labels = @parser.find('label').list_results
         labels.each do |label|
-          fix_label(label) unless label.has_attribute?(DATA_IGNORE)
+          if Hatemile::Util::CommonFunctions.is_valid_element?(label)
+            fix_label(label)
+          end
         end
       end
     end
