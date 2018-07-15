@@ -25,8 +25,8 @@ module Hatemile
     # Provide an alternative way to access the long description of element.
     #
     # @abstract
-    # @param element [Hatemile::Util::HTMLDOMElement] The element with long
-    #   description.
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
+    #   long description.
     # @return [void]
     def fix_long_description(element)
       # Interface method

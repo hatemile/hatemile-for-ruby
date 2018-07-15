@@ -25,7 +25,8 @@ module Hatemile
     # Display that the field is required.
     #
     # @abstract
-    # @param required_field [Hatemile::Util::HTMLDOMElement] The required field.
+    # @param required_field [Hatemile::Util::Html::HTMLDOMElement] The required
+    #   field.
     # @return [void]
     def fix_required_field(required_field)
       # Interface method
@@ -44,7 +45,7 @@ module Hatemile
     # Display that the field have range.
     #
     # @abstract
-    # @param range_field [Hatemile::Util::HTMLDOMElement] The range field.
+    # @param range_field [Hatemile::Util::Html::HTMLDOMElement] The range field.
     # @return [void]
     def fix_range_field(range_field)
       # Interface method
@@ -63,8 +64,8 @@ module Hatemile
     # Display that the field have autocomplete.
     #
     # @abstract
-    # @param autocomplete_field [Hatemile::Util::HTMLDOMElement] The field with
-    #   autocomplete.
+    # @param autocomplete_field [Hatemile::Util::Html::HTMLDOMElement] The field
+    #   with autocomplete.
     # @return [void]
     def fix_autocomplete_field(autocomplete_field)
       # Interface method
@@ -83,7 +84,7 @@ module Hatemile
     # Associate label with field.
     #
     # @abstract
-    # @param label [Hatemile::Util::HTMLDOMElement] The label.
+    # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
     # @return [void]
     def fix_label(label)
       # Interface method

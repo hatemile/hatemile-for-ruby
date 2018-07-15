@@ -25,7 +25,7 @@ module Hatemile
     # Display the shortcuts of element.
     #
     # @abstract
-    # @param element [Hatemile::Util::HTMLDOMElement] The element with
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
     #   shortcuts.
     # @return [void]
     def fix_shortcut(element)
@@ -45,7 +45,7 @@ module Hatemile
     # Provide content skipper for element.
     #
     # @abstract
-    # @param element [Hatemile::Util::HTMLDOMElement] The element.
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
     # @param skipper [Hatemile::Util::Skipper] The skipper.
     # @return [void]
     def fix_skipper(element, skipper)
@@ -65,7 +65,7 @@ module Hatemile
     # Provide a navigation by heading.
     #
     # @abstract
-    # @param element [Hatemile::Util::HTMLDOMElement] The heading element.
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The heading element.
     # @return [void]
     def fix_heading(element)
       # Interface method

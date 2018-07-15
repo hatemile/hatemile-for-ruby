@@ -52,7 +52,7 @@ module Hatemile
       ##
       # Provide keyboard access for element, if it not has.
       #
-      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
       # @return [void]
       def keyboard_access(element)
         return if element.has_attribute?('tabindex')
@@ -118,7 +118,7 @@ module Hatemile
       ##
       # Add a type of event in element.
       #
-      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
       # @param event [String] The type of event.
       # @return [void]
       def add_event_in_element(element, event)
@@ -138,7 +138,7 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the
       # Javascript events of elements of parser.
       #
-      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       # @param configure [Hatemile::Util::Configure] The configuration of
       #   HaTeMiLe.
       def initialize(parser, configure)

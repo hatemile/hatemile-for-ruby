@@ -81,8 +81,8 @@ module Hatemile
       ##
       # Display in label the information of field.
       #
-      # @param label [Hatemile::Util::HTMLDOMElement] The label.
-      # @param field [Hatemile::Util::HTMLDOMElement] The field.
+      # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
+      # @param field [Hatemile::Util::Html::HTMLDOMElement] The field.
       # @param prefix [String] The prefix.
       # @param suffix [String] The suffix.
       # @param data_prefix [String] The name of prefix attribute.
@@ -111,9 +111,9 @@ module Hatemile
       ##
       # Display in label the information if the field is required.
       #
-      # @param label [Hatemile::Util::HTMLDOMElement] The label.
-      # @param required_field [Hatemile::Util::HTMLDOMElement] The required
-      #   field.
+      # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
+      # @param required_field [Hatemile::Util::Html::HTMLDOMElement] The
+      #   required field.
       # @return [void]
       def fix_label_required_field(label, required_field)
         if (
@@ -140,8 +140,9 @@ module Hatemile
       ##
       # Display in label the information of range of field.
       #
-      # @param label [Hatemile::Util::HTMLDOMElement] The label.
-      # @param range_field [Hatemile::Util::HTMLDOMElement] The range field.
+      # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
+      # @param range_field [Hatemile::Util::Html::HTMLDOMElement] The range
+      #   field.
       # @return [void]
       def fix_label_range_field(label, range_field)
         return unless range_field.has_attribute?('aria-label')
@@ -191,8 +192,8 @@ module Hatemile
       ##
       # Display in label the information if the field has autocomplete.
       #
-      # @param label [Hatemile::Util::HTMLDOMElement] The label.
-      # @param autocomplete_field [Hatemile::Util::HTMLDOMElement] The
+      # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
+      # @param autocomplete_field [Hatemile::Util::Html::HTMLDOMElement] The
       #   autocomplete field.
       # @return [void]
       def fix_label_autocomplete_field(label, autocomplete_field)
@@ -272,7 +273,7 @@ module Hatemile
       ##
       # Returns the appropriate value for attribute aria-autocomplete of field.
       #
-      # @param field [Hatemile::Util::HTMLDOMElement] The field.
+      # @param field [Hatemile::Util::Html::HTMLDOMElement] The field.
       # @return [String] The ARIA value of field.
       def get_aria_autocomplete(field)
         tag_name = field.get_tag_name
@@ -323,8 +324,9 @@ module Hatemile
       ##
       # Returns the labels of field.
       #
-      # @param field [Hatemile::Util::HTMLDOMElement] The field.
-      # @return [Array<Hatemile::Util::HTMLDOMElement>] The labels of field.
+      # @param field [Hatemile::Util::Html::HTMLDOMElement] The field.
+      # @return [Array<Hatemile::Util::Html::HTMLDOMElement>] The labels of
+      #   field.
       def get_labels(field)
         labels = nil
         if field.has_attribute?('id')
@@ -344,7 +346,7 @@ module Hatemile
       # Initializes a new object that manipulate the accessibility of the forms
       # of parser.
       #
-      # @param parser [Hatemile::Util::HTMLDOMParser] The HTML parser.
+      # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       # @param configure [Hatemile::Util::Configure] The configuration of
       #   HaTeMiLe.
       def initialize(parser, configure)

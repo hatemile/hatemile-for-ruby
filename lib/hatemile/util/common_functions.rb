@@ -26,7 +26,7 @@ module Hatemile
       ##
       # Generate a id for a element.
       #
-      # @param element [Hatemile::Util::HTMLDOMElement] The element.
+      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
       # @param prefix [String] The prefix of id.
       # @return [void]
       def self.generate_id(element, prefix)
@@ -47,10 +47,10 @@ module Hatemile
       ##
       # Copy a list of attributes of a element for other element.
       #
-      # @param element1 [Hatemile::Util::HTMLDOMElement] The element that have
-      #   attributes copied.
-      # @param element2 [Hatemile::Util::HTMLDOMElement] The element that copy
-      #   the attributes.
+      # @param element1 [Hatemile::Util::Html::HTMLDOMElement] The element that
+      #   have attributes copied.
+      # @param element2 [Hatemile::Util::Html::HTMLDOMElement] The element that
+      #   copy the attributes.
       # @param attributes [Array<String>] The list of attributes that will be
       #   copied.
       # @return [void]

@@ -25,7 +25,7 @@ module Hatemile
     # Associate data cells with header cells of table.
     #
     # @abstract
-    # @param table [Hatemile::Util::HTMLDOMElement] The table.
+    # @param table [Hatemile::Util::Html::HTMLDOMElement] The table.
     # @return [void]
     def fix_association_cells_table(table)
       # Interface method
