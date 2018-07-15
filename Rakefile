@@ -21,3 +21,22 @@ RuboCop::RakeTask.new(:rubocop) do |p|
   p.patterns = ['Rakefile', 'hatemile.gemspec', 'lib/**/*.rb']
   p.fail_on_error = true
 end
+
+desc('Check documentation coverage')
+task :coverage do
+  # Reference https://github.com/umbrellio/lamian/blob/master/Rakefile
+  YARD::Registry.load
+  objs = YARD::Registry.select do |o|
+    puts("pending #{o}") if o.docstring =~ /TODO|FIXME|@pending|@todo/
+    o.docstring.blank?
+  end
+
+  next if objs.empty?
+
+  puts('No documentation found for:')
+  objs.each do |x|
+    puts("\t#{x}")
+  end
+
+  abort('100% document coverage required')
+end
