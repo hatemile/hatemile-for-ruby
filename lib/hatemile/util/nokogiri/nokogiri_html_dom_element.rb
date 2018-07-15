@@ -163,12 +163,6 @@ module Hatemile
         end
 
         ##
-        # @see Hatemile::Util::HTMLDOMElement#set_inner_html
-        def set_inner_html(html)
-          @data.inner_html = html
-        end
-
-        ##
         # @see Hatemile::Util::HTMLDOMElement#get_outer_html
         def get_outer_html
           to_string(@data)

@@ -198,16 +198,6 @@ module Hatemile
       end
 
       ##
-      # Modify the inner HTML code of this element.
-      #
-      # @abstract
-      # @param html [String] The HTML code.
-      # @return [void]
-      def set_inner_html(html)
-        # Interface method
-      end
-
-      ##
       # Returns the HTML code of this element.
       #
       # @abstract
