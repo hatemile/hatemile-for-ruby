@@ -26,6 +26,9 @@ namespace(:doc) do
   desc('Check documentation coverage')
   task(:coverage) do
     # Reference https://github.com/umbrellio/lamian/blob/master/Rakefile
+    Rake::Task['yard'].reenable
+    Rake::Task['yard'].invoke
+
     YARD::Registry.load
     objs = YARD::Registry.select do |o|
       puts("pending #{o}") if o.docstring =~ /TODO|FIXME|@pending|@todo/
