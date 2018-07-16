@@ -46,7 +46,7 @@ module Hatemile
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
-    # @param skipper [Hatemile::Util::Skipper] The skipper.
+    # @param skipper [Hash] The skipper.
     # @return [void]
     def fix_skipper(element, skipper)
       # Interface method

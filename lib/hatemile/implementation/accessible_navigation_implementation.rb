@@ -22,11 +22,6 @@ require File.join(
   'util',
   'id_generator'
 )
-require File.join(
-  File.dirname(File.dirname(__FILE__)),
-  'util',
-  'skipper'
-)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -355,7 +350,7 @@ module Hatemile
         return if @list_skippers.nil?
 
         @skippers.each do |skipper|
-          if @parser.find(skipper.get_selector).list_results.include?(element)
+          if @parser.find(skipper[:selector]).list_results.include?(element)
             fix_skipper(element, skipper)
           end
         end
@@ -375,7 +370,7 @@ module Hatemile
       # Returns the skippers of configuration.
       #
       # @param file_name [String] The file path of skippers configuration.
-      # @return [Hatemile::Util::Skipper] The skippers of configuration.
+      # @return [Array<Hash>] The skippers of configuration.
       def get_skippers(file_name)
         skippers = []
         if file_name.nil?
@@ -385,14 +380,14 @@ module Hatemile
           )
         end
         document = REXML::Document.new(File.read(file_name))
-        document.elements.each('skippers/skipper') do |skipper|
-          skippers.push(
-            Hatemile::Util::Skipper.new(
-              skipper.attribute('selector').value,
-              skipper.attribute('default-text').value,
-              skipper.attribute('shortcut').value
-            )
+        document.elements.each('skippers/skipper') do |skipper_xml|
+          skipper = {}
+          skipper[:selector] = skipper_xml.attribute('selector').value
+          skipper[:description] = skipper_xml.attribute('description').value
+          skipper[:shortcut] = skipper_xml.attribute('shortcut').value.split(
+            /[ \n\t\r]+/
           )
+          skippers.push(skipper)
         end
         skippers
       end
@@ -522,9 +517,9 @@ module Hatemile
         item_link = @parser.create_element('li')
         link = @parser.create_element('a')
         link.set_attribute('href', "##{anchor.get_attribute('name')}")
-        link.append_text(skipper.get_default_text)
+        link.append_text(skipper[:description])
 
-        shortcuts = skipper.get_shortcuts
+        shortcuts = skipper[:shortcut]
         unless shortcuts.empty?
           shortcut = shortcuts[0]
           unless shortcut.empty?
@@ -544,40 +539,31 @@ module Hatemile
       # @see Hatemile::AccessibleNavigation#fix_skippers
       def fix_skippers
         @skippers.each do |skipper|
-          elements = @parser.find(skipper.get_selector).list_results
+          elements = @parser.find(skipper[:selector]).list_results
           count = elements.size > 1
           index = 1 if count
-          shortcuts = skipper.get_shortcuts
+          shortcuts = skipper[:shortcut]
           elements.each do |element|
             next unless Hatemile::Util::CommonFunctions.is_valid_element?(
               element
             )
 
             if count
-              default_text = "#{skipper.get_default_text} #{index}"
               index += 1
+              description = "#{skipper[:description]} #{index}"
             else
-              default_text = skipper.get_default_text
+              description = skipper[:description]
             end
+            auxiliar_skipper = {}
+            auxiliar_skipper[:selector] = skipper[:selector]
+            auxiliar_skipper[:description] = description
             if !shortcuts.empty?
-              fix_skipper(
-                element,
-                Hatemile::Util::Skipper.new(
-                  skipper.get_selector,
-                  default_text,
-                  shortcuts[shortcuts.size - 1]
-                )
-              )
+              auxiliar_skipper[:shortcut] = [shortcuts[shortcuts.size - 1]]
+              fix_skipper(element, auxiliar_skipper)
               shortcuts.delete_at(shortcuts.size - 1)
             else
-              fix_skipper(
-                element,
-                Hatemile::Util::Skipper.new(
-                  skipper.get_selector,
-                  default_text,
-                  ''
-                )
-              )
+              auxiliar_skipper[:shortcut] = []
+              fix_skipper(element, auxiliar_skipper)
             end
           end
         end
