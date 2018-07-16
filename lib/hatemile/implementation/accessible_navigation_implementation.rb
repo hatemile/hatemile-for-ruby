@@ -10,6 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'rexml/document'
 require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_navigation')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
@@ -370,6 +371,32 @@ module Hatemile
         fix_shortcut(element) unless @list_shortcuts.nil?
       end
 
+      ##
+      # Returns the skippers of configuration.
+      #
+      # @param file_name [String] The file path of skippers configuration.
+      # @return [Hatemile::Util::Skipper] The skippers of configuration.
+      def get_skippers(file_name)
+        skippers = []
+        if file_name.nil?
+          file_name = File.join(
+            File.dirname(File.dirname(File.dirname(__FILE__))),
+            'skippers.xml'
+          )
+        end
+        document = REXML::Document.new(File.read(file_name))
+        document.elements.each('skippers/skipper') do |skipper|
+          skippers.push(
+            Hatemile::Util::Skipper.new(
+              skipper.attribute('selector').value,
+              skipper.attribute('default-text').value,
+              skipper.attribute('shortcut').value
+            )
+          )
+        end
+        skippers
+      end
+
       public
 
       ##
@@ -379,8 +406,15 @@ module Hatemile
       # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       # @param configure [Hatemile::Util::Configure] The configuration of
       #   HaTeMiLe.
+      # @param skipper_file_name [String] The file path of skippers
+      #   configuration.
       # @param user_agent [String] The user agent of the user.
-      def initialize(parser, configure, user_agent = nil)
+      def initialize(
+        parser,
+        configure,
+        skipper_file_name = nil,
+        user_agent = nil
+      )
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('navigation')
         @text_shortcuts = configure.get_parameter('text-shortcuts')
@@ -388,7 +422,7 @@ module Hatemile
         @standart_prefix = configure.get_parameter(
           'text-standart-shortcut-prefix'
         )
-        @skippers = configure.get_skippers
+        @skippers = get_skippers(skipper_file_name)
         @list_shortcuts_added = false
         @list_skippers_added = false
         @validate_heading = false

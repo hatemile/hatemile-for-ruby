@@ -11,7 +11,6 @@
 # limitations under the License.
 
 require 'rexml/document'
-require File.join(File.dirname(__FILE__), 'skipper')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -28,7 +27,6 @@ module Hatemile
       # @param file_name [String] The full path of file.
       def initialize(file_name = nil)
         @parameters = {}
-        @skippers = []
         if file_name.nil?
           file_name = File.join(
             File.dirname(File.dirname(File.dirname(__FILE__))),
@@ -36,21 +34,12 @@ module Hatemile
           )
         end
         document = REXML::Document.new(File.read(file_name))
-        document.elements.each('configure/parameters/parameter') do |parameter|
+        document.elements.each('parameters/parameter') do |parameter|
           if parameter.text.class != NilClass
             @parameters[parameter.attribute('name').value] = parameter.text
           else
             @parameters[parameter.attribute('name').value] = ''
           end
-        end
-        document.elements.each('configure/skippers/skipper') do |skipper|
-          @skippers.push(
-            Skipper.new(
-              skipper.attribute('selector').value,
-              skipper.attribute('default-text').value,
-              skipper.attribute('shortcut').value
-            )
-          )
         end
       end
 
@@ -69,14 +58,6 @@ module Hatemile
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
         @parameters[parameter]
-      end
-
-      ##
-      # Returns the skippers.
-      #
-      # @return [Array<Skipper>] The skippers.
-      def get_skippers
-        @skippers.clone
       end
     end
   end
