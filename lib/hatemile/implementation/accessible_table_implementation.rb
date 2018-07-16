@@ -16,6 +16,11 @@ require File.join(
   'util',
   'common_functions'
 )
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'id_generator'
+)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -172,7 +177,7 @@ module Hatemile
           cells.each do |cell|
             next unless cell.get_tag_name == 'TH'
 
-            Hatemile::Util::CommonFunctions.generate_id(cell, @prefix_id)
+            @id_generator.generate_id(cell)
             headers_ids.push(cell.get_attribute('id'))
             cell.set_attribute('scope', 'row')
           end
@@ -203,7 +208,7 @@ module Hatemile
           'th'
         ).list_results
         cells.each do |cell|
-          Hatemile::Util::CommonFunctions.generate_id(cell, @prefix_id)
+          @id_generator.generate_id(cell)
 
           cell.set_attribute('scope', 'col')
         end
@@ -216,11 +221,9 @@ module Hatemile
       # of parser.
       #
       # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
-      # @param configure [Hatemile::Util::Configure] The configuration of
-      #   HaTeMiLe.
-      def initialize(parser, configure)
+      def initialize(parser)
         @parser = parser
-        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @id_generator = Hatemile::Util::IDGenerator.new('table')
       end
 
       ##

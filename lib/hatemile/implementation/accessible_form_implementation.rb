@@ -16,6 +16,11 @@ require File.join(
   'util',
   'common_functions'
 )
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'id_generator'
+)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -347,7 +352,7 @@ module Hatemile
       #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @id_generator = Hatemile::Util::IDGenerator.new('form')
         @prefix_required_field = configure.get_parameter(
           'prefix-required-field'
         )
@@ -484,7 +489,7 @@ module Hatemile
           ).first_result
 
           unless field.nil?
-            Hatemile::Util::CommonFunctions.generate_id(field, @prefix_id)
+            @id_generator.generate_id(field)
             label.set_attribute('for', field.get_attribute('id'))
           end
         end
@@ -502,7 +507,7 @@ module Hatemile
         fix_label_range_field(label, field)
         fix_label_autocomplete_field(label, field)
 
-        Hatemile::Util::CommonFunctions.generate_id(label, @prefix_id)
+        @id_generator.generate_id(label)
         field.set_attribute(
           'aria-labelledby',
           Hatemile::Util::CommonFunctions.increase_in_list(

@@ -178,11 +178,11 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 		</body>
 	</html>')
     # Create instances of modifiers
-    events = Hatemile::Implementation::AccessibleEventImplementation.new(parser, configure)
+    events = Hatemile::Implementation::AccessibleEventImplementation.new(parser)
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser, configure)
     images = Hatemile::Implementation::AccessibleImageImplementation.new(parser, configure)
     navigation = Hatemile::Implementation::AccessibleNavigationImplementation.new(parser, configure)
-    tables = Hatemile::Implementation::AccessibleTableImplementation.new(parser, configure)
+    tables = Hatemile::Implementation::AccessibleTableImplementation.new(parser)
     # Run fix methods
     events.fixDragsandDrops()
     events.fixActives()

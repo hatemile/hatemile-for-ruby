@@ -16,6 +16,11 @@ require File.join(
   'util',
   'common_functions'
 )
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'id_generator'
+)
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -48,7 +53,7 @@ module Hatemile
       #   HaTeMiLe.
       def initialize(parser, configure)
         @parser = parser
-        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @id_generator = Hatemile::Util::IDGenerator.new('image')
         @prefix_long_description_link = configure.get_parameter(
           'prefix-longdescription'
         )
@@ -62,7 +67,7 @@ module Hatemile
       def fix_long_description(element)
         return unless element.has_attribute?('longdesc')
 
-        Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
+        @id_generator.generate_id(element)
         id = element.get_attribute('id')
 
         selector = "[#{DATA_LONG_DESCRIPTION_FOR_IMAGE}=\"#{id}\"]"

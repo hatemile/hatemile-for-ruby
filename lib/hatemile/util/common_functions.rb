@@ -24,31 +24,6 @@ module Hatemile
       DATA_IGNORE = 'data-ignoreaccessibilityfix'.freeze
 
       ##
-      # Count the number of ids created.
-      @count = 0
-
-      ##
-      # Generate a id for a element.
-      #
-      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
-      # @param prefix [String] The prefix of id.
-      # @return [void]
-      def self.generate_id(element, prefix)
-        return if element.has_attribute?('id')
-
-        element.set_attribute('id', prefix + @count.to_s)
-        @count += 1
-      end
-
-      ##
-      # Reset the count number of ids.
-      #
-      # @return [void]
-      def self.reset_count
-        @count = 0
-      end
-
-      ##
       # Copy a list of attributes of a element for other element.
       #
       # @param element1 [Hatemile::Util::Html::HTMLDOMElement] The element that

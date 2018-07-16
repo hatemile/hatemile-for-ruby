@@ -19,6 +19,11 @@ require File.join(
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
+  'id_generator'
+)
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
   'skipper'
 )
 
@@ -280,7 +285,7 @@ module Hatemile
       # @param anchor_class [String] The HTML class of anchor.
       # @return [Hatemile::Util::Html::HTMLDOMElement] The anchor.
       def generate_anchor_for(element, data_attribute, anchor_class)
-        Hatemile::Util::CommonFunctions.generate_id(element, @prefix_id)
+        @id_generator.generate_id(element)
         anchor = nil
         if @parser.find(
           "[#{data_attribute}=\"#{element.get_attribute('id')}\"]"
@@ -289,7 +294,7 @@ module Hatemile
             anchor = element
           else
             anchor = @parser.create_element('a')
-            Hatemile::Util::CommonFunctions.generate_id(anchor, @prefix_id)
+            @id_generator.generate_id(anchor)
             anchor.set_attribute('class', anchor_class)
             element.insert_before(anchor)
           end
@@ -377,7 +382,7 @@ module Hatemile
       # @param user_agent [String] The user agent of the user.
       def initialize(parser, configure, user_agent = nil)
         @parser = parser
-        @prefix_id = configure.get_parameter('prefix-generated-ids')
+        @id_generator = Hatemile::Util::IDGenerator.new('navigation')
         @text_shortcuts = configure.get_parameter('text-shortcuts')
         @text_heading = configure.get_parameter('text-heading')
         @standart_prefix = configure.get_parameter(
@@ -493,7 +498,7 @@ module Hatemile
             link.set_attribute('accesskey', shortcut)
           end
         end
-        Hatemile::Util::CommonFunctions.generate_id(link, @prefix_id)
+        @id_generator.generate_id(link)
 
         item_link.append_element(link)
         @list_skippers.append_element(item_link)
