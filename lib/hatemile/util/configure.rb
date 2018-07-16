@@ -30,7 +30,10 @@ module Hatemile
         @parameters = {}
         @skippers = []
         if file_name.nil?
-          file_name = File.dirname(__FILE__) + '/../../hatemile-configure.xml'
+          file_name = File.join(
+            File.dirname(File.dirname(File.dirname(__FILE__))),
+            'hatemile-configure.xml'
+          )
         end
         document = REXML::Document.new(File.read(file_name))
         document.elements.each('configure/parameters/parameter') do |parameter|

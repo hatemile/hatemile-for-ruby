@@ -82,7 +82,13 @@ module Hatemile
           script.set_attribute('id', ID_SCRIPT_EVENT_LISTENER)
           script.set_attribute('type', 'text/javascript')
           script.append_text(
-            File.read(File.dirname(__FILE__) + '/../../js/eventlistener.js')
+            File.read(
+              File.join(
+                File.dirname(File.dirname(File.dirname(__FILE__))),
+                'js',
+                'eventlistener.js'
+              )
+            )
           )
           if head.has_children?
             head.get_first_element_child.insert_before(script)
@@ -108,7 +114,13 @@ module Hatemile
             script_function.set_attribute('id', ID_FUNCTION_SCRIPT_FIX)
             script_function.set_attribute('type', 'text/javascript')
             script_function.append_text(
-              File.read(File.dirname(__FILE__) + '/../../js/include.js')
+              File.read(
+                File.join(
+                  File.dirname(File.dirname(File.dirname(__FILE__))),
+                  'js',
+                  'include.js'
+                )
+              )
             )
             local.append_element(script_function)
           end
