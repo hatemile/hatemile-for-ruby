@@ -14,8 +14,7 @@
 # The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
   ##
-  # The AccessibleForm interface fixes accessibility problems associated with
-  # forms.
+  # The AccessibleForm interface improve the accessibility of forms.
   #
   # @abstract
   class AccessibleForm
@@ -77,25 +76,6 @@ module Hatemile
     # @abstract
     # @return [void]
     def fix_autocomplete_fields
-      # Interface method
-    end
-
-    ##
-    # Associate label with field.
-    #
-    # @abstract
-    # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
-    # @return [void]
-    def fix_label(label)
-      # Interface method
-    end
-
-    ##
-    # Associate labels with fields.
-    #
-    # @abstract
-    # @return [void]
-    def fix_labels
       # Interface method
     end
   end

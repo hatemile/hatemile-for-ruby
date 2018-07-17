@@ -10,7 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_table')
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'accessible_association'
+)
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
@@ -30,9 +33,9 @@ module Hatemile
   # interfaces solutions.
   module Implementation
     ##
-    # The AccessibleTableImplementation class is official implementation of
-    # AccessibleTable interface.
-    class AccessibleTableImplementation < AccessibleTable
+    # The AccessibleAssociationImplementation class is official implementation
+    # of AccessibleAssociation.
+    class AccessibleAssociationImplementation < AccessibleAssociation
       public_class_method :new
 
       protected
@@ -217,17 +220,17 @@ module Hatemile
       public
 
       ##
-      # Initializes a new object that manipulate the accessibility of the tables
+      # Initializes a new object that improve the accessibility of associations
       # of parser.
       #
       # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       def initialize(parser)
         @parser = parser
-        @id_generator = Hatemile::Util::IDGenerator.new('table')
+        @id_generator = Hatemile::Util::IDGenerator.new('association')
       end
 
       ##
-      # @see Hatemile::AccessibleTable#fix_association_cells_table
+      # @see Hatemile::AccessibleAssociation#fix_association_cells_table
       def fix_association_cells_table(table)
         header = @parser.find(table).find_children('thead').first_result
         body = @parser.find(table).find_children('tbody').first_result
@@ -266,12 +269,60 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleTable#fix_association_cells_tables
+      # @see Hatemile::AccessibleAssociation#fix_association_cells_tables
       def fix_association_cells_tables
         tables = @parser.find('table').list_results
         tables.each do |table|
           if Hatemile::Util::CommonFunctions.is_valid_element?(table)
             fix_association_cells_table(table)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleAssociation#fix_label
+      def fix_label(label)
+        return unless label.get_tag_name == 'LABEL'
+
+        if label.has_attribute?('for')
+          field = @parser.find("##{label.get_attribute('for')}").first_result
+        else
+          field = @parser.find(label).find_descendants(
+            'input,select,textarea'
+          ).first_result
+
+          unless field.nil?
+            @id_generator.generate_id(field)
+            label.set_attribute('for', field.get_attribute('id'))
+          end
+        end
+
+        return if field.nil?
+
+        unless field.has_attribute?('aria-label')
+          field.set_attribute(
+            'aria-label',
+            label.get_text_content.gsub(/[ \n\r\t]+/, ' ')
+          )
+        end
+
+        @id_generator.generate_id(label)
+        field.set_attribute(
+          'aria-labelledby',
+          Hatemile::Util::CommonFunctions.increase_in_list(
+            field.get_attribute('aria-labelledby'),
+            label.get_attribute('id')
+          )
+        )
+      end
+
+      ##
+      # @see Hatemile::AccessibleAssociation#fix_labels
+      def fix_labels
+        labels = @parser.find('label').list_results
+        labels.each do |label|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(label)
+            fix_label(label)
           end
         end
       end
