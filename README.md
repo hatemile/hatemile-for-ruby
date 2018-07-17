@@ -190,13 +190,15 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     forms.fix_range_fields
     forms.fix_required_fields
 
+    association.fix_association_cells_tables
+    association.fix_labels
+
     navigation.fix_shortcuts
     navigation.fix_headings
     navigation.fix_skippers
     navigation.fix_long_descriptions
 
-    association.fix_association_cells_tables
-    association.fix_labels
+    navigation.fix_shortcuts
 
     # Output the html code with the changes
     puts(parser.get_html)

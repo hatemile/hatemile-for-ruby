@@ -161,9 +161,6 @@ module Hatemile
 
             container.append_element(text_container)
             local.append_element(container)
-
-            execute_fix_skipper(container)
-            execute_fix_skipper(text_container)
           end
         end
         unless container.nil?
@@ -172,7 +169,6 @@ module Hatemile
             html_list = @parser.create_element('ul')
             container.append_element(html_list)
           end
-          execute_fix_skipper(html_list)
         end
         @list_shortcuts_added = true
 
@@ -227,9 +223,6 @@ module Hatemile
 
             container.append_element(text_container)
             local.append_element(container)
-
-            execute_fix_skipper(container)
-            execute_fix_skipper(text_container)
           end
         end
         unless container.nil?
@@ -238,7 +231,6 @@ module Hatemile
             html_list = @parser.create_element('ol')
             container.append_element(html_list)
           end
-          execute_fix_skipper(html_list)
         end
         html_list
       end
@@ -347,32 +339,6 @@ module Hatemile
           end
           break if found
         end
-      end
-
-      ##
-      # Call fix_skipper method for element, if the page has the container of
-      # skippers.
-      #
-      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
-      # @return [void]
-      def execute_fix_skipper(element)
-        return if @list_skippers.nil?
-
-        @skippers.each do |skipper|
-          if @parser.find(skipper[:selector]).list_results.include?(element)
-            fix_skipper(element, skipper)
-          end
-        end
-      end
-
-      ##
-      # Call fix_shortcut method for element, if the page has the container of
-      # shortcuts.
-      #
-      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
-      # @return [void]
-      def execute_fix_shortcut(element)
-        fix_shortcut(element) unless @list_shortcuts.nil?
       end
 
       ##
@@ -546,8 +512,6 @@ module Hatemile
 
         item_link.append_element(link)
         @list_skippers.append_element(item_link)
-
-        execute_fix_shortcut(link)
       end
 
       ##
