@@ -359,9 +359,7 @@ module Hatemile
           skipper = {}
           skipper[:selector] = skipper_xml.attribute('selector').value
           skipper[:description] = skipper_xml.attribute('description').value
-          skipper[:shortcut] = skipper_xml.attribute('shortcut').value.split(
-            /[ \n\t\r]+/
-          )
+          skipper[:shortcut] = skipper_xml.attribute('shortcut').value
           skippers.push(skipper)
         end
         skippers
@@ -500,14 +498,9 @@ module Hatemile
         link.set_attribute('href', "##{anchor.get_attribute('name')}")
         link.append_text(skipper[:description])
 
-        shortcuts = skipper[:shortcut]
-        unless shortcuts.empty?
-          shortcut = shortcuts[0]
-          unless shortcut.empty?
-            free_shortcut(shortcut)
-            link.set_attribute('accesskey', shortcut)
-          end
-        end
+        free_shortcut(skipper[:shortcut])
+        link.set_attribute('accesskey', skipper[:shortcut])
+
         @id_generator.generate_id(link)
 
         item_link.append_element(link)
@@ -519,31 +512,12 @@ module Hatemile
       def fix_skippers
         @skippers.each do |skipper|
           elements = @parser.find(skipper[:selector]).list_results
-          count = elements.size > 1
-          index = 1 if count
-          shortcuts = skipper[:shortcut]
           elements.each do |element|
             next unless Hatemile::Util::CommonFunctions.is_valid_element?(
               element
             )
 
-            if count
-              index += 1
-              description = "#{skipper[:description]} #{index}"
-            else
-              description = skipper[:description]
-            end
-            auxiliar_skipper = {}
-            auxiliar_skipper[:selector] = skipper[:selector]
-            auxiliar_skipper[:description] = description
-            if !shortcuts.empty?
-              auxiliar_skipper[:shortcut] = [shortcuts[shortcuts.size - 1]]
-              fix_skipper(element, auxiliar_skipper)
-              shortcuts.delete_at(shortcuts.size - 1)
-            else
-              auxiliar_skipper[:shortcut] = []
-              fix_skipper(element, auxiliar_skipper)
-            end
+            fix_skipper(element, skipper)
           end
         end
       end
