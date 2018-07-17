@@ -251,6 +251,19 @@ module Hatemile
           def self_closing_tag?(tag)
             SELF_CLOSING_TAGS.include?(tag.downcase)
           end
+
+          ##
+          # Compare if two elements object reference the same element.
+          #
+          # @param other [Hatemile::Util::Html::HTMLDOMElement] The other
+          #   object.
+          # @return [Boolean] True if the object reference the same element or
+          #   false if not.
+          def ==(other)
+            return false if other.nil?
+            return false unless other.is_a?(HTMLDOMElement)
+            get_data == other.get_data
+          end
         end
       end
     end

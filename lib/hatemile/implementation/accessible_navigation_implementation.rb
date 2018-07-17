@@ -480,7 +480,18 @@ module Hatemile
 
       ##
       # @see Hatemile::AccessibleNavigation#fix_skipper
-      def fix_skipper(element, skipper)
+      def fix_skipper(element)
+        skipper = nil
+        @skippers.each do |auxiliar_skipper|
+          elements = @parser.find(auxiliar_skipper[:selector]).list_results
+          if elements.include?(element)
+            skipper = auxiliar_skipper
+            break
+          end
+        end
+
+        return if skipper.nil?
+
         @list_skippers = generate_list_skippers unless @list_skippers_added
 
         return if @list_skippers.nil?
@@ -517,7 +528,7 @@ module Hatemile
               element
             )
 
-            fix_skipper(element, skipper)
+            fix_skipper(element)
           end
         end
       end
