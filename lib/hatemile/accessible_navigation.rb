@@ -79,5 +79,25 @@ module Hatemile
     def fix_headings
       # Interface method
     end
+
+    ##
+    # Provide an alternative way to access the long description of element.
+    #
+    # @abstract
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
+    #   long description.
+    # @return [void]
+    def fix_long_description(element)
+      # Interface method
+    end
+
+    ##
+    # Provide an alternative way to access the longs descriptions of elements.
+    #
+    # @abstract
+    # @return [void]
+    def fix_long_descriptions
+      # Interface method
+    end
   end
 end

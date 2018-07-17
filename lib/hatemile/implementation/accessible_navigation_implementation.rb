@@ -65,6 +65,10 @@ module Hatemile
       CLASS_HEADING_ANCHOR = 'heading-anchor'.freeze
 
       ##
+      # The HTML class of element for show the long description of image.
+      CLASS_LONG_DESCRIPTION_LINK = 'longdescription-link'.freeze
+
+      ##
       # The name of attribute that link the list item element with the shortcut.
       DATA_ACCESS_KEY = 'data-shortcutdescriptionfor'.freeze
 
@@ -80,6 +84,11 @@ module Hatemile
       ##
       # The name of attribute that indicates the level of heading of link.
       DATA_HEADING_LEVEL = 'data-headinglevel'.freeze
+
+      ##
+      # The name of attribute that link the anchor of long description with the
+      # image.
+      DATA_LONG_DESCRIPTION_FOR_IMAGE = 'data-longdescriptionfor'.freeze
 
       protected
 
@@ -417,6 +426,12 @@ module Hatemile
         @standart_prefix = configure.get_parameter(
           'text-standart-shortcut-prefix'
         )
+        @prefix_long_description_link = configure.get_parameter(
+          'prefix-longdescription'
+        )
+        @suffix_long_description_link = configure.get_parameter(
+          'suffix-longdescription'
+        )
         @skippers = get_skippers(skipper_file_name)
         @list_shortcuts_added = false
         @list_skippers_added = false
@@ -623,6 +638,45 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             fix_heading(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_long_description
+      def fix_long_description(element)
+        return unless element.has_attribute?('longdesc')
+
+        @id_generator.generate_id(element)
+        id = element.get_attribute('id')
+
+        selector = "[#{DATA_LONG_DESCRIPTION_FOR_IMAGE}=\"#{id}\"]"
+        return unless @parser.find(selector).first_result.nil?
+
+        text = if element.has_attribute?('alt')
+                 "#{@prefix_long_description_link} " \
+                 "#{element.get_attribute('alt')} " \
+                 "#{@suffix_long_description_link}"
+               else
+                 "#{@prefix_long_description_link} " \
+                 "#{@suffix_long_description_link}"
+               end
+        anchor = @parser.create_element('a')
+        anchor.set_attribute('href', element.get_attribute('longdesc'))
+        anchor.set_attribute('target', '_blank')
+        anchor.set_attribute(DATA_LONG_DESCRIPTION_FOR_IMAGE, id)
+        anchor.set_attribute('class', CLASS_LONG_DESCRIPTION_LINK)
+        anchor.append_text(text)
+        element.insert_after(anchor)
+      end
+
+      ##
+      # @see Hatemile::AccessibleNavigation#fix_long_descriptions
+      def fix_long_descriptions
+        elements = @parser.find('[longdesc]').list_results
+        elements.each do |element|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            fix_long_description(element)
           end
         end
       end

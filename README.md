@@ -6,7 +6,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
 1.  Instanciate a new object with HTMLDOMParser interface, setting the HTML code;
 2.  Instanciate a new Configuration object;
-3.  Instanciate a new object with AccessibleForm, AccessibleImage, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
+3.  Instanciate a new object with AccessibleForm, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
 4.  Get the HTML code of object with HTMLDOMParser interface.
 
 ## Example
@@ -18,7 +18,6 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     require_relative 'lib/hatemile/util/html/nokogiri/nokogiri_html_dom_parser'
     require_relative 'lib/hatemile/implementation/accessible_event_implementation'
     require_relative 'lib/hatemile/implementation/accessible_form_implementation'
-    require_relative 'lib/hatemile/implementation/accessible_image_implementation'
     require_relative 'lib/hatemile/implementation/accessible_navigation_implementation'
     require_relative 'lib/hatemile/implementation/accessible_association_implementation'
     
@@ -180,26 +179,24 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     # Create instances of modifiers
     events = Hatemile::Implementation::AccessibleEventImplementation.new(parser)
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser)
-    images = Hatemile::Implementation::AccessibleImageImplementation.new(parser, configure)
     navigation = Hatemile::Implementation::AccessibleNavigationImplementation.new(parser, configure)
     association = Hatemile::Implementation::AccessibleAssociationImplementation.new(parser)
     # Run fix methods
-    events.fix_drags_and_drops()
-    events.fix_actives()
-    events.fix_hovers()
+    events.fix_drags_and_drops
+    events.fix_actives
+    events.fix_hovers
 
-    forms.fix_autocomplete_fields()
-    forms.fix_range_fields()
-    forms.fix_required_fields()
+    forms.fix_autocomplete_fields
+    forms.fix_range_fields
+    forms.fix_required_fields
 
-    images.fix_long_descriptions()
+    navigation.fix_shortcuts
+    navigation.fix_headings
+    navigation.fix_skippers
+    navigation.fix_long_descriptions
 
-    navigation.fix_shortcuts()
-    navigation.fix_headings()
-    navigation.fix_skippers()
-
-    association.fix_association_cells_tables()
-    association.fix_labels()
+    association.fix_association_cells_tables
+    association.fix_labels
 
     # Output the html code with the changes
-    puts parser.get_html()
+    puts(parser.get_html)
