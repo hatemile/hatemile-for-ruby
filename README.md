@@ -21,8 +21,8 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     require_relative 'lib/hatemile/implementation/accessible_navigation_implementation'
     require_relative 'lib/hatemile/implementation/accessible_association_implementation'
     
-    # Load the configuration of hatemile (hatemile-configure.xml)
-    configure = Hatemile::Util::Configure.new('lib/hatemile-configure.xml')
+    # Load the configuration of hatemile
+    configure = Hatemile::Util::Configure.new()
     # Create an instance of parser
     parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new('
     <!DOCTYPE html>

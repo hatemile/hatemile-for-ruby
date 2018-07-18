@@ -11,6 +11,7 @@
 # limitations under the License.
 
 require 'rexml/document'
+require 'i18n'
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -24,23 +25,21 @@ module Hatemile
       ##
       # Initializes a new object that contains the configuration of HaTeMiLe.
       #
-      # @param file_name [String] The full path of file.
-      def initialize(file_name = nil)
-        @parameters = {}
-        if file_name.nil?
-          file_name = File.join(
+      # @param files_name [Array<String>] The path of files.
+      # @param locale [Symbol] The locale.
+      def initialize(files_name = nil, locale = :'en-US')
+        if files_name.nil?
+          pattern = File.join(
             File.dirname(File.dirname(File.dirname(__FILE__))),
-            'hatemile-configure.xml'
+            'locale',
+            '*.yml'
           )
+          files_name = Dir.glob(pattern)
         end
-        document = REXML::Document.new(File.read(file_name))
-        document.elements.each('parameters/parameter') do |parameter|
-          if parameter.text.class != NilClass
-            @parameters[parameter.attribute('name').value] = parameter.text
-          else
-            @parameters[parameter.attribute('name').value] = ''
-          end
-        end
+        I18n.load_path += files_name
+        @options = {}
+        @options[:locale] = locale
+        @options[:scope] = :hatemile
       end
 
       ##
@@ -48,7 +47,9 @@ module Hatemile
       #
       # @return [Hash] The parameters of configuration.
       def get_parameters
-        @parameters.clone
+        options = {}
+        options[:locale] = @options[:locale]
+        I18n.t!(:hatemile, options)
       end
 
       ##
@@ -57,7 +58,7 @@ module Hatemile
       # @param parameter [String] The parameter.
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
-        @parameters[parameter]
+        I18n.t!(parameter, @options)
       end
     end
   end
