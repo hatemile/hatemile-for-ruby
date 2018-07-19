@@ -26,8 +26,8 @@ module Hatemile
       # Initializes a new object that contains the configuration of HaTeMiLe.
       #
       # @param files_name [Array<String>] The path of files.
-      # @param locale [Symbol] The locale.
-      def initialize(files_name = nil, locale = :'en-US')
+      # @param locales [Array<Symbol>] The locales.
+      def initialize(files_name = nil, locales = [:'en-US'])
         if files_name.nil?
           pattern = File.join(
             File.dirname(File.dirname(File.dirname(__FILE__))),
@@ -37,9 +37,13 @@ module Hatemile
           files_name = Dir.glob(pattern)
         end
         I18n.load_path += files_name
-        @options = {}
-        @options[:locale] = locale
-        @options[:scope] = :hatemile
+        @options = []
+        locales.each do |locale|
+          option = {}
+          option[:locale] = locale
+          option[:scope] = :hatemile
+          @options.push(option)
+        end
       end
 
       ##
@@ -48,7 +52,7 @@ module Hatemile
       # @return [Hash] The parameters of configuration.
       def get_parameters
         options = {}
-        options[:locale] = @options[:locale]
+        options[:locale] = @options[0][:locale]
         I18n.t!(:hatemile, options)
       end
 
@@ -58,7 +62,16 @@ module Hatemile
       # @param parameter [String] The parameter.
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
-        I18n.t!(parameter, @options)
+        @options.each do |option|
+          next if @options.last == option
+
+          option_default = option.clone
+          option_default[:default] = nil
+
+          value = I18n.t(parameter, option_default)
+          return value unless value.nil?
+        end
+        I18n.t!(parameter, @options.last)
       end
     end
   end
