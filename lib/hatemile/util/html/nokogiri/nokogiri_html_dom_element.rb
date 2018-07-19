@@ -83,44 +83,44 @@ module Hatemile
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#get_text_content
+          # @see Hatemile::Util::Html::HTMLDOMNode#get_text_content
           def get_text_content
             @data.text
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#insert_before
-          def insert_before(new_element)
-            @data.before(new_element.get_data)
-            new_element
+          # @see Hatemile::Util::Html::HTMLDOMNode#insert_before
+          def insert_before(new_node)
+            @data.before(new_node.get_data)
+            self
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#insert_after
-          def insert_after(new_element)
-            @data.after(new_element.get_data)
-            new_element
+          # @see Hatemile::Util::Html::HTMLDOMNode#insert_after
+          def insert_after(new_node)
+            @data.after(new_node.get_data)
+            self
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#remove_element
-          def remove_element
+          # @see Hatemile::Util::Html::HTMLDOMNode#remove_node
+          def remove_node
             @data.remove
             self
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#replace_element
-          def replace_element(new_element)
-            @data.replace(new_element.get_data)
-            new_element
+          # @see Hatemile::Util::Html::HTMLDOMNode#replace_node
+          def replace_node(new_node)
+            @data.replace(new_node.get_data)
+            self
           end
 
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#append_element
           def append_element(element)
             @data.add_child(element.get_data)
-            element
+            self
           end
 
           ##
@@ -134,9 +134,10 @@ module Hatemile
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#append_text
+          # @see Hatemile::Util::Html::HTMLDOMNode#append_text
           def append_text(text)
             @data.add_child(Nokogiri::XML::Text.new(text, @data.document))
+            self
           end
 
           ##
@@ -146,7 +147,7 @@ module Hatemile
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#get_parent_element
+          # @see Hatemile::Util::Html::HTMLDOMNode#get_parent_element
           def get_parent_element
             parent = @data.parent
             if !parent.nil? && parent.element?
@@ -172,13 +173,13 @@ module Hatemile
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#get_data
+          # @see Hatemile::Util::Html::HTMLDOMNode#get_data
           def get_data
             @data
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMElement#set_data
+          # @see Hatemile::Util::Html::HTMLDOMNode#set_data
           def set_data(data)
             @data = data
           end

@@ -10,6 +10,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require File.join(File.dirname(__FILE__), 'html_dom_node')
+
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
@@ -24,7 +26,7 @@ module Hatemile
       # element.
       #
       # @abstract
-      class HTMLDOMElement
+      class HTMLDOMElement < HTMLDOMNode
         private_class_method :new
 
         ##
@@ -90,63 +92,12 @@ module Hatemile
         end
 
         ##
-        # Returns the text of element.
-        #
-        # @abstract
-        # @return [String] The text of element.
-        def get_text_content
-          # Interface method
-        end
-
-        ##
-        # Insert a element before this element.
-        #
-        # @abstract
-        # @param new_element [Hatemile::Util::Html::HTMLDOMElement] The element
-        #   that be inserted.
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The element inserted.
-        def insert_before(new_element)
-          # Interface method
-        end
-
-        ##
-        # Insert a element after this element.
-        #
-        # @abstract
-        # @param new_element [Hatemile::Util::Html::HTMLDOMElement] The element
-        #   that be inserted.
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The element inserted.
-        def insert_after(new_element)
-          # Interface method
-        end
-
-        ##
-        # Remove this element of the parser.
-        #
-        # @abstract
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The removed element.
-        def remove_element
-          # Interface method
-        end
-
-        ##
-        # Replace this element for other element.
-        #
-        # @abstract
-        # @param new_element [Hatemile::Util::Html::HTMLDOMElement] The element
-        #   that replace this element.
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The element replaced.
-        def replace_element(new_element)
-          # Interface method
-        end
-
-        ##
         # Append a element child.
         #
         # @abstract
         # @param element [Hatemile::Util::Html::HTMLDOMElement] The element that
         #   be inserted.
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The element inserted.
+        # @return [Hatemile::Util::Html::HTMLDOMElement] This element.
         def append_element(element)
           # Interface method
         end
@@ -162,32 +113,12 @@ module Hatemile
         end
 
         ##
-        # Append a text child.
-        #
-        # @abstract
-        # @param text [String] The text.
-        # @return [void]
-        def append_text(text)
-          # Interface method
-        end
-
-        ##
         # Returns if the element has children.
         #
         # @abstract
         # @return [Boolean] True if the element has children or false if the
         #   element not has children.
         def has_children?
-          # Interface method
-        end
-
-        ##
-        # Returns the parent element of this element.
-        #
-        # @abstract
-        # @return [Hatemile::Util::Html::HTMLDOMElement] The parent element of
-        #   this element.
-        def get_parent_element
           # Interface method
         end
 
@@ -206,25 +137,6 @@ module Hatemile
         # @abstract
         # @return [String] The HTML code of this element.
         def get_outer_html
-          # Interface method
-        end
-
-        ##
-        # Returns the native object of this element.
-        #
-        # @abstract
-        # @return [Object] The native object of this element.
-        def get_data
-          # Interface method
-        end
-
-        ##
-        # Modify the native object of this element.
-        #
-        # @abstract
-        # @param data [Object] The native object of this element.
-        # @return [void]
-        def set_data(data)
           # Interface method
         end
 
