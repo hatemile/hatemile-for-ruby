@@ -73,13 +73,6 @@ module Hatemile
           end
 
           ##
-          # @see Hatemile::Util::Html::HTMLDOMNode#append_text
-          def append_text(text)
-            @node.add_child(Nokogiri::XML::Text.new(text, @node.document))
-            @hatemile_node
-          end
-
-          ##
           # @see Hatemile::Util::Html::HTMLDOMNode#get_parent_element
           def get_parent_element
             parent = @node.parent
