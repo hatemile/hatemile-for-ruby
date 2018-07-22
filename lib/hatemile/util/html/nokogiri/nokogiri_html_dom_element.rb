@@ -123,6 +123,26 @@ module Hatemile
           end
 
           ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#normalize
+          def normalize
+            return self unless has_children
+
+            last = nil
+            get_children.each do |child|
+              if child.is_a?(BeautifulSoupHTMLDOMElement)
+                child.normalize
+              elsif child.is_a?(BeautifulSoupHTMLDOMTextNode) &&
+                    last.is_a?(BeautifulSoupHTMLDOMTextNode)
+                child.prepend_text(last.get_text_content)
+                last.remove_node
+              end
+              last = child
+            end
+
+            self
+          end
+
+          ##
           # @see Hatemile::Util::Html::HTMLDOMNode#append_text
           def append_text(text)
             @data.add_child(Nokogiri::XML::Text.new(text, @data.document))

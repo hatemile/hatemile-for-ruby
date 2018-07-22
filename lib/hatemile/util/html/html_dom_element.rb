@@ -134,6 +134,15 @@ module Hatemile
         end
 
         ##
+        # Joins adjacent Text nodes.
+        #
+        # @abstract
+        # @return [Hatemile::Util::Html::HTMLDOMElement] This element.
+        def normalize
+          # Interface method
+        end
+
+        ##
         # Check that the element has elements children.
         #
         # @abstract
