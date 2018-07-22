@@ -12,6 +12,7 @@
 
 require File.join(File.dirname(File.dirname(__FILE__)), 'html_dom_element')
 require File.join(File.dirname(__FILE__), 'nokogiri_html_dom_node')
+require File.join(File.dirname(__FILE__), 'nokogiri_html_dom_text_node')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -94,11 +95,22 @@ module Hatemile
           end
 
           ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#get_children_elements
+          def get_children_elements
+            array = []
+            @data.children do |child|
+              array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
+            end
+            array
+          end
+
+          ##
           # @see Hatemile::Util::Html::HTMLDOMElement#get_children
           def get_children
             array = []
             @data.children do |child|
               array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
+              array.push(NokogiriHTMLDOMTextNode.new(child)) if child.text?
             end
             array
           end
@@ -111,16 +123,25 @@ module Hatemile
           end
 
           ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#has_children_elements?
+          def has_children_elements?
+            @data.element_children.empty? == false
+          end
+
+          ##
           # @see Hatemile::Util::Html::HTMLDOMElement#has_children?
           def has_children?
-            @data.children.empty? == false
+            @data.children do |child|
+              return true if child.element? || child.text?
+            end
+            false
           end
 
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#get_inner_html
           def get_inner_html
             html = ''
-            get_children do |child|
+            get_children_elements do |child|
               html += child.get_outer_html
             end
             html
@@ -148,16 +169,29 @@ module Hatemile
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#get_first_element_child
           def get_first_element_child
-            return nil unless has_children?
-            NokogiriHTMLDOMElement.new(@data.children[0])
+            return nil unless has_children_elements?
+            get_children_elements.first
           end
 
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#get_last_element_child
           def get_last_element_child
+            return nil unless has_children_elements?
+            get_children_elements.last
+          end
+
+          ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#get_first_node_child
+          def get_first_node_child
             return nil unless has_children?
-            children = @data.children
-            NokogiriHTMLDOMElement.new(children[children.length - 1])
+            get_children.first
+          end
+
+          ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#get_last_node_child
+          def get_last_node_child
+            return nil unless has_children?
+            get_children.last
           end
 
           ##

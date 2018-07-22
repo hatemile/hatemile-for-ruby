@@ -103,17 +103,37 @@ module Hatemile
         end
 
         ##
+        # Returns the elements children of this element.
+        #
+        # @abstract
+        # @return [Array<Hatemile::Util::Html::HTMLDOMElement>] The elements
+        #   children of this element.
+        def get_children_elements
+          # Interface method
+        end
+
+        ##
         # Returns the children of this element.
         #
         # @abstract
-        # @return [Array<Hatemile::Util::Html::HTMLDOMElement>] The children of
+        # @return [Array<Hatemile::Util::Html::HTMLDOMNode>] The children of
         #   this element.
         def get_children
           # Interface method
         end
 
         ##
-        # Returns if the element has children.
+        # Check that the element has elements children.
+        #
+        # @abstract
+        # @return [Boolean] True if the element has elements children or false
+        #   if the element not has elements children.
+        def has_children_elements?
+          # Interface method
+        end
+
+        ##
+        # Check that the element has children.
         #
         # @abstract
         # @return [Boolean] True if the element has children or false if the
@@ -157,6 +177,26 @@ module Hatemile
         # @return [Hatemile::Util::Html::HTMLDOMElement] The last element child
         #   of this element.
         def get_last_element_child
+          # Interface method
+        end
+
+        ##
+        # Returns the first node child of this element.
+        #
+        # @abstract
+        # @return [Hatemile::Util::Html::HTMLDOMNode] The first node child of
+        #   this element.
+        def get_first_node_child
+          # Interface method
+        end
+
+        ##
+        # Returns the last node child of this element.
+        #
+        # @abstract
+        # @return [Hatemile::Util::Html::HTMLDOMNode] The last node child of
+        #   this element.
+        def get_last_node_child
           # Interface method
         end
 
