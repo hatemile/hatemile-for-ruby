@@ -57,9 +57,25 @@ module Hatemile
       end
 
       ##
+      # Check that the configuration has an parameter.
+      #
+      # @param parameter [String] The name of parameter.
+      # @return [Boolean] True if the configuration has the parameter or false
+      #   if the configuration not has the parameter.
+      def has_parameter?(parameter)
+        @options.each do |option|
+          option_default = option.clone
+          option_default[:default] = nil
+
+          return true unless I18n.t(parameter, option_default).nil?
+        end
+        false
+      end
+
+      ##
       # Returns the value of a parameter of configuration.
       #
-      # @param parameter [String] The parameter.
+      # @param parameter [String] The name of parameter.
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
         @options.each do |option|
