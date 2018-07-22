@@ -105,8 +105,8 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMElement#get_children_elements
           def get_children_elements
             array = []
-            @data.children do |child|
-              array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
+            @data.element_children.each do |child|
+              array.push(NokogiriHTMLDOMElement.new(child))
             end
             array
           end
@@ -115,7 +115,7 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMElement#get_children
           def get_children
             array = []
-            @data.children do |child|
+            @data.children.each do |child|
               array.push(NokogiriHTMLDOMElement.new(child)) if child.element?
               array.push(NokogiriHTMLDOMTextNode.new(child)) if child.text?
             end
@@ -165,7 +165,7 @@ module Hatemile
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#has_children?
           def has_children?
-            @data.children do |child|
+            @data.children.each do |child|
               return true if child.element? || child.text?
             end
             false
@@ -175,7 +175,7 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMElement#get_inner_html
           def get_inner_html
             html = ''
-            get_children_elements do |child|
+            get_children_elements.each do |child|
               html += child.get_outer_html
             end
             html
