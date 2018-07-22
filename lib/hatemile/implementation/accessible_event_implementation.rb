@@ -90,11 +90,7 @@ module Hatemile
               )
             )
           )
-          if head.has_children_elements?
-            head.get_first_element_child.insert_before(script)
-          else
-            head.append_element(script)
-          end
+          head.prepend_element(script)
         end
         local = @parser.find('body').first_result
         unless local.nil?

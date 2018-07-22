@@ -95,6 +95,13 @@ module Hatemile
           end
 
           ##
+          # @see Hatemile::Util::Html::HTMLDOMElement#prepend_element
+          def prepend_element(element)
+            @data.prepend_child(element.get_data)
+            self
+          end
+
+          ##
           # @see Hatemile::Util::Html::HTMLDOMElement#get_children_elements
           def get_children_elements
             array = []
@@ -118,7 +125,14 @@ module Hatemile
           ##
           # @see Hatemile::Util::Html::HTMLDOMNode#append_text
           def append_text(text)
-            @node.add_child(Nokogiri::XML::Text.new(text, @node.document))
+            @data.add_child(Nokogiri::XML::Text.new(text, @data.document))
+            self
+          end
+
+          ##
+          # @see Hatemile::Util::Html::HTMLDOMNode#prepend_text
+          def prepend_text(text)
+            @data.prepend_child(Nokogiri::XML::Text.new(text, @data.document))
             self
           end
 

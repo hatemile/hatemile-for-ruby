@@ -57,6 +57,13 @@ module Hatemile
           end
 
           ##
+          # @see Hatemile::Util::Html::HTMLDOMNode#prepend_text
+          def prepend_text(text)
+            set_text_content(text + get_text_content)
+            self
+          end
+
+          ##
           # @see Hatemile::Util::Html::HTMLDOMNode#set_data
           def set_data(data)
             @data = data

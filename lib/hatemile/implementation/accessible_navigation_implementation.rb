@@ -188,7 +188,7 @@ module Hatemile
           unless local.nil?
             container = @parser.create_element('div')
             container.set_attribute('id', ID_CONTAINER_SKIPPERS)
-            local.get_first_element_child.insert_before(container)
+            local.prepend_element(container)
           end
         end
         unless container.nil?

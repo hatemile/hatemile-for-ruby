@@ -103,6 +103,17 @@ module Hatemile
         end
 
         ##
+        # Prepend a element child.
+        #
+        # @abstract
+        # @param element [Hatemile::Util::Html::HTMLDOMElement] The element that
+        #   be inserted.
+        # @return [Hatemile::Util::Html::HTMLDOMElement] This element.
+        def prepend_element(element)
+          # Interface method
+        end
+
+        ##
         # Returns the elements children of this element.
         #
         # @abstract

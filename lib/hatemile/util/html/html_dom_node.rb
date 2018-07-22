@@ -81,9 +81,19 @@ module Hatemile
         # Append a text content in node.
         #
         # @abstract
-        # @param text [String] The text.
+        # @param text [String] The text content.
         # @return [Hatemile::Util::Html::HTMLDOMNode] This node.
         def append_text(text)
+          # Interface method
+        end
+
+        ##
+        # Prepend a text content in node.
+        #
+        # @abstract
+        # @param text [String] The text content.
+        # @return [Hatemile::Util::Html::HTMLDOMNode] This node.
+        def prepend_text(text)
           # Interface method
         end
 
