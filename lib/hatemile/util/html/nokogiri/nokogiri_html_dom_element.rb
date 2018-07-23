@@ -175,8 +175,8 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMElement#get_inner_html
           def get_inner_html
             html = ''
-            get_children_elements.each do |child|
-              html += child.get_outer_html
+            @data.children.each do |child|
+              html += to_string(child)
             end
             html
           end
