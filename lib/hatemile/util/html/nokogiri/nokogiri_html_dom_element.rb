@@ -125,14 +125,14 @@ module Hatemile
           ##
           # @see Hatemile::Util::Html::HTMLDOMElement#normalize
           def normalize
-            return self unless has_children
+            return self unless has_children?
 
             last = nil
             get_children.each do |child|
-              if child.is_a?(BeautifulSoupHTMLDOMElement)
+              if child.is_a?(NokogiriHTMLDOMElement)
                 child.normalize
-              elsif child.is_a?(BeautifulSoupHTMLDOMTextNode) &&
-                    last.is_a?(BeautifulSoupHTMLDOMTextNode)
+              elsif child.is_a?(NokogiriHTMLDOMTextNode) &&
+                    last.is_a?(NokogiriHTMLDOMTextNode)
                 child.prepend_text(last.get_text_content)
                 last.remove_node
               end
