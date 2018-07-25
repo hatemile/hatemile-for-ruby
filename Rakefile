@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'rake'
 require 'rake/clean'
+require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'rubygems'
 require 'rubygems/package_task'
@@ -19,7 +20,7 @@ YARD::Rake::YardocTask.new do |p|
 end
 
 RuboCop::RakeTask.new(:rubocop) do |p|
-  p.patterns = ['Rakefile', 'hatemile.gemspec', 'lib/**/*.rb']
+  p.patterns = ['Rakefile', 'hatemile.gemspec', 'lib/**/*.rb', 'test/**/*.rb']
   p.fail_on_error = true
 end
 
@@ -45,6 +46,12 @@ namespace(:doc) do
 
     abort('100% document coverage required')
   end
+end
+
+Rake::TestTask.new do |p|
+  p.libs << 'test'
+  p.test_files = FileList['test/test*.rb']
+  p.verbose = true
 end
 
 desc('Generate documentation')
