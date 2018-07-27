@@ -19,7 +19,9 @@ require File.join(
   'lib',
   'hatemile',
   'util',
-  'configure'
+  'html',
+  'nokogiri',
+  'nokogiri_html_dom_element'
 )
 require File.join(
   File.dirname(File.dirname(__FILE__)),
