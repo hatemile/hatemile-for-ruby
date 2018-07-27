@@ -109,7 +109,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test find method
+  # Test find method.
   def test_find
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
@@ -142,7 +142,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test find_children method
+  # Test find_children method.
   def test_find_children
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
@@ -168,7 +168,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test find_descendants method
+  # Test find_descendants method.
   def test_find_descendants
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
@@ -198,7 +198,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test find_ancestors method
+  # Test find_ancestors method.
   def test_find_ancestors
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
@@ -217,7 +217,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test create_element method
+  # Test create_element method.
   def test_create_element
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
@@ -237,7 +237,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   end
 
   ##
-  # Test get_html method
+  # Test get_html method.
   def test_get_html
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       @html_code
