@@ -51,9 +51,19 @@ module Hatemile
       #
       # @return [Hash] The parameters of configuration.
       def get_parameters
-        options = {}
-        options[:locale] = @options[0][:locale]
-        I18n.t!(:hatemile, options)
+        symbol_parameters = {}
+        @options.each do |option|
+          option_root_scope = {}
+          option_root_scope[:locale] = option[:locale]
+          symbol_parameters = I18n.t!(:hatemile, option_root_scope).merge(
+            symbol_parameters
+          )
+        end
+        parameters = {}
+        symbol_parameters.each do |key, value|
+          parameters[key.to_s] = value
+        end
+        parameters
       end
 
       ##
