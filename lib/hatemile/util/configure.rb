@@ -36,7 +36,9 @@ module Hatemile
           )
           files_name = Dir.glob(pattern)
         end
-        I18n.load_path = files_name
+        files_name.each do |filename|
+          I18n.load_path.push(filename) unless I18n.load_path.include?(filename)
+        end
         @options = []
         locales.each do |locale|
           option = {}
