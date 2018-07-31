@@ -256,7 +256,7 @@ module Hatemile
       #
       # @return [Boolean] True if the headings of page are sintatic correct or
       #   false if not.
-      def is_valid_heading
+      def valid_heading?
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         last_level = 0
         count_main_heading = 0
@@ -315,7 +315,7 @@ module Hatemile
         elements.each do |element|
           shortcuts = element.get_attribute('accesskey').downcase
 
-          unless Hatemile::Util::CommonFunctions.in_list(shortcuts, shortcut)
+          unless Hatemile::Util::CommonFunctions.in_list?(shortcuts, shortcut)
             next
           end
 
@@ -327,7 +327,7 @@ module Hatemile
                 'accesskey'
               ).downcase
 
-              unless Hatemile::Util::CommonFunctions.in_list(shortcuts, key)
+              unless Hatemile::Util::CommonFunctions.in_list?(shortcuts, key)
                 next
               end
 
@@ -536,7 +536,7 @@ module Hatemile
       ##
       # @see Hatemile::AccessibleNavigation#fix_heading
       def fix_heading(element)
-        @valid_heading = is_valid_heading unless @validate_heading
+        @valid_heading = valid_heading? unless @validate_heading
 
         return unless @valid_heading
 

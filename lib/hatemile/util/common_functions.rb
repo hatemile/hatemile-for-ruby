@@ -53,7 +53,7 @@ module Hatemile
            !list.empty? &&
            !string_to_increase.nil? &&
            !string_to_increase.empty?
-          return list if in_list(list, string_to_increase)
+          return list if in_list?(list, string_to_increase)
           return "#{list} #{string_to_increase}"
         elsif !list.nil? && !list.empty?
           return list
@@ -68,7 +68,7 @@ module Hatemile
       # @param string_to_search [String] The value of item.
       # @return [Boolean] True if the list contains the item or false is not
       #   contains.
-      def self.in_list(list, string_to_search)
+      def self.in_list?(list, string_to_search)
         if !list.nil? &&
            !list.empty? &&
            !string_to_search.nil? &&

@@ -138,7 +138,7 @@ module Hatemile
       #   list that represents the table header.
       # @return [Boolean] True if the table header is valid or false if the
       #   table header is not valid.
-      def validate_header(header)
+      def valid_header?(header)
         return false if header.empty?
         length = -1
         header.each do |row|
@@ -239,7 +239,7 @@ module Hatemile
           fix_header(header)
 
           header_cells = generate_part(header)
-          if !body.nil? && validate_header(header_cells)
+          if !body.nil? && valid_header?(header_cells)
             length_header = header_cells[0].size
             fake_table = generate_part(body)
             unless footer.nil?
