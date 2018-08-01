@@ -291,13 +291,15 @@ module Hatemile
             'input,select,textarea'
           ).first_result
 
-          unless field.nil?
+          unless field.nil? ||
+                 !Hatemile::Util::CommonFunctions.is_valid_element?(field)
             @id_generator.generate_id(field)
             label.set_attribute('for', field.get_attribute('id'))
           end
         end
 
         return if field.nil?
+        return unless Hatemile::Util::CommonFunctions.is_valid_element?(field)
 
         unless field.has_attribute?('aria-label')
           field.set_attribute(
