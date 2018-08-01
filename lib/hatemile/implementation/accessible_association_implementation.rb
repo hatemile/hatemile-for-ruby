@@ -302,7 +302,7 @@ module Hatemile
         unless field.has_attribute?('aria-label')
           field.set_attribute(
             'aria-label',
-            label.get_text_content.gsub(/[ \n\r\t]+/, ' ')
+            label.get_text_content.gsub(/[ \n\r\t]+/, ' ').strip
           )
         end
 
