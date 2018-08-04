@@ -159,7 +159,8 @@ module Hatemile
       def return_list_ids_columns(header, index)
         ids = []
         header.each do |row|
-          if row[index].get_tag_name == 'TH'
+          if row[index].has_attribute?('scope') &&
+             row[index].get_attribute('scope') == 'col'
             ids.push(row[index].get_attribute('id'))
           end
         end
@@ -178,7 +179,8 @@ module Hatemile
         table.each do |cells|
           headers_ids.clear
           cells.each do |cell|
-            next unless cell.get_tag_name == 'TH'
+            next unless cell.get_tag_name == 'TH' and
+                        Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
             @id_generator.generate_id(cell)
             headers_ids.push(cell.get_attribute('id'))
@@ -188,7 +190,8 @@ module Hatemile
           next if headers_ids.empty?
 
           cells.each do |cell|
-            next unless cell.get_tag_name == 'TD'
+            next unless cell.get_tag_name == 'TD' and
+                        Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
             headers = cell.get_attribute('headers')
             headers_ids.each do |header_id|
@@ -213,8 +216,9 @@ module Hatemile
           'th'
         ).list_results
         cells.each do |cell|
-          @id_generator.generate_id(cell)
+          next unless Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
+          @id_generator.generate_id(cell)
           cell.set_attribute('scope', 'col')
         end
       end
@@ -250,9 +254,12 @@ module Hatemile
             fake_table.each do |cells|
               next unless cells.size == length_header
 
-              i = 0
-              cells.each do |cell|
-                headers_ids = return_list_ids_columns(header_cells, i)
+              cells.each_with_index do |cell, index|
+                unless Hatemile::Util::CommonFunctions.is_valid_element?(cell)
+                  next
+                end
+
+                headers_ids = return_list_ids_columns(header_cells, index)
                 headers = cell.get_attribute('headers')
                 headers_ids.each do |headers_id|
                   headers = Hatemile::Util::CommonFunctions.increase_in_list(
@@ -261,7 +268,6 @@ module Hatemile
                   )
                 end
                 cell.set_attribute('headers', headers)
-                i += 1
               end
             end
           end
