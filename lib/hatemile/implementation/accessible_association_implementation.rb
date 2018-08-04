@@ -185,6 +185,8 @@ module Hatemile
             cell.set_attribute('scope', 'row')
           end
 
+          next if headers_ids.empty?
+
           cells.each do |cell|
             next unless cell.get_tag_name == 'TD'
 
