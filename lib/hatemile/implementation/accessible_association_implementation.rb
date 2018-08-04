@@ -179,7 +179,7 @@ module Hatemile
         table.each do |cells|
           headers_ids.clear
           cells.each do |cell|
-            next unless cell.get_tag_name == 'TH' and
+            next unless cell.get_tag_name == 'TH' &&
                         Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
             @id_generator.generate_id(cell)
@@ -190,7 +190,7 @@ module Hatemile
           next if headers_ids.empty?
 
           cells.each do |cell|
-            next unless cell.get_tag_name == 'TD' and
+            next unless cell.get_tag_name == 'TD' &&
                         Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
             headers = cell.get_attribute('headers')
