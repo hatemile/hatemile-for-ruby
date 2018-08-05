@@ -63,6 +63,12 @@ module Hatemile
              )
            )
           value = nil
+          if field.has_attribute?('list')
+            list_id = field.get_attribute('list')
+            unless @parser.find("datalist[id=\"#{list_id}\"]").first_result.nil?
+              return 'list'
+            end
+          end
           if field.has_attribute?('autocomplete')
             value = field.get_attribute('autocomplete').downcase
           else
@@ -78,12 +84,6 @@ module Hatemile
           end
           return 'both' if value == 'on'
           return 'none' if value == 'off'
-          if field.has_attribute?('list')
-            list_id = field.get_attribute('list')
-            unless @parser.find("datalist[id=\"#{list_id}\"]").first_result.nil?
-              return 'list'
-            end
-          end
         end
         nil
       end
