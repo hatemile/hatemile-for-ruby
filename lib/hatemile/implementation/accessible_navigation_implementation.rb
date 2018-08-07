@@ -100,6 +100,7 @@ module Hatemile
       # @return [String] The description of element.
       def get_description(element)
         description = nil
+        tag_name = element.get_tag_name
         if element.has_attribute?('title')
           description = element.get_attribute('title')
         elsif element.has_attribute?('aria-label')
@@ -128,12 +129,23 @@ module Hatemile
               break
             end
           end
-        elsif (element.get_tag_name == 'INPUT') &&
-              element.has_attribute?('type')
-          type = element.get_attribute('type').downcase
-          if ((type == 'button') || (type == 'submit') || (type == 'reset')) &&
+        elsif %w[INPUT TEXTAREA OPTION].include?(tag_name)
+          if element.has_attribute?('type') &&
+             %w[button submit reset].include?(
+               element.get_attribute('type').downcase
+             ) &&
              element.has_attribute?('value')
             description = element.get_attribute('value')
+          else
+            label = nil
+            if element.has_attribute?('id')
+              field_id = element.get_attribute('id')
+              label = @parser.find("label[for=\"#{field_id}\"]").first_result
+            end
+            if label.nil?
+              label = @parser.find(element).find_ancestors('label').first_result
+            end
+            description = label.get_text_content unless label.nil?
           end
         end
         description = element.get_text_content if description.nil?
