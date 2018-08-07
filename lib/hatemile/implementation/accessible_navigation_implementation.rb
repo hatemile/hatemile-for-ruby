@@ -137,7 +137,7 @@ module Hatemile
           end
         end
         description = element.get_text_content if description.nil?
-        description.gsub(/[ \n\t\r]+/, ' ')
+        description.gsub(/[ \n\t\r]+/, ' ').strip
       end
 
       ##
