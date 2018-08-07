@@ -10,8 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rexml/document'
-require 'i18n'
+require 'yaml'
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -36,15 +35,10 @@ module Hatemile
           )
           files_name = Dir.glob(pattern)
         end
-        files_name.each do |filename|
-          I18n.load_path.push(filename) unless I18n.load_path.include?(filename)
-        end
-        @options = []
-        locales.each do |locale|
-          option = {}
-          option[:locale] = locale
-          option[:scope] = :hatemile
-          @options.push(option)
+        @locales = locales
+        @parameters = {}
+        files_name.each do |file_name|
+          @parameters = @parameters.merge(YAML.load_file(file_name))
         end
       end
 
@@ -53,19 +47,13 @@ module Hatemile
       #
       # @return [Hash] The parameters of configuration.
       def get_parameters
-        symbol_parameters = {}
-        @options.each do |option|
-          option_root_scope = {}
-          option_root_scope[:locale] = option[:locale]
-          symbol_parameters = I18n.t!(:hatemile, option_root_scope).merge(
-            symbol_parameters
+        clone_parameters = {}
+        @locales.each do |locale|
+          clone_parameters = @parameters[locale.to_s]['hatemile'].merge(
+            clone_parameters
           )
         end
-        parameters = {}
-        symbol_parameters.each do |key, value|
-          parameters[key.to_s] = value
-        end
-        parameters
+        clone_parameters
       end
 
       ##
@@ -75,11 +63,10 @@ module Hatemile
       # @return [Boolean] True if the configuration has the parameter or false
       #   if the configuration not has the parameter.
       def has_parameter?(parameter)
-        @options.each do |option|
-          option_default = option.clone
-          option_default[:default] = nil
-
-          return true unless I18n.t(parameter, option_default).nil?
+        @locales.each do |locale|
+          if @parameters[locale.to_s]['hatemile'].has_key?(parameter)
+            return true
+          end
         end
         false
       end
@@ -90,16 +77,13 @@ module Hatemile
       # @param parameter [String] The name of parameter.
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
-        @options.each do |option|
-          next if @options.last == option
+        @locales.each do |locale|
+          next if @locales.last == locale
 
-          option_default = option.clone
-          option_default[:default] = nil
-
-          value = I18n.t(parameter, option_default)
+          value = @parameters[locale.to_s]['hatemile'].fetch(parameter, nil)
           return value unless value.nil?
         end
-        I18n.t!(parameter, @options.last)
+        @parameters[@locales.last.to_s]['hatemile'].fetch(parameter)
       end
     end
   end
