@@ -64,9 +64,7 @@ module Hatemile
       #   if the configuration not has the parameter.
       def has_parameter?(parameter)
         @locales.each do |locale|
-          if @parameters[locale.to_s]['hatemile'].has_key?(parameter)
-            return true
-          end
+          return true if @parameters[locale.to_s]['hatemile'].key?(parameter)
         end
         false
       end
