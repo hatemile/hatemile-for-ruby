@@ -33,38 +33,6 @@ module Hatemile
         class NokogiriHTMLDOMParser < Hatemile::Util::Html::HTMLDOMParser
           public_class_method :new
 
-          protected
-
-          ##
-          # Order the results.
-          #
-          # @param results [Array<Nokogiri::XML::Node>] The disordened results.
-          # @return [Array<Nokogiri::XML::Node>] The ordened results.
-          def order_results(results)
-            parents = []
-            groups = []
-            results.each do |result|
-              if parents.include?(result.parent)
-                groups[parents.index(result.parent)].push(result)
-              else
-                parents.push(result.parent)
-                groups.push([])
-                groups[groups.size - 1].push(result)
-              end
-            end
-            array = []
-            groups.each do |group|
-              col = group.sort do |element1, element2|
-                children = element1.parent.children
-                children.index(element1) <=> children.index(element2)
-              end
-              array = array.concat(col)
-            end
-            array
-          end
-
-          public
-
           ##
           # Initializes a new object that encapsulate the parser of Jsoup.
           #
@@ -180,7 +148,7 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMParser#list_results
           def list_results
             array = []
-            order_results(@results).each do |result|
+            @results.each do |result|
               array.push(NokogiriHTMLDOMElement.new(result))
             end
             array
