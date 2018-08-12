@@ -49,63 +49,74 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     meta_http = '<meta http-equiv="Content-Type" ' \
                 'content="text/html; charset=UTF-8" />'
     @html_code = "<!DOCTYPE html>
-	    <html>
-		    <head>
-		      #{meta_http}
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
-		    <body>
-		      <section>
-		        <header></header>
-		        <article>
-		        \n
-		        </article>
-		        <footer><!-- Footer --></footer>
-		      </section>
-		      <span attribute=\"value\" data-attribute=\"custom_value\">
-		        <!-- Comment -->
-		        Text node
-		        <strong>Strong text</strong>
-		        <hr />
-		      </span>
-		      <div></div>
-		      <p>
-		        <del>Deleted text</del>
-		      </p>
-		      <table>
-		        <thead><tr>
-		          <th>Table header</th>
-		        </tr></thead>
-		        <tbody class=\"table-body\">
-		          <tr>
-		            <td>Table <ins>cell</ins></td>
-		          </tr>
-		        </tbody>
-		        <tfoot><!-- Table footer --></tfoot>
-		      </table>
-		      <ul>
-		        <li id=\"li-1\">1</li>
-		        <li id=\"li-3\">3</li>
-		      </ul>
-		      <ol>
-		        <li>1</li>
-		        <li>2</li>
-		        <li>3</li>
-		        <li>4</li>
-		        <li>5</li>
-		      </ol>
-		      #{@aside_content}
-		      <form>
-		        <label>
-		          Text:
-		          <input type=\"text\" name=\"number\" />
-		        </label>
-		      </form>
-		      <h1></h1>
-		      <h2></h2>
-		    </body>
-		  </html>"
+      <html>
+        <head>
+          #{meta_http}
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <section>
+            <header></header>
+            <article>
+            \n
+            </article>
+            <footer><!-- Footer --></footer>
+          </section>
+          <span attribute=\"value\" data-attribute=\"custom_value\">
+            <!-- Comment -->
+            Text node
+            <strong>Strong text</strong>
+            <hr />
+          </span>
+          <div></div>
+          <p>
+            <del>Deleted text</del>
+          </p>
+          <table>
+            <thead><tr>
+              <th>Table header</th>
+            </tr></thead>
+            <tbody class=\"table-body\">
+              <tr>
+                <td>Table <ins>cell</ins></td>
+              </tr>
+            </tbody>
+            <tfoot><!-- Table footer --></tfoot>
+          </table>
+          <ul>
+            <li id=\"li-1\">1</li>
+            <li id=\"li-3\">3</li>
+          </ul>
+          <ol>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+          </ol>
+          #{@aside_content}
+          <form>
+            <label>
+              Text:
+              <input type=\"text\" name=\"number\" />
+            </label>
+          </form>
+          <div>
+            <h1><span>Heading 1</span></h1>
+            <h2><span>Heading 1.2.1</span></h2>
+            <div>
+              <span></span>
+              <div><h2><span>Heading 1.2.2</span></h2></div>
+              <span></span>
+            </div>
+            <h3><span>Heading 1.2.2.3.1</span></h3>
+            <h4><span>Heading 1.2.2.3.1.4.1</span></h4>
+            <h2><span>Heading 1.2.3</span></h2>
+            <h3><span>Heading 1.2.3.3.1</span></h3>
+          </div>
+        </body>
+      </html>"
   end
 
   ##
@@ -125,6 +136,10 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     lis = html_parser.find('ol li').list_results
     img = html_parser.find('img').first_result
     imgs = html_parser.find('img').list_results
+    headings = []
+    html_parser.find('h1, h2, h3, h4').list_results.each do |heading|
+      headings.push(heading.get_text_content)
+    end
 
     assert_equal(section, body.get_first_element_child)
     assert_equal(section, same_section)
@@ -139,6 +154,18 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     end
     assert_nil(img)
     assert_equal(0, imgs.length)
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings
+    )
   end
 
   ##
@@ -155,6 +182,12 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       'input[type="text"]'
     ).first_result
     li1 = html_parser.find('ul').find_children('#li-1').first_result
+    headings = []
+    html_parser.find('h1, h2, h3, h4').find_children(
+      'span'
+    ).list_results.each do |heading|
+      headings.push(heading.get_text_content)
+    end
 
     assert_equal('SECTION', section.get_tag_name)
     lis.each_with_index do |li, index|
@@ -165,6 +198,18 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     assert_not_nil(tbody2)
     assert_equal('INPUT', input.get_tag_name)
     assert_equal('1', li1.get_text_content)
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings
+    )
   end
 
   ##
@@ -185,6 +230,12 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       'input[type="text"]'
     ).first_result
     li1 = html_parser.find('body').find_descendants('#li-1').first_result
+    headings = []
+    html_parser.find('h1, h2, h3, h4').find_descendants(
+      'span'
+    ).list_results.each do |heading|
+      headings.push(heading.get_text_content)
+    end
 
     assert_equal('SECTION', section.get_tag_name)
     lis.each_with_index do |li, index|
@@ -195,6 +246,18 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     assert_equal(tbody1, tbody2)
     assert_equal('INPUT', input.get_tag_name)
     assert_equal('1', li1.get_text_content)
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings
+    )
   end
 
   ##
@@ -209,11 +272,29 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     input = html_parser.find('strong').find_ancestors(
       '[attribute="value"]'
     ).first_result
+    headings = []
+    html_parser.find('span').find_ancestors(
+      'h1, h2, h3, h4'
+    ).list_results.each do |heading|
+      headings.push(heading.get_text_content)
+    end
 
     assert_equal('BODY', body.get_tag_name)
     assert_equal('TBODY', tbody1.get_tag_name)
     assert_equal(tbody1, tbody2)
     assert_equal('SPAN', input.get_tag_name)
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings
+    )
   end
 
   ##
