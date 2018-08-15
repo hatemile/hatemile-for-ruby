@@ -615,11 +615,11 @@ module Hatemile
         return unless @parser.find(selector).first_result.nil?
 
         text = if element.has_attribute?('alt')
-                 "#{@prefix_long_description_link} " \
-                 "#{element.get_attribute('alt')} " \
+                 "#{@prefix_long_description_link}" \
+                 "#{element.get_attribute('alt')}" \
                  "#{@suffix_long_description_link}"
                else
-                 "#{@prefix_long_description_link} " \
+                 "#{@prefix_long_description_link}" \
                  "#{@suffix_long_description_link}"
                end
         anchor = @parser.create_element('a')
@@ -627,7 +627,7 @@ module Hatemile
         anchor.set_attribute('target', '_blank')
         anchor.set_attribute(DATA_LONG_DESCRIPTION_FOR_IMAGE, id)
         anchor.set_attribute('class', CLASS_LONG_DESCRIPTION_LINK)
-        anchor.append_text(text)
+        anchor.append_text(text.gsub(/[ \n\t\r]+/, ' ').strip)
         element.insert_after(anchor)
       end
 
