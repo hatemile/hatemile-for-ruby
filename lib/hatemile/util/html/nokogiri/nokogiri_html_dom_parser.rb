@@ -55,8 +55,10 @@ module Hatemile
           ##
           # @see Hatemile::Util::Html::HTMLDOMParser#find
           def find(selector)
-            @results = if selector.class == NokogiriHTMLDOMElement
+            @results = if selector.is_a?(NokogiriHTMLDOMElement)
                          [selector.get_data]
+                       elsif selector.is_a?(Array)
+                         selector.map(&:get_data)
                        else
                          @document.css(selector)
                        end
@@ -67,12 +69,15 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMParser#find_children
           def find_children(selector)
             array = []
-            if selector.class == NokogiriHTMLDOMElement
-              element = selector.get_data
-              @results.each do |result|
-                if result.children.include?(element)
-                  array.push(element)
-                  break
+            selector = [selector] if selector.is_a?(NokogiriHTMLDOMElement)
+            if selector.is_a?(Array)
+              selector.each do |element|
+                native_element = element.get_data
+                @results.each do |result|
+                  if result.children.include?(native_element)
+                    array.push(native_element)
+                    break
+                  end
                 end
               end
             else
@@ -90,13 +95,16 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMParser#find_descendants
           def find_descendants(selector)
             array = []
-            if selector.class == NokogiriHTMLDOMElement
-              element = selector.get_data
-              parents = element.ancestors
-              @results.each do |result|
-                if parents.include?(result)
-                  array.push(element)
-                  break
+            selector = [selector] if selector.is_a?(NokogiriHTMLDOMElement)
+            if selector.is_a?(Array)
+              selector.each do |element|
+                native_element = element.get_data
+                parents = native_element.ancestors
+                @results.each do |result|
+                  if parents.include?(result)
+                    array.push(native_element)
+                    break
+                  end
                 end
               end
             else
@@ -112,13 +120,16 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMParser#find_ancestors
           def find_ancestors(selector)
             array = []
-            if selector.class == NokogiriHTMLDOMElement
-              element = selector.get_data
-              @results.each do |result|
-                parents = result.ancestors
-                if parents.include?(element)
-                  array.push(element)
-                  break
+            selector = [selector] if selector.is_a?(NokogiriHTMLDOMElement)
+            if selector.is_a?(Array)
+              selector.each do |element|
+                native_element = element.get_data
+                @results.each do |result|
+                  parents = result.ancestors
+                  if parents.include?(native_element)
+                    array.push(native_element)
+                    break
+                  end
                 end
               end
             else

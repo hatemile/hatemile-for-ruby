@@ -188,6 +188,20 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
+    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    headings2 = []
+    html_parser.find(
+      pure_headings
+    ).find_children('span').list_results.each do |heading|
+      headings2.push(heading.get_text_content)
+    end
+    pure_spans = html_parser.find('span').list_results
+    headings3 = []
+    html_parser.find(
+      pure_headings
+    ).find_children(pure_spans).list_results.each do |heading|
+      headings3.push(heading.get_text_content)
+    end
 
     assert_equal('SECTION', section.get_tag_name)
     lis.each_with_index do |li, index|
@@ -209,6 +223,30 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
         'Heading 1.2.3.3.1'
       ],
       headings
+    )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings2
+    )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings3
     )
   end
 
@@ -236,6 +274,20 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
+    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    headings2 = []
+    html_parser.find(
+      pure_headings
+    ).find_descendants('span').list_results.each do |heading|
+      headings2.push(heading.get_text_content)
+    end
+    pure_spans = html_parser.find('span').list_results
+    headings3 = []
+    html_parser.find(
+      pure_headings
+    ).find_descendants(pure_spans).list_results.each do |heading|
+      headings3.push(heading.get_text_content)
+    end
 
     assert_equal('SECTION', section.get_tag_name)
     lis.each_with_index do |li, index|
@@ -258,6 +310,30 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       ],
       headings
     )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings2
+    )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings3
+    )
   end
 
   ##
@@ -278,6 +354,20 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
+    pure_spans = html_parser.find('span').list_results
+    headings2 = []
+    html_parser.find(pure_spans).find_ancestors(
+      'h1, h2, h3, h4'
+    ).list_results.each do |heading|
+      headings2.push(heading.get_text_content)
+    end
+    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    headings3 = []
+    html_parser.find(pure_spans).find_ancestors(
+      pure_headings
+    ).list_results.each do |heading|
+      headings3.push(heading.get_text_content)
+    end
 
     assert_equal('BODY', body.get_tag_name)
     assert_equal('TBODY', tbody1.get_tag_name)
@@ -294,6 +384,30 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
         'Heading 1.2.3.3.1'
       ],
       headings
+    )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings2
+    )
+    assert_equal(
+      [
+        'Heading 1',
+        'Heading 1.2.1',
+        'Heading 1.2.2',
+        'Heading 1.2.2.3.1',
+        'Heading 1.2.2.3.1.4.1',
+        'Heading 1.2.3',
+        'Heading 1.2.3.3.1'
+      ],
+      headings3
     )
   end
 
