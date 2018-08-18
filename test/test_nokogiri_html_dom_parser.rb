@@ -131,11 +131,12 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     ins = @html_parser.find('table tbody.table-body tr td ins').first_result
     inputs = @html_parser.find('input[type="text"]').list_results
     lis = @html_parser.find('ol li').list_results
-    img = @html_parser.find('img').first_result
-    imgs = @html_parser.find('img').list_results
-    headings = []
+    img_nil = @html_parser.find('img').first_result
+    imgs_empty = @html_parser.find('img').list_results
+
+    heading_selectors = []
     @html_parser.find('h1, h2, h3, h4').list_results.each do |heading|
-      headings.push(heading.get_text_content)
+      heading_selectors.push(heading.get_text_content)
     end
 
     assert_equal(section, body.get_first_element_child)
@@ -149,8 +150,8 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       assert_equal('LI', li.get_tag_name)
       assert_equal((index + 1).to_s, li.get_text_content)
     end
-    assert_nil(img)
-    assert_equal(0, imgs.length)
+    assert_nil(img_nil)
+    assert_equal(0, imgs_empty.length)
     assert_equal(
       [
         'Heading 1',
@@ -161,7 +162,7 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
         'Heading 1.2.3',
         'Heading 1.2.3.3.1'
       ],
-      headings
+      heading_selectors
     )
   end
 
@@ -170,33 +171,45 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   def test_find_children
     section = @html_parser.find('body').find_children('section').last_result
     lis = @html_parser.find('ol').find_children('li').list_results
-    tbody1 = @html_parser.find('body').find_children('.table-body').first_result
-    tbody2 = @html_parser.find('table').find_children(
+    tbody_nil = @html_parser.find('body').find_children(
+      '.table-body'
+    ).first_result
+    tbody_not_nil = @html_parser.find('table').find_children(
       '.table-body'
     ).first_result
     input = @html_parser.find('form label').find_children(
       'input[type="text"]'
     ).first_result
     li1 = @html_parser.find('ul').find_children('#li-1').first_result
-    headings = []
+
+    expected_result_headings = [
+      'Heading 1',
+      'Heading 1.2.1',
+      'Heading 1.2.2',
+      'Heading 1.2.2.3.1',
+      'Heading 1.2.2.3.1.4.1',
+      'Heading 1.2.3',
+      'Heading 1.2.3.3.1'
+    ]
+    heading_selectors = []
+    heading_find_only_elements = []
+    heading_find_both_elements = []
+    heading_elements = @html_parser.find('h1, h2, h3, h4').list_results
+    span_elements = @html_parser.find('span').list_results
     @html_parser.find('h1, h2, h3, h4').find_children(
       'span'
     ).list_results.each do |heading|
-      headings.push(heading.get_text_content)
+      heading_selectors.push(heading.get_text_content)
     end
-    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
-    headings2 = []
     @html_parser.find(
-      pure_headings
+      heading_elements
     ).find_children('span').list_results.each do |heading|
-      headings2.push(heading.get_text_content)
+      heading_find_only_elements.push(heading.get_text_content)
     end
-    pure_spans = @html_parser.find('span').list_results
-    headings3 = []
     @html_parser.find(
-      pure_headings
-    ).find_children(pure_spans).list_results.each do |heading|
-      headings3.push(heading.get_text_content)
+      heading_elements
+    ).find_children(span_elements).list_results.each do |heading|
+      heading_find_both_elements.push(heading.get_text_content)
     end
 
     assert_equal('SECTION', section.get_tag_name)
@@ -204,46 +217,13 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       assert_equal('LI', li.get_tag_name)
       assert_equal((index + 1).to_s, li.get_text_content)
     end
-    assert_nil(tbody1)
-    assert_not_nil(tbody2)
+    assert_nil(tbody_nil)
+    assert_not_nil(tbody_not_nil)
     assert_equal('INPUT', input.get_tag_name)
     assert_equal('1', li1.get_text_content)
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings2
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings3
-    )
+    assert_equal(expected_result_headings, heading_selectors)
+    assert_equal(expected_result_headings, heading_find_only_elements)
+    assert_equal(expected_result_headings, heading_find_both_elements)
   end
 
   ##
@@ -261,25 +241,35 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
       'input[type="text"]'
     ).first_result
     li1 = @html_parser.find('body').find_descendants('#li-1').first_result
-    headings = []
+
+    expected_result_headings = [
+      'Heading 1',
+      'Heading 1.2.1',
+      'Heading 1.2.2',
+      'Heading 1.2.2.3.1',
+      'Heading 1.2.2.3.1.4.1',
+      'Heading 1.2.3',
+      'Heading 1.2.3.3.1'
+    ]
+    heading_selectors = []
+    heading_find_only_elements = []
+    heading_find_both_elements = []
+    heading_elements = @html_parser.find('h1, h2, h3, h4').list_results
+    span_elements = @html_parser.find('span').list_results
     @html_parser.find('h1, h2, h3, h4').find_descendants(
       'span'
     ).list_results.each do |heading|
-      headings.push(heading.get_text_content)
+      heading_selectors.push(heading.get_text_content)
     end
-    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
-    headings2 = []
     @html_parser.find(
-      pure_headings
+      heading_elements
     ).find_descendants('span').list_results.each do |heading|
-      headings2.push(heading.get_text_content)
+      heading_find_only_elements.push(heading.get_text_content)
     end
-    pure_spans = @html_parser.find('span').list_results
-    headings3 = []
     @html_parser.find(
-      pure_headings
-    ).find_descendants(pure_spans).list_results.each do |heading|
-      headings3.push(heading.get_text_content)
+      heading_elements
+    ).find_descendants(span_elements).list_results.each do |heading|
+      heading_find_both_elements.push(heading.get_text_content)
     end
 
     assert_equal('SECTION', section.get_tag_name)
@@ -291,42 +281,9 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     assert_equal(tbody1, tbody2)
     assert_equal('INPUT', input.get_tag_name)
     assert_equal('1', li1.get_text_content)
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings2
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings3
-    )
+    assert_equal(expected_result_headings, heading_selectors)
+    assert_equal(expected_result_headings, heading_find_only_elements)
+    assert_equal(expected_result_headings, heading_find_both_elements)
   end
 
   ##
@@ -338,67 +295,44 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
     input = @html_parser.find('strong').find_ancestors(
       '[attribute="value"]'
     ).first_result
-    headings = []
+
+    expected_result_headings = [
+      'Heading 1',
+      'Heading 1.2.1',
+      'Heading 1.2.2',
+      'Heading 1.2.2.3.1',
+      'Heading 1.2.2.3.1.4.1',
+      'Heading 1.2.3',
+      'Heading 1.2.3.3.1'
+    ]
+    heading_selectors = []
+    heading_find_only_elements = []
+    heading_find_both_elements = []
+    heading_elements = @html_parser.find('h1, h2, h3, h4').list_results
+    span_elements = @html_parser.find('span').list_results
     @html_parser.find('span').find_ancestors(
       'h1, h2, h3, h4'
     ).list_results.each do |heading|
-      headings.push(heading.get_text_content)
+      heading_selectors.push(heading.get_text_content)
     end
-    pure_spans = @html_parser.find('span').list_results
-    headings2 = []
-    @html_parser.find(pure_spans).find_ancestors(
+    @html_parser.find(span_elements).find_ancestors(
       'h1, h2, h3, h4'
     ).list_results.each do |heading|
-      headings2.push(heading.get_text_content)
+      heading_find_only_elements.push(heading.get_text_content)
     end
-    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
-    headings3 = []
-    @html_parser.find(pure_spans).find_ancestors(
-      pure_headings
+    @html_parser.find(span_elements).find_ancestors(
+      heading_elements
     ).list_results.each do |heading|
-      headings3.push(heading.get_text_content)
+      heading_find_both_elements.push(heading.get_text_content)
     end
 
     assert_equal('BODY', body.get_tag_name)
     assert_equal('TBODY', tbody1.get_tag_name)
     assert_equal(tbody1, tbody2)
     assert_equal('SPAN', input.get_tag_name)
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings2
-    )
-    assert_equal(
-      [
-        'Heading 1',
-        'Heading 1.2.1',
-        'Heading 1.2.2',
-        'Heading 1.2.2.3.1',
-        'Heading 1.2.2.3.1.4.1',
-        'Heading 1.2.3',
-        'Heading 1.2.3.3.1'
-      ],
-      headings3
-    )
+    assert_equal(expected_result_headings, heading_selectors)
+    assert_equal(expected_result_headings, heading_find_only_elements)
+    assert_equal(expected_result_headings, heading_find_both_elements)
   end
 
   ##

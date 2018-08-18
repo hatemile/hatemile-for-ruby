@@ -29,8 +29,10 @@ class TestConfigure < Test::Unit::TestCase
   ##
   # Initialize common attributes used by test methods.
   def setup
-    files_name = Dir.glob(File.join(File.dirname(__FILE__), 'locale', '*.yml'))
-    @configure = Hatemile::Util::Configure.new(files_name, %i[pt-BR en-US])
+    @configure = Hatemile::Util::Configure.new(
+      Dir.glob(File.join(File.dirname(__FILE__), 'locale', '*.yml')),
+      %i[pt-BR en-US]
+    )
   end
 
   ##

@@ -98,16 +98,31 @@ class TestCommonFunctions < Test::Unit::TestCase
         </body>
       </html>
     ')
-    table = html_parser.find('table').first_result
-    th = html_parser.find('th').first_result
-    tbody = html_parser.find('tbody').first_result
-    tr = html_parser.find('tr').last_result
-    td = html_parser.find('td').first_result
 
-    assert(Hatemile::Util::CommonFunctions.is_valid_element?(table))
-    assert(Hatemile::Util::CommonFunctions.is_valid_element?(th))
-    assert(!Hatemile::Util::CommonFunctions.is_valid_element?(tbody))
-    assert(!Hatemile::Util::CommonFunctions.is_valid_element?(tr))
-    assert(!Hatemile::Util::CommonFunctions.is_valid_element?(td))
+    assert(
+      Hatemile::Util::CommonFunctions.is_valid_element?(
+        html_parser.find('table').first_result
+      )
+    )
+    assert(
+      Hatemile::Util::CommonFunctions.is_valid_element?(
+        html_parser.find('th').first_result
+      )
+    )
+    assert(
+      !Hatemile::Util::CommonFunctions.is_valid_element?(
+        html_parser.find('tbody').first_result
+      )
+    )
+    assert(
+      !Hatemile::Util::CommonFunctions.is_valid_element?(
+        html_parser.find('tr').last_result
+      )
+    )
+    assert(
+      !Hatemile::Util::CommonFunctions.is_valid_element?(
+        html_parser.find('td').first_result
+      )
+    )
   end
 end

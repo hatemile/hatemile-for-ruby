@@ -94,54 +94,53 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test get_text_content method.
   def test_get_text_content
-    lis = @html_parser.find('ol li').list_results
-
-    lis.each_with_index do |li, index|
+    @html_parser.find('ol li').list_results.each_with_index do |li, index|
+      child = li.get_first_node_child
       assert_instance_of(
         Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-        li.get_first_node_child
+        child
       )
-      assert_equal((index + 1).to_s, li.get_first_node_child.get_text_content)
+      assert_equal((index + 1).to_s, child.get_text_content)
     end
   end
 
   ##
   # Test set_text_content method.
   def test_set_text_content
-    ins = @html_parser.find('ins').first_result
-    ins.get_first_node_child.set_text_content('Changed')
+    child = @html_parser.find('ins').first_result.get_first_node_child
+    child.set_text_content('Changed')
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-      ins.get_first_node_child
+      child
     )
-    assert_equal('Changed', ins.get_first_node_child.get_text_content)
+    assert_equal('Changed', child.get_text_content)
   end
 
   ##
   # Test append_text method.
   def test_append_text
-    ins = @html_parser.find('ins').first_result
-    ins.get_first_node_child.append_text(' and value')
+    child = @html_parser.find('ins').first_result.get_first_node_child
+    child.append_text(' and value')
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-      ins.get_first_node_child
+      child
     )
-    assert_equal('cell and value', ins.get_first_node_child.get_text_content)
+    assert_equal('cell and value', child.get_text_content)
   end
 
   ##
   # Test prepend_text method.
   def test_prepend_text
-    ins = @html_parser.find('ins').first_result
-    ins.get_first_node_child.prepend_text('table and ')
+    child = @html_parser.find('ins').first_result.get_first_node_child
+    child.prepend_text('table and ')
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-      ins.get_first_node_child
+      child
     )
-    assert_equal('table and cell', ins.get_first_node_child.get_text_content)
+    assert_equal('table and cell', child.get_text_content)
   end
 
   ##
@@ -166,11 +165,12 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
     link = @html_parser.create_element('a')
     link.append_text(' and value')
     ins = @html_parser.find('ins').first_result
-    ins.get_first_node_child.insert_after(link)
+    child = ins.get_first_node_child
+    child.insert_after(link)
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-      ins.get_first_node_child
+      child
     )
     assert_equal(link, ins.get_last_node_child)
     assert_equal('cell and value', ins.get_text_content)
@@ -200,12 +200,13 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   # Test get_parent_element method.
   def test_get_parent_element
     ins = @html_parser.find('ins').first_result
+    child = ins.get_first_node_child
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
-      ins.get_first_node_child
+      child
     )
-    assert_equal(ins, ins.get_first_node_child.get_parent_element)
+    assert_equal(ins, child.get_parent_element)
   end
 
   ##
