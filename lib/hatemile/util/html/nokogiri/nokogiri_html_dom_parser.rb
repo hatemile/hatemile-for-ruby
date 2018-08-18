@@ -187,7 +187,6 @@ module Hatemile
           # @see Hatemile::Util::Html::HTMLDOMParser#clear_parser
           def clear_parser
             @document = nil
-            @results.clear
             @results = nil
           end
         end
