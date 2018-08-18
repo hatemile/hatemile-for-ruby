@@ -44,11 +44,12 @@ require File.join(
 # class.
 class TestAccessibleNavigationImplementation < Test::Unit::TestCase
   ##
-  # Initialize common attributes used by test methods.
-  def setup
-    @data_ignore = 'data-ignoreaccessibilityfix="true"'
-    @configure = Hatemile::Util::Configure.new
-  end
+  # The name of attribute for not modify the elements.
+  DATA_IGNORE = 'data-ignoreaccessibilityfix="true"'.freeze
+
+  ##
+  # The configuration of HaTeMiLe.
+  CONFIGURE = Hatemile::Util::Configure.new.freeze
 
   ##
   # Test fix_shortcuts method with container of shorcuts not defined.
@@ -67,7 +68,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
           <a href=\"https://hatemile.github.io\" title=\"Site\" accesskey=\"w\">
             Webpage
           </a>
-          <a href=\"http://localhost/\" #{@data_ignore} accesskey=\"i\">
+          <a href=\"http://localhost/\" #{DATA_IGNORE} accesskey=\"i\">
             Ignore link
           </a>
           <form action=\"\">
@@ -81,7 +82,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
     navigation =
       Hatemile::Implementation::AccessibleNavigationImplementation.new(
         html_parser,
-        @configure
+        CONFIGURE
       )
     navigation.fix_shortcuts
     accesskey_r = html_parser.find('[accesskey="r"]').first_result
@@ -136,7 +137,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
           <a href=\"https://hatemile.github.io\" title=\"Site\" accesskey=\"w\">
             Webpage
           </a>
-          <a href=\"http://localhost/\" #{@data_ignore} accesskey=\"i\">
+          <a href=\"http://localhost/\" #{DATA_IGNORE} accesskey=\"i\">
             Ignore link
           </a>
           <form action=\"\">
@@ -150,7 +151,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
     navigation =
       Hatemile::Implementation::AccessibleNavigationImplementation.new(
         html_parser,
-        @configure
+        CONFIGURE
       )
     navigation.fix_shortcuts
     accesskey_r = html_parser.find('[accesskey="r"]').first_result
@@ -205,7 +206,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         <body>
           <main>Main content</main>
           <div id=\"container-shortcuts\">Container of shortcuts</div>
-          <div id=\"container-heading\" #{@data_ignore}>
+          <div id=\"container-heading\" #{DATA_IGNORE}>
             Container of headings
           </div>
         </body>
@@ -214,7 +215,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
     navigation =
       Hatemile::Implementation::AccessibleNavigationImplementation.new(
         html_parser,
-        @configure
+        CONFIGURE
       )
     navigation.fix_skippers
     body_children = html_parser.find('body').first_result.get_children_elements
@@ -284,7 +285,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
     navigation =
       Hatemile::Implementation::AccessibleNavigationImplementation.new(
         html_parser,
-        @configure
+        CONFIGURE
       )
     navigation.fix_headings
     container = html_parser.find('#container-heading').first_result
@@ -336,14 +337,14 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
           <img src=\"i2.jpg\" alt=\"I2\" longdesc=\"i2.html\" />
           <img src=\"i3.jpg\" alt=\"\" longdesc=\"i3.html\" />
           <img src=\"i4.jpg\" longdesc=\"i4.html\" />
-          <img src=\"i5.jpg\" alt=\"I5\" longdesc=\"i5.html\" #{@data_ignore} />
+          <img src=\"i5.jpg\" alt=\"I5\" longdesc=\"i5.html\" #{DATA_IGNORE} />
         </body>
       </html>
     ")
     navigation =
       Hatemile::Implementation::AccessibleNavigationImplementation.new(
         html_parser,
-        @configure
+        CONFIGURE
       )
     navigation.fix_long_descriptions
     long_description_links = html_parser.find(

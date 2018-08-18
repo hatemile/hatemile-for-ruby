@@ -38,20 +38,18 @@ require File.join(
 # class.
 class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
+  # The meta element added by Nokogiri.
+  META_HTTP =
+    '<meta http-equiv="Content-Type" '\
+    'content="text/html; charset=UTF-8" />'.freeze
+
+  ##
   # Initialize common attributes used by test methods.
   def setup
-    @aside_text = '
-      Exemple of <mark>aside</mark>.
-      <!-- Comment -->
-    '
-    @aside_content = '<aside class="aside" data-attribute="custom_value">' \
-                     "#{@aside_text}</aside>"
-    meta_http = '<meta http-equiv="Content-Type" ' \
-                'content="text/html; charset=UTF-8" />'
     @html_code = "<!DOCTYPE html>
       <html>
         <head>
-          #{meta_http}
+          #{META_HTTP}
           <title>HaTeMiLe Tests</title>
           <meta charset=\"UTF-8\" />
         </head>
@@ -95,7 +93,6 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
             <li>4</li>
             <li>5</li>
           </ol>
-          #{@aside_content}
           <form>
             <label>
               Text:

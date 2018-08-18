@@ -36,10 +36,8 @@ require File.join(
 # Test methods of Hatemile::Implementation::AccessibleFormImplementation class.
 class TestAccessibleFormImplementation < Test::Unit::TestCase
   ##
-  # Initialize common attributes used by test methods.
-  def setup
-    @data_ignore = 'data-ignoreaccessibilityfix="true"'
-  end
+  # The name of attribute for not modify the elements.
+  DATA_IGNORE = 'data-ignoreaccessibilityfix="true"'.freeze
 
   ##
   # Test fix_required_fields method
@@ -55,7 +53,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
           <label for=\"field1\">Field1</label>
           <input type=\"text\" id=\"field1\" required />
           <label for=\"field2\">Field2</label>
-          <input type=\"text\" id=\"field2\" required #{@data_ignore} />
+          <input type=\"text\" id=\"field2\" required #{DATA_IGNORE} />
           <label for=\"field3\">Field3</label>
           <input type=\"text\" id=\"field3\" />
         </body>
@@ -93,9 +91,9 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
           <label for=\"field4\">Field4</label>
           <input type=\"number\" id=\"field4\" />
           <label for=\"field5\">Field5</label>
-          <input type=\"number\" min=\"0\" id=\"field5\" #{@data_ignore} />
+          <input type=\"number\" min=\"0\" id=\"field5\" #{DATA_IGNORE} />
           <label for=\"field6\">Field6</label>
-          <input type=\"number\" max=\"11\" id=\"field6\" #{@data_ignore} />
+          <input type=\"number\" max=\"11\" id=\"field6\" #{DATA_IGNORE} />
         </body>
       </html>
     ")
@@ -188,19 +186,19 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
 
           <!-- Ignore -->
           <label for=\"field19\">Field19</label>
-          <input id=\"field19\" autocomplete=\"on\" #{@data_ignore} />
+          <input id=\"field19\" autocomplete=\"on\" #{DATA_IGNORE} />
           <label for=\"field20\">Field20</label>
-          <textarea id=\"field20\" autocomplete=\"on\" #{@data_ignore}>
+          <textarea id=\"field20\" autocomplete=\"on\" #{DATA_IGNORE}>
           </textarea>
           <label for=\"field21\">Field21</label>
-          <input id=\"field21\" list=\"datalist3\" #{@data_ignore} />
+          <input id=\"field21\" list=\"datalist3\" #{DATA_IGNORE} />
           <datalist id=\"datalist3\">
             <option value=\"Value1\" />
             <option value=\"Value2\" />
             <option value=\"Value3\" />
             <option value=\"Value4\" />
           </datalist>
-          <form autocomplete=\"on\" id=\"form3\" #{@data_ignore}>
+          <form autocomplete=\"on\" id=\"form3\" #{DATA_IGNORE}>
             <label for=\"field22\">Field22</label>
             <input type=\"text\" id=\"field22\" />
             <label for=\"field23\">Field23</label>
@@ -215,7 +213,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
           <label for=\"field27\">Field27</label>
           <input id=\"field27\" form=\"form3\" autocomplete=\"off\" />
           <label for=\"field28\">Field28</label>
-          <input id=\"field28\" form=\"form3\" #{@data_ignore} />
+          <input id=\"field28\" form=\"form3\" #{DATA_IGNORE} />
         </body>
       </html>
     ")

@@ -47,14 +47,21 @@ require File.join(
 # class.
 class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
-  # Initialize common attributes used by test methods.
-  def setup
-    @aside_text = '
+  # The content of aside element of parser.
+  ASIDE_TEXT = '
       Exemple of <mark>aside</mark>.
       <!-- Comment -->
-    '
-    @aside_content = '<aside class="aside" data-attribute="custom_value">' \
-                     "#{@aside_text}</aside>"
+  '.freeze
+
+  ##
+  # The aside element of parser.
+  ASIDE_CONTENT =
+    '<aside class="aside" data-attribute="custom_value">' \
+    "#{ASIDE_TEXT}</aside>".freeze
+
+  ##
+  # Initialize common attributes used by test methods.
+  def setup
     @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       "<!DOCTYPE html>
 	    <html>
@@ -102,7 +109,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
 		        <li>4</li>
 		        <li>5</li>
 		      </ol>
-		      #{@aside_content}
+		      #{ASIDE_CONTENT}
 		      <form>
 		        <label>
 		          Text:
@@ -359,7 +366,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   def test_get_inner_html
     aside = @html_parser.find('aside').first_result
 
-    assert_equal(@aside_text, aside.get_inner_html)
+    assert_equal(ASIDE_TEXT, aside.get_inner_html)
   end
 
   ##
@@ -367,7 +374,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   def test_get_outer_html
     aside = @html_parser.find('aside').first_result
 
-    assert_equal(@aside_content, aside.get_outer_html)
+    assert_equal(ASIDE_CONTENT, aside.get_outer_html)
   end
 
   ##

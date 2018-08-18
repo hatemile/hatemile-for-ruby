@@ -37,9 +37,12 @@ require File.join(
 # class.
 class TestAccessibleAssociationImplementation < Test::Unit::TestCase
   ##
+  # The name of attribute for not modify the elements.
+  DATA_IGNORE = 'data-ignoreaccessibilityfix="true"'.freeze
+
+  ##
   # Initialize common attributes used by test methods.
   def setup
-    @data_ignore = 'data-ignoreaccessibilityfix="true"'
     @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       "<!DOCTYPE html>
       <html>
@@ -53,7 +56,7 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
               <tr>
                 <th rowspan=\"2\" data-id=\"t1column11\">Column 1.1</th>
                 <th id=\"t1column12\">Column 1.2</th>
-                <th id=\"t1column13\" #{@data_ignore}>Column 1.3</th>
+                <th id=\"t1column13\" #{DATA_IGNORE}>Column 1.3</th>
                 <td id=\"t1column14\">Column 1.4</td>
               </tr>
               <tr>
@@ -64,7 +67,7 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
             <tbody>
               <tr>
                 <th rowspan=\"2\" id=\"t1cell11\">Cell 1.1</th>
-                <td id=\"t1cell12\" #{@data_ignore}>Cell 1.2</td>
+                <td id=\"t1cell12\" #{DATA_IGNORE}>Cell 1.2</td>
                 <td data-id=\"t1cell13\">Cell 1.3</td>
                 <td id=\"t1cell14\">Cell 1.4</td>
               </tr>
@@ -132,13 +135,13 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
           <label>Field4</label>
           <input id=\"field4\" type=\"text\" />
           <br />
-          <label #{@data_ignore} for=\"field5\">Field5</label>
+          <label #{DATA_IGNORE} for=\"field5\">Field5</label>
           <input id=\"field5\" type=\"text\" />
           <br />
           <label for=\"field6\">Field6</label>
-          <input id=\"field6\" type=\"text\" #{@data_ignore} />
+          <input id=\"field6\" type=\"text\" #{DATA_IGNORE} />
           <br />
-          <div #{@data_ignore}>
+          <div #{DATA_IGNORE}>
             <label for=\"field7\">Field7</label>
             <input id=\"field7\" type=\"text\" />
           </div>
