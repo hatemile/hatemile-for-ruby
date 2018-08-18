@@ -31,7 +31,8 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Initialize common attributes used by test methods.
   def setup
-    @html_code = "<!DOCTYPE html>
+    @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
+      "<!DOCTYPE html>
 	    <html>
 		    <head>
 			    <title>HaTeMiLe Tests</title>
@@ -87,15 +88,13 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
 		      <h2></h2>
 		    </body>
 		  </html>"
+    )
   end
 
   ##
   # Test get_text_content method.
   def test_get_text_content
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    lis = html_parser.find('ol li').list_results
+    lis = @html_parser.find('ol li').list_results
 
     lis.each_with_index do |li, index|
       assert_instance_of(
@@ -109,10 +108,7 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test set_text_content method.
   def test_set_text_content
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.set_text_content('Changed')
 
     assert_instance_of(
@@ -125,10 +121,7 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test append_text method.
   def test_append_text
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.append_text(' and value')
 
     assert_instance_of(
@@ -141,10 +134,7 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test prepend_text method.
   def test_prepend_text
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.prepend_text('table and ')
 
     assert_instance_of(
@@ -157,12 +147,9 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test insert_before method.
   def test_insert_before
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    link = html_parser.create_element('a')
+    link = @html_parser.create_element('a')
     link.append_text('table and ')
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.insert_before(link)
 
     assert_equal(link, ins.get_first_node_child)
@@ -176,12 +163,9 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test insert_after method.
   def test_insert_after
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    link = html_parser.create_element('a')
+    link = @html_parser.create_element('a')
     link.append_text(' and value')
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.insert_after(link)
 
     assert_instance_of(
@@ -195,10 +179,7 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test remove_node method.
   def test_remove_node
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
     ins.get_first_node_child.remove_node
 
     assert(!ins.has_children?)
@@ -207,11 +188,8 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test replace_node method.
   def test_replace_node
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
-    strong = html_parser.find('strong').first_result
+    ins = @html_parser.find('ins').first_result
+    strong = @html_parser.find('strong').first_result
     ins.get_first_node_child.replace_node(strong.get_first_node_child)
 
     assert_equal('Strong text', ins.get_text_content)
@@ -221,10 +199,7 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test get_parent_element method.
   def test_get_parent_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
+    ins = @html_parser.find('ins').first_result
 
     assert_instance_of(
       Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMTextNode,
@@ -236,11 +211,8 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   ##
   # Test get_data and set_data methods.
   def test_get_set_data
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    ins = html_parser.find('ins').first_result
-    strong = html_parser.find('strong').first_result
+    ins = @html_parser.find('ins').first_result
+    strong = @html_parser.find('strong').first_result
     text_node = ins.get_first_node_child
     text_node.set_data(strong.get_first_node_child.get_data)
     text_node.append_text('!!!')

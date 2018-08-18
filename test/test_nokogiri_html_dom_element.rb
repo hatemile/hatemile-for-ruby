@@ -55,8 +55,8 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
     '
     @aside_content = '<aside class="aside" data-attribute="custom_value">' \
                      "#{@aside_text}</aside>"
-    @html_code = "
-      <!DOCTYPE html>
+    @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
+      "<!DOCTYPE html>
 	    <html>
 		    <head>
 			    <title>HaTeMiLe Tests</title>
@@ -113,33 +113,28 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
 		      <h2></h2>
 		    </body>
 		  </html>"
+    )
   end
 
   ##
   # Test == method
   def test_equals
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    body = html_parser.find('body').first_result
-    section = html_parser.find('section').first_result
-    header = html_parser.find('header').first_result
+    body = @html_parser.find('body').first_result
+    section = @html_parser.find('section').first_result
+    header = @html_parser.find('header').first_result
 
-    assert_equal(body, html_parser.find('body').first_result)
+    assert_equal(body, @html_parser.find('body').first_result)
     assert_equal(section, body.get_first_element_child)
     assert_equal(body, section.get_parent_element)
     assert_not_equal(body, section)
-    assert_not_equal(body, html_parser.create_element('body'))
-    assert_not_equal(header, html_parser.create_element('header'))
+    assert_not_equal(body, @html_parser.create_element('body'))
+    assert_not_equal(header, @html_parser.create_element('header'))
   end
 
   ##
   # Test get_tag_name method.
   def test_get_tag_name
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     assert_equal('SPAN', span.get_tag_name)
   end
@@ -147,10 +142,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_attribute method.
   def test_get_attribute
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     assert_equal('value', span.get_attribute('attribute'))
     assert_equal('custom_value', span.get_attribute('data-attribute'))
@@ -161,10 +153,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test set_attribute method.
   def test_set_attribute
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     span.set_attribute('newattribute', 'new_value')
     span.set_attribute('data-newattribute', 'custom_new_value')
@@ -182,10 +171,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test has_attribute method.
   def test_has_attribute?
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     assert(!span.has_attribute?('newattribute'))
     assert(!span.has_attribute?('data-newattribute'))
@@ -206,10 +192,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test remove_attribute method.
   def test_remove_attribute
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     assert(span.has_attribute?('attribute'))
     assert(span.has_attribute?('data-attribute'))
@@ -224,10 +207,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test has_attributes? method.
   def test_has_attributes
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
+    span = @html_parser.find('span').first_result
 
     assert(span.has_attributes?)
 
@@ -243,11 +223,8 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_children_elements method.
   def test_get_children_elements
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
-    strong = html_parser.find('strong').first_result
+    span = @html_parser.find('span').first_result
+    strong = @html_parser.find('strong').first_result
 
     assert_equal(2, span.get_children_elements.length)
     assert_equal(strong, span.get_children_elements.first)
@@ -258,11 +235,8 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_children method.
   def test_get_children
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    span = html_parser.find('span').first_result
-    hr = html_parser.find('hr').first_result
+    span = @html_parser.find('span').first_result
+    hr = @html_parser.find('hr').first_result
 
     assert_equal(6, span.get_children.length)
     assert_instance_of(
@@ -305,14 +279,11 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test append_element method.
   def test_append_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    paragraph = html_parser.find('p').first_result
-    del = html_parser.find('del').first_result
-    i = html_parser.create_element('i')
+    paragraph = @html_parser.find('p').first_result
+    del = @html_parser.find('del').first_result
+    i = @html_parser.create_element('i')
 
-    paragraph.append_element(html_parser.create_element('em'))
+    paragraph.append_element(@html_parser.create_element('em'))
 
     assert_equal('EM', paragraph.get_children_elements.last.get_tag_name)
     assert_equal('EM', paragraph.get_children.last.get_tag_name)
@@ -326,12 +297,9 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test prepend_element method.
   def test_prepend_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    paragraph = html_parser.find('p').first_result
-    mark = html_parser.create_element('mark')
-    i = html_parser.create_element('i')
+    paragraph = @html_parser.find('p').first_result
+    mark = @html_parser.create_element('mark')
+    i = @html_parser.create_element('i')
 
     paragraph.prepend_element(mark)
 
@@ -348,10 +316,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test normalize method.
   def test_normalize
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    div = html_parser.find('div').first_result
+    div = @html_parser.find('div').first_result
 
     div.append_text('Text 1').append_text('Text 2').append_text('Text 3')
     div.normalize
@@ -362,13 +327,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test has_children_elements? method.
   def test_has_children_elements
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    section = html_parser.find('section').first_result
-    header = html_parser.find('header').first_result
-    article = html_parser.find('article').first_result
-    footer = html_parser.find('footer').first_result
+    section = @html_parser.find('section').first_result
+    header = @html_parser.find('header').first_result
+    article = @html_parser.find('article').first_result
+    footer = @html_parser.find('footer').first_result
 
     assert(section.has_children_elements?)
     assert(!header.has_children_elements?)
@@ -379,14 +341,11 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test has_children? method.
   def test_has_children
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    table = html_parser.find('table').first_result
-    thead = html_parser.find('thead').first_result
-    th = html_parser.find('th').first_result
-    td = html_parser.find('td').first_result
-    tfoot = html_parser.find('tfoot').first_result
+    table = @html_parser.find('table').first_result
+    thead = @html_parser.find('thead').first_result
+    th = @html_parser.find('th').first_result
+    td = @html_parser.find('td').first_result
+    tfoot = @html_parser.find('tfoot').first_result
 
     assert(table.has_children?)
     assert(thead.has_children?)
@@ -398,10 +357,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_inner_html method.
   def test_get_inner_html
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    aside = html_parser.find('aside').first_result
+    aside = @html_parser.find('aside').first_result
 
     assert_equal(@aside_text, aside.get_inner_html)
   end
@@ -409,10 +365,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_outer_html method.
   def test_get_outer_html
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    aside = html_parser.find('aside').first_result
+    aside = @html_parser.find('aside').first_result
 
     assert_equal(@aside_content, aside.get_outer_html)
   end
@@ -420,13 +373,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_first_element_child method.
   def test_get_first_element_child
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    section = html_parser.find('section').first_result
-    header = html_parser.find('header').first_result
-    article = html_parser.find('article').first_result
-    footer = html_parser.find('footer').first_result
+    section = @html_parser.find('section').first_result
+    header = @html_parser.find('header').first_result
+    article = @html_parser.find('article').first_result
+    footer = @html_parser.find('footer').first_result
 
     assert_equal(header, section.get_first_element_child)
     assert_nil(header.get_first_element_child)
@@ -437,13 +387,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_last_element_child method.
   def test_get_last_element_child
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    section = html_parser.find('section').first_result
-    header = html_parser.find('header').first_result
-    article = html_parser.find('article').first_result
-    footer = html_parser.find('footer').first_result
+    section = @html_parser.find('section').first_result
+    header = @html_parser.find('header').first_result
+    article = @html_parser.find('article').first_result
+    footer = @html_parser.find('footer').first_result
 
     assert_equal(footer, section.get_last_element_child)
     assert_nil(header.get_last_element_child)
@@ -454,13 +401,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_first_node_child method.
   def test_get_first_node_child
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    thead = html_parser.find('thead').first_result
-    th = html_parser.find('th').first_result
-    td = html_parser.find('td').first_result
-    tfoot = html_parser.find('tfoot').first_result
+    thead = @html_parser.find('thead').first_result
+    th = @html_parser.find('th').first_result
+    td = @html_parser.find('td').first_result
+    tfoot = @html_parser.find('tfoot').first_result
 
     assert_equal('TR', thead.get_first_node_child.get_tag_name)
     assert_instance_of(
@@ -479,13 +423,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_last_node_child method.
   def test_get_last_node_child
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    thead = html_parser.find('thead').first_result
-    th = html_parser.find('th').first_result
-    td = html_parser.find('td').first_result
-    tfoot = html_parser.find('tfoot').first_result
+    thead = @html_parser.find('thead').first_result
+    th = @html_parser.find('th').first_result
+    td = @html_parser.find('td').first_result
+    tfoot = @html_parser.find('tfoot').first_result
 
     assert_equal('TR', thead.get_last_node_child.get_tag_name)
     assert_instance_of(
@@ -504,10 +445,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test clone_element method.
   def test_clone_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    tbody = html_parser.find('tbody').first_result
+    tbody = @html_parser.find('tbody').first_result
 
     cloned_tbody = tbody.clone
 
@@ -517,12 +455,9 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_text_content method.
   def test_get_text_content
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    th = html_parser.find('th').first_result
-    td = html_parser.find('td').first_result
-    tfoot = html_parser.find('tfoot').first_result
+    th = @html_parser.find('th').first_result
+    td = @html_parser.find('td').first_result
+    tfoot = @html_parser.find('tfoot').first_result
 
     assert_equal('Table header', th.get_text_content)
     assert_equal('Table cell', td.get_text_content)
@@ -532,13 +467,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test insert_before method.
   def test_insert_before
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    list_element = html_parser.find('ul').first_result
-    item_element = html_parser.find('#li-3').first_result
+    list_element = @html_parser.find('ul').first_result
+    item_element = @html_parser.find('#li-3').first_result
 
-    new_item_element = html_parser.create_element('li')
+    new_item_element = @html_parser.create_element('li')
     new_item_element.set_attribute('id', 'li-2')
     new_item_element.append_text('2')
     item_element.insert_before(new_item_element)
@@ -556,13 +488,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test insert_after method.
   def test_insert_after
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    list_element = html_parser.find('ul').first_result
-    item_element = html_parser.find('#li-3').first_result
+    list_element = @html_parser.find('ul').first_result
+    item_element = @html_parser.find('#li-3').first_result
 
-    new_item_element = html_parser.create_element('li')
+    new_item_element = @html_parser.create_element('li')
     new_item_element.set_attribute('id', 'li-4')
     new_item_element.append_text('4')
     item_element.insert_after(new_item_element)
@@ -580,10 +509,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test remove_node method.
   def test_remove_node
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    list_element = html_parser.find('ol').first_result
+    list_element = @html_parser.find('ol').first_result
 
     assert_equal(5, list_element.get_children_elements.length)
 
@@ -594,32 +520,26 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
 
     list_element.remove_node
 
-    assert_nil(html_parser.find('ol').first_result)
-    assert_nil(html_parser.find('ol li').first_result)
+    assert_nil(@html_parser.find('ol').first_result)
+    assert_nil(@html_parser.find('ol li').first_result)
   end
 
   ##
   # Test replace_node method.
   def test_replace_node
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    input = html_parser.find('input[name=number]').first_result
+    input = @html_parser.find('input[name=number]').first_result
 
-    textarea = html_parser.create_element('textarea')
+    textarea = @html_parser.create_element('textarea')
     input.replace_node(textarea)
 
-    assert_nil(html_parser.find('input[name=number]').first_result)
-    assert_not_nil(html_parser.find('textarea').first_result)
+    assert_nil(@html_parser.find('input[name=number]').first_result)
+    assert_not_nil(@html_parser.find('textarea').first_result)
   end
 
   ##
   # Test append_text method.
   def test_append_text
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    h1 = html_parser.find('h1').first_result
+    h1 = @html_parser.find('h1').first_result
 
     assert_not_nil(h1.append_text('Example'))
     assert_instance_of(
@@ -635,10 +555,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test prepend_text method.
   def test_prepend_text
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    h2 = html_parser.find('h2').first_result
+    h2 = @html_parser.find('h2').first_result
 
     assert_not_nil(h2.prepend_text(' text.'))
     assert_instance_of(
@@ -654,13 +571,10 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_parent_element method.
   def test_get_parent_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    body = html_parser.find('body').first_result
-    section = html_parser.find('section').first_result
-    header = html_parser.find('header').first_result
-    article = html_parser.find('article').first_result
+    body = @html_parser.find('body').first_result
+    section = @html_parser.find('section').first_result
+    header = @html_parser.find('header').first_result
+    article = @html_parser.find('article').first_result
 
     assert_equal(section, header.get_parent_element)
     assert_equal(section, article.get_parent_element)
@@ -670,11 +584,8 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   ##
   # Test get_set_data method.
   def test_get_set_data
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    body = html_parser.find('body').first_result
-    section = html_parser.find('section').first_result
+    body = @html_parser.find('body').first_result
+    section = @html_parser.find('section').first_result
 
     section.set_data(body.get_data)
     section.set_attribute('class', 'body')

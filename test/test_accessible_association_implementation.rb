@@ -40,13 +40,8 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
   # Initialize common attributes used by test methods.
   def setup
     @data_ignore = 'data-ignoreaccessibilityfix="true"'
-  end
-
-  ##
-  # Test fix_association_cells_tables method
-  def test_fix_association_cells_tables
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
-      <!DOCTYPE html>
+    @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
+      "<!DOCTYPE html>
       <html>
         <head>
 			    <title>HaTeMiLe Tests</title>
@@ -123,25 +118,54 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
                 <td colspan=\"3\" id=\"t3cell22\">Cell 2.2</td>
               </tr>
           </table>
+          <label for=\"field1\">Field1</label>
+          <input id=\"field1\" type=\"text\" />
+          <br />
+          <label>
+            Field2
+            <input name=\"field2\" type=\"text\" />
+          </label>
+          <br />
+          <label for=\"field3\">Field3</label>
+          <input id=\"field3\" type=\"text\" aria-label=\"Field 3\" />
+          <br />
+          <label>Field4</label>
+          <input id=\"field4\" type=\"text\" />
+          <br />
+          <label #{@data_ignore} for=\"field5\">Field5</label>
+          <input id=\"field5\" type=\"text\" />
+          <br />
+          <label for=\"field6\">Field6</label>
+          <input id=\"field6\" type=\"text\" #{@data_ignore} />
+          <br />
+          <div #{@data_ignore}>
+            <label for=\"field7\">Field7</label>
+            <input id=\"field7\" type=\"text\" />
+          </div>
         </body>
-      </html>
-    ")
-    association =
+      </html>"
+    )
+    @association =
       Hatemile::Implementation::AccessibleAssociationImplementation.new(
-        html_parser
+        @html_parser
       )
-    association.fix_association_cells_tables
-    t1column11 = html_parser.find('[data-id=t1column11]').first_result
-    t1column12 = html_parser.find('#t1column12').first_result
-    t1column13 = html_parser.find('#t1column13').first_result
-    t1column14 = html_parser.find('#t1column14').first_result
-    t1column22 = html_parser.find('#t1column22').first_result
-    t1column23 = html_parser.find('#t1column23').first_result
-    t1cell11 = html_parser.find('#t1cell11').first_result
-    t1cell12 = html_parser.find('#t1cell12').first_result
-    t1cell13 = html_parser.find('[data-id=t1cell13]').first_result
-    t1cell14 = html_parser.find('#t1cell14').first_result
-    t1cell22 = html_parser.find('#t1cell22').first_result
+  end
+
+  ##
+  # Test fix_association_cells_tables method.
+  def test_fix_association_cells_tables
+    @association.fix_association_cells_tables
+    t1column11 = @html_parser.find('[data-id=t1column11]').first_result
+    t1column12 = @html_parser.find('#t1column12').first_result
+    t1column13 = @html_parser.find('#t1column13').first_result
+    t1column14 = @html_parser.find('#t1column14').first_result
+    t1column22 = @html_parser.find('#t1column22').first_result
+    t1column23 = @html_parser.find('#t1column23').first_result
+    t1cell11 = @html_parser.find('#t1cell11').first_result
+    t1cell12 = @html_parser.find('#t1cell12').first_result
+    t1cell13 = @html_parser.find('[data-id=t1cell13]').first_result
+    t1cell14 = @html_parser.find('#t1cell14').first_result
+    t1cell22 = @html_parser.find('#t1cell22').first_result
 
     assert(t1column11.has_attribute?('scope'))
     assert(t1column12.has_attribute?('scope'))
@@ -174,67 +198,30 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
       t1cell22.get_attribute('headers').split.to_set
     )
 
-    assert_nil(html_parser.find('#table2 [headers]').first_result)
-    assert_nil(html_parser.find('#table3 [headers]').first_result)
+    assert_nil(@html_parser.find('#table2 [headers]').first_result)
+    assert_nil(@html_parser.find('#table3 [headers]').first_result)
   end
 
   ##
-  # Test fix_labels method
+  # Test fix_labels method.
   def test_fix_labels
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
-      <!DOCTYPE html>
-      <html>
-        <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
-        <body>
-          <label for=\"field1\">Field1</label>
-          <input id=\"field1\" type=\"text\" />
-          <br />
-          <label>
-            Field2
-            <input name=\"field2\" type=\"text\" />
-          </label>
-          <br />
-          <label for=\"field3\">Field3</label>
-          <input id=\"field3\" type=\"text\" aria-label=\"Field 3\" />
-          <br />
-          <label>Field4</label>
-          <input id=\"field4\" type=\"text\" />
-          <br />
-          <label #{@data_ignore} for=\"field5\">Field5</label>
-          <input id=\"field5\" type=\"text\" />
-          <br />
-          <label for=\"field6\">Field6</label>
-          <input id=\"field6\" type=\"text\" #{@data_ignore} />
-          <br />
-          <div #{@data_ignore}>
-            <label for=\"field7\">Field7</label>
-            <input id=\"field7\" type=\"text\" />
-          </div>
-        </body>
-      </html>
-    ")
-    field1 = html_parser.find('#field1').first_result
-    field2 = html_parser.find('[name="field2"]').first_result
-    field3 = html_parser.find('#field3').first_result
-    field4 = html_parser.find('#field4').first_result
-    field5 = html_parser.find('#field5').first_result
-    field6 = html_parser.find('#field6').first_result
-    field7 = html_parser.find('#field7').first_result
-    association =
-      Hatemile::Implementation::AccessibleAssociationImplementation.new(
-        html_parser
-      )
-    association.fix_labels
-    label1 = html_parser.find(
+    field1 = @html_parser.find('#field1').first_result
+    field2 = @html_parser.find('[name="field2"]').first_result
+    field3 = @html_parser.find('#field3').first_result
+    field4 = @html_parser.find('#field4').first_result
+    field5 = @html_parser.find('#field5').first_result
+    field6 = @html_parser.find('#field6').first_result
+    field7 = @html_parser.find('#field7').first_result
+
+    @association.fix_labels
+
+    label1 = @html_parser.find(
       "##{field1.get_attribute('aria-labelledby')}"
     ).first_result
-    label2 = html_parser.find(
+    label2 = @html_parser.find(
       "##{field2.get_attribute('aria-labelledby')}"
     ).first_result
-    label3 = html_parser.find(
+    label3 = @html_parser.find(
       "##{field3.get_attribute('aria-labelledby')}"
     ).first_result
 
@@ -248,7 +235,7 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
     assert_equal('Field2', field2.get_attribute('aria-label'))
     assert_equal(
       field2,
-      html_parser.find("##{label2.get_attribute('for')}").first_result
+      @html_parser.find("##{label2.get_attribute('for')}").first_result
     )
 
     assert(field3.has_attribute?('aria-label'))

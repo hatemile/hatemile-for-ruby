@@ -117,27 +117,27 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
           </div>
         </body>
       </html>"
+    @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
+      @html_code
+    )
   end
 
   ##
   # Test find method.
   def test_find
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    body = html_parser.find('body').first_result
-    section = html_parser.find('section').first_result
-    same_section = html_parser.find(section).first_result
-    input = html_parser.find('[type="text"]').first_result
-    li1 = html_parser.find('#li-1').first_result
-    li3 = html_parser.find('ul li').last_result
-    ins = html_parser.find('table tbody.table-body tr td ins').first_result
-    inputs = html_parser.find('input[type="text"]').list_results
-    lis = html_parser.find('ol li').list_results
-    img = html_parser.find('img').first_result
-    imgs = html_parser.find('img').list_results
+    body = @html_parser.find('body').first_result
+    section = @html_parser.find('section').first_result
+    same_section = @html_parser.find(section).first_result
+    input = @html_parser.find('[type="text"]').first_result
+    li1 = @html_parser.find('#li-1').first_result
+    li3 = @html_parser.find('ul li').last_result
+    ins = @html_parser.find('table tbody.table-body tr td ins').first_result
+    inputs = @html_parser.find('input[type="text"]').list_results
+    lis = @html_parser.find('ol li').list_results
+    img = @html_parser.find('img').first_result
+    imgs = @html_parser.find('img').list_results
     headings = []
-    html_parser.find('h1, h2, h3, h4').list_results.each do |heading|
+    @html_parser.find('h1, h2, h3, h4').list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
 
@@ -171,33 +171,32 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
   # Test find_children method.
   def test_find_children
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    section = html_parser.find('body').find_children('section').last_result
-    lis = html_parser.find('ol').find_children('li').list_results
-    tbody1 = html_parser.find('body').find_children('.table-body').first_result
-    tbody2 = html_parser.find('table').find_children('.table-body').first_result
-    input = html_parser.find('form label').find_children(
+    section = @html_parser.find('body').find_children('section').last_result
+    lis = @html_parser.find('ol').find_children('li').list_results
+    tbody1 = @html_parser.find('body').find_children('.table-body').first_result
+    tbody2 = @html_parser.find('table').find_children(
+      '.table-body'
+    ).first_result
+    input = @html_parser.find('form label').find_children(
       'input[type="text"]'
     ).first_result
-    li1 = html_parser.find('ul').find_children('#li-1').first_result
+    li1 = @html_parser.find('ul').find_children('#li-1').first_result
     headings = []
-    html_parser.find('h1, h2, h3, h4').find_children(
+    @html_parser.find('h1, h2, h3, h4').find_children(
       'span'
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
-    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
     headings2 = []
-    html_parser.find(
+    @html_parser.find(
       pure_headings
     ).find_children('span').list_results.each do |heading|
       headings2.push(heading.get_text_content)
     end
-    pure_spans = html_parser.find('span').list_results
+    pure_spans = @html_parser.find('span').list_results
     headings3 = []
-    html_parser.find(
+    @html_parser.find(
       pure_headings
     ).find_children(pure_spans).list_results.each do |heading|
       headings3.push(heading.get_text_content)
@@ -253,37 +252,34 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
   # Test find_descendants method.
   def test_find_descendants
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    section = html_parser.find('body').find_descendants('section').last_result
-    lis = html_parser.find('ol').find_descendants('li').list_results
-    tbody1 = html_parser.find('body').find_descendants(
+    section = @html_parser.find('body').find_descendants('section').last_result
+    lis = @html_parser.find('ol').find_descendants('li').list_results
+    tbody1 = @html_parser.find('body').find_descendants(
       '.table-body'
     ).first_result
-    tbody2 = html_parser.find('table').find_descendants(
+    tbody2 = @html_parser.find('table').find_descendants(
       '.table-body'
     ).first_result
-    input = html_parser.find('form').find_descendants(
+    input = @html_parser.find('form').find_descendants(
       'input[type="text"]'
     ).first_result
-    li1 = html_parser.find('body').find_descendants('#li-1').first_result
+    li1 = @html_parser.find('body').find_descendants('#li-1').first_result
     headings = []
-    html_parser.find('h1, h2, h3, h4').find_descendants(
+    @html_parser.find('h1, h2, h3, h4').find_descendants(
       'span'
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
-    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
     headings2 = []
-    html_parser.find(
+    @html_parser.find(
       pure_headings
     ).find_descendants('span').list_results.each do |heading|
       headings2.push(heading.get_text_content)
     end
-    pure_spans = html_parser.find('span').list_results
+    pure_spans = @html_parser.find('span').list_results
     headings3 = []
-    html_parser.find(
+    @html_parser.find(
       pure_headings
     ).find_descendants(pure_spans).list_results.each do |heading|
       headings3.push(heading.get_text_content)
@@ -339,31 +335,28 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
   # Test find_ancestors method.
   def test_find_ancestors
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    body = html_parser.find('section').find_ancestors('body').last_result
-    tbody1 = html_parser.find('ins').find_ancestors('.table-body').first_result
-    tbody2 = html_parser.find('td').find_ancestors('.table-body').first_result
-    input = html_parser.find('strong').find_ancestors(
+    body = @html_parser.find('section').find_ancestors('body').last_result
+    tbody1 = @html_parser.find('ins').find_ancestors('.table-body').first_result
+    tbody2 = @html_parser.find('td').find_ancestors('.table-body').first_result
+    input = @html_parser.find('strong').find_ancestors(
       '[attribute="value"]'
     ).first_result
     headings = []
-    html_parser.find('span').find_ancestors(
+    @html_parser.find('span').find_ancestors(
       'h1, h2, h3, h4'
     ).list_results.each do |heading|
       headings.push(heading.get_text_content)
     end
-    pure_spans = html_parser.find('span').list_results
+    pure_spans = @html_parser.find('span').list_results
     headings2 = []
-    html_parser.find(pure_spans).find_ancestors(
+    @html_parser.find(pure_spans).find_ancestors(
       'h1, h2, h3, h4'
     ).list_results.each do |heading|
       headings2.push(heading.get_text_content)
     end
-    pure_headings = html_parser.find('h1, h2, h3, h4').list_results
+    pure_headings = @html_parser.find('h1, h2, h3, h4').list_results
     headings3 = []
-    html_parser.find(pure_spans).find_ancestors(
+    @html_parser.find(pure_spans).find_ancestors(
       pure_headings
     ).list_results.each do |heading|
       headings3.push(heading.get_text_content)
@@ -414,14 +407,11 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
   # Test create_element method.
   def test_create_element
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
-    img = html_parser.create_element('img')
+    img = @html_parser.create_element('img')
     img.set_attribute('src', 'http://www.example.com/image.png')
     img.set_attribute('alt', 'Example')
-    html_parser.find('body').first_result.append_element(img)
-    same_img = html_parser.find('img').first_result
+    @html_parser.find('body').first_result.append_element(img)
+    same_img = @html_parser.find('img').first_result
 
     assert_equal('IMG', img.get_tag_name)
     assert_instance_of(
@@ -434,12 +424,9 @@ class TestNokogiriHTMLDOMParser < Test::Unit::TestCase
   ##
   # Test get_html method.
   def test_get_html
-    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
-      @html_code
-    )
     assert_equal(
       @html_code.freeze.gsub(/\s+/, ''),
-      html_parser.get_html.gsub(/\s+/, '')
+      @html_parser.get_html.gsub(/\s+/, '')
     )
   end
 end
