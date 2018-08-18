@@ -124,7 +124,7 @@ class TestNokogiriHTMLDOMElement < Test::Unit::TestCase
   end
 
   ##
-  # Test == method
+  # Test == method.
   def test_equals
     body = @html_parser.find('body').first_result
     section = @html_parser.find('section').first_result

@@ -40,7 +40,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   DATA_IGNORE = 'data-ignoreaccessibilityfix="true"'.freeze
 
   ##
-  # Test fix_required_fields method
+  # Test fix_required_fields method.
   def test_fix_required_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
@@ -72,7 +72,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_range_fields method
+  # Test fix_range_fields method.
   def test_fix_range_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
@@ -118,7 +118,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_autocomplete_fields method
+  # Test fix_autocomplete_fields method.
   def test_fix_autocomplete_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>

@@ -36,7 +36,7 @@ class TestConfigure < Test::Unit::TestCase
   end
 
   ##
-  # Test get_parameters method
+  # Test get_parameters method.
   def test_get_parameters
     parameters = @configure.get_parameters
 
@@ -47,7 +47,7 @@ class TestConfigure < Test::Unit::TestCase
   end
 
   ##
-  # Test has_parameter? method
+  # Test has_parameter? method.
   def test_has_parameter
     assert(@configure.has_parameter?('text-shortcuts'))
     assert(@configure.has_parameter?('text-standart-shortcut-prefix'))
@@ -56,7 +56,7 @@ class TestConfigure < Test::Unit::TestCase
   end
 
   ##
-  # Test get_parameter method
+  # Test get_parameter method.
   def test_get_parameter
     assert_equal('Atalhos:', @configure.get_parameter('text-shortcuts'))
     assert_equal(

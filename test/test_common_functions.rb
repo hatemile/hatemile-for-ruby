@@ -36,7 +36,7 @@ require File.join(
 # Test methods of Hatemile::Util::CommonFunctions class.
 class TestCommonFunctions < Test::Unit::TestCase
   ##
-  # Test increase_in_list method
+  # Test increase_in_list method.
   def test_increase_in_list
     assert_equal(
       'item',
@@ -61,7 +61,7 @@ class TestCommonFunctions < Test::Unit::TestCase
   end
 
   ##
-  # Test in_list? method
+  # Test in_list? method.
   def test_in_list
     assert(!Hatemile::Util::CommonFunctions.in_list?(nil, 'item'))
     assert(!Hatemile::Util::CommonFunctions.in_list?('item', nil))
@@ -73,7 +73,7 @@ class TestCommonFunctions < Test::Unit::TestCase
   end
 
   ##
-  # Test is_valid_element? method
+  # Test is_valid_element? method.
   def test_is_valid_element
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new('
       <!DOCTYPE html>
