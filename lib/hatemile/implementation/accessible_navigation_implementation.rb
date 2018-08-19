@@ -356,9 +356,12 @@ module Hatemile
       ##
       # Returns the skippers of configuration.
       #
+      #
+      # @param configure [Hatemile::Util::Configure] The configuration of
+      #   HaTeMiLe.
       # @param file_name [String] The file path of skippers configuration.
       # @return [Array<Hash>] The skippers of configuration.
-      def get_skippers(file_name)
+      def get_skippers(configure, file_name)
         skippers = []
         if file_name.nil?
           file_name = File.join(
@@ -370,7 +373,9 @@ module Hatemile
         document.elements.each('skippers/skipper') do |skipper_xml|
           skipper = {}
           skipper[:selector] = skipper_xml.attribute('selector').value
-          skipper[:description] = skipper_xml.attribute('description').value
+          skipper[:description] = configure.get_parameter(
+            skipper_xml.attribute('description').value
+          )
           skipper[:shortcut] = skipper_xml.attribute('shortcut').value
           skippers.push(skipper)
         end
@@ -408,7 +413,7 @@ module Hatemile
         @suffix_long_description_link = configure.get_parameter(
           'suffix-longdescription'
         )
-        @skippers = get_skippers(skipper_file_name)
+        @skippers = get_skippers(configure, skipper_file_name)
         @list_shortcuts_added = false
         @list_skippers_added = false
         @validate_heading = false

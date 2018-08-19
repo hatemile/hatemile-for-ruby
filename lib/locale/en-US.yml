@@ -5,3 +5,6 @@ en-US:
     text-heading: "Summary:"
     prefix-longdescription: ""
     suffix-longdescription: " [d]"
+    skipper-main-content: "Go to main content"
+    skipper-shortcuts-list: "Go to shortcuts list"
+    skipper-table-contents: "Go to table of contents"
