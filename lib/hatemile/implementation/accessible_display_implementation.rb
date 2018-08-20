@@ -145,6 +145,37 @@ module Hatemile
         html_list
       end
 
+      ##
+      # Returns the shortcut prefix of browser.
+      #
+      # @param user_agent [String] The user agent of browser.
+      # @param standart_prefix [String] The default prefix.
+      # @return [String] The shortcut prefix of browser.
+      def get_shortcut_prefix(user_agent, standart_prefix)
+        return standart_prefix if user_agent.nil?
+
+        user_agent = user_agent.downcase
+        opera = user_agent.include?('opera')
+        mac = user_agent.include?('mac')
+        konqueror = user_agent.include?('konqueror')
+        spoofer = user_agent.include?('spoofer')
+        safari = user_agent.include?('applewebkit')
+        windows = user_agent.include?('windows')
+        chrome = user_agent.include?('chrome')
+        firefox = user_agent.include?('firefox') ||
+                  user_agent.include?('minefield')
+        ie = user_agent.include?('msie') || user_agent.include?('trident')
+
+        return 'SHIFT + ESC' if opera
+        return 'CTRL + OPTION' if chrome && mac && !spoofer
+        return 'CTRL + ALT' if safari && !windows && !spoofer
+        return 'CTRL' if !windows && (safari || mac || konqueror)
+        return 'ALT + SHIFT' if firefox
+        return 'ALT' if chrome || ie
+
+        standart_prefix
+      end
+
       public
 
       ##
@@ -159,42 +190,12 @@ module Hatemile
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('display')
         @text_shortcuts = configure.get_parameter('text-shortcuts')
-        @standart_prefix = configure.get_parameter(
-          'text-standart-shortcut-prefix'
+        @shortcut_prefix = get_shortcut_prefix(
+          user_agent,
+          configure.get_parameter('text-standart-shortcut-prefix')
         )
         @list_shortcuts_added = false
         @list_shortcuts = nil
-
-        if user_agent.nil?
-          @prefix = @standart_prefix
-        else
-          user_agent = user_agent.downcase
-          opera = user_agent.include?('opera')
-          mac = user_agent.include?('mac')
-          konqueror = user_agent.include?('konqueror')
-          spoofer = user_agent.include?('spoofer')
-          safari = user_agent.include?('applewebkit')
-          windows = user_agent.include?('windows')
-          chrome = user_agent.include?('chrome')
-          firefox = !user_agent.match('firefox/[2-9]|minefield/3').nil?
-          ie = user_agent.include?('msie') || user_agent.include?('trident')
-
-          @prefix = if opera
-                      'SHIFT + ESC'
-                    elsif chrome && mac && !spoofer
-                      'CTRL + OPTION'
-                    elsif safari && !windows && !spoofer
-                      'CTRL + ALT'
-                    elsif !windows && (safari || mac || konqueror)
-                      'CTRL'
-                    elsif firefox
-                      'ALT + SHIFT'
-                    elsif chrome || ie
-                      'ALT'
-                    else
-                      @standart_prefix
-                    end
-        end
       end
 
       ##
@@ -223,7 +224,7 @@ module Hatemile
 
           item = @parser.create_element('li')
           item.set_attribute(DATA_ACCESS_KEY, key)
-          item.append_text("#{@prefix} + #{key}: #{description}")
+          item.append_text("#{@shortcut_prefix} + #{key}: #{description}")
           @list_shortcuts.append_element(item)
         end
       end
