@@ -6,7 +6,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
 1.  Instanciate a new object with HTMLDOMParser interface, setting the HTML code;
 2.  Instanciate a new Configuration object;
-3.  Instanciate a new object with AccessibleForm, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
+3.  Instanciate a new object with AccessibleForm, AccessibleDisplay, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
 4.  Get the HTML code of object with HTMLDOMParser interface.
 
 ## Example
@@ -16,6 +16,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
     require_relative 'lib/hatemile/util/configure'
     require_relative 'lib/hatemile/util/html/nokogiri/nokogiri_html_dom_parser'
+    require_relative 'lib/hatemile/implementation/accessible_display_implementation'
     require_relative 'lib/hatemile/implementation/accessible_event_implementation'
     require_relative 'lib/hatemile/implementation/accessible_form_implementation'
     require_relative 'lib/hatemile/implementation/accessible_navigation_implementation'
@@ -181,6 +182,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser)
     navigation = Hatemile::Implementation::AccessibleNavigationImplementation.new(parser, configure)
     association = Hatemile::Implementation::AccessibleAssociationImplementation.new(parser)
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(parser, configure)
     # Run fix methods
     events.fix_drags_and_drops
     events.fix_actives
@@ -193,12 +195,13 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     association.fix_association_cells_tables
     association.fix_labels
 
-    navigation.fix_shortcuts
+    display.fix_shortcuts
+
     navigation.fix_headings
     navigation.fix_skippers
     navigation.fix_long_descriptions
 
-    navigation.fix_shortcuts
+    display.fix_shortcuts
 
     # Output the html code with the changes
     puts(parser.get_html)

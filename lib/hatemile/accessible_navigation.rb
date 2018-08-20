@@ -22,26 +22,6 @@ module Hatemile
     private_class_method :new
 
     ##
-    # Display the shortcuts of element.
-    #
-    # @abstract
-    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
-    #   shortcuts.
-    # @return [void]
-    def fix_shortcut(element)
-      # Interface method
-    end
-
-    ##
-    # Display the shortcuts of elements.
-    #
-    # @abstract
-    # @return [void]
-    def fix_shortcuts
-      # Interface method
-    end
-
-    ##
     # Provide content skipper for element.
     #
     # @abstract
