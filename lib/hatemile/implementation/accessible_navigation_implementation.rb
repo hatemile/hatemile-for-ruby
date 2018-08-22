@@ -304,8 +304,8 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_skipper
-      def fix_skipper(element)
+      # @see Hatemile::AccessibleNavigation#provide_navigation_by_skipper
+      def provide_navigation_by_skipper(element)
         skipper = nil
         @skippers.each do |auxiliar_skipper|
           elements = @parser.find(auxiliar_skipper[:selector]).list_results
@@ -344,8 +344,8 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_skippers
-      def fix_skippers
+      # @see Hatemile::AccessibleNavigation#provide_navigation_by_all_skippers
+      def provide_navigation_by_all_skippers
         @skippers.each do |skipper|
           elements = @parser.find(skipper[:selector]).list_results
           elements.each do |element|
@@ -353,14 +353,14 @@ module Hatemile
               element
             )
 
-            fix_skipper(element)
+            provide_navigation_by_skipper(element)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_heading
-      def fix_heading(element)
+      # @see Hatemile::AccessibleNavigation#provide_navigation_by_heading
+      def provide_navigation_by_heading(element)
         @valid_heading = valid_heading? unless @validate_heading
 
         return unless @valid_heading
@@ -406,19 +406,19 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_headings
-      def fix_headings
+      # @see Hatemile::AccessibleNavigation#provide_navigation_by_all_headings
+      def provide_navigation_by_all_headings
         elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_heading(element)
+            provide_navigation_by_heading(element)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_long_description
-      def fix_long_description(element)
+      # @see Hatemile::AccessibleNavigation#provide_navigation_to_long_description
+      def provide_navigation_to_long_description(element)
         return unless element.has_attribute?('longdesc')
 
         @id_generator.generate_id(element)
@@ -445,12 +445,12 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleNavigation#fix_long_descriptions
-      def fix_long_descriptions
+      # @see Hatemile::AccessibleNavigation#provide_navigation_to_all_long_descriptions
+      def provide_navigation_to_all_long_descriptions
         elements = @parser.find('[longdesc]').list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_long_description(element)
+            provide_navigation_to_long_description(element)
           end
         end
       end

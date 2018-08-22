@@ -184,24 +184,24 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     association = Hatemile::Implementation::AccessibleAssociationImplementation.new(parser)
     display = Hatemile::Implementation::AccessibleDisplayImplementation.new(parser, configure)
     # Run fix methods
-    events.fix_drags_and_drops
-    events.fix_actives
-    events.fix_hovers
+    events.make_accessible_all_drag_and_drop_events
+    events.make_accessible_all_click_events
+    events.make_accessible_all_hover_events
 
-    forms.fix_autocomplete_fields
-    forms.fix_range_fields
-    forms.fix_required_fields
+    forms.mark_all_autocomplete_fields
+    forms.mark_all_range_fields
+    forms.mark_all_required_fields
 
-    association.fix_association_cells_tables
-    association.fix_labels
+    association.associate_all_data_cells_with_header_cells
+    association.associate_all_labels_with_fields
 
-    display.fix_shortcuts
+    display.display_all_shortcuts
 
-    navigation.fix_headings
-    navigation.fix_skippers
-    navigation.fix_long_descriptions
+    navigation.provide_navigation_by_all_headings
+    navigation.provide_navigation_by_all_skippers
+    navigation.provide_navigation_to_all_long_descriptions
 
-    display.fix_shortcuts
+    display.display_all_shortcuts
 
     # Output the html code with the changes
     puts(parser.get_html)

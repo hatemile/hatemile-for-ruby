@@ -21,61 +21,61 @@ module Hatemile
     private_class_method :new
 
     ##
-    # Display that the field is required.
+    # Mark that the field is required.
     #
     # @abstract
     # @param required_field [Hatemile::Util::Html::HTMLDOMElement] The required
     #   field.
     # @return [void]
-    def fix_required_field(required_field)
+    def mark_required_field(required_field)
       # Interface method
     end
 
     ##
-    # Display that the fields is required.
+    # Mark that the fields is required.
     #
     # @abstract
     # @return [void]
-    def fix_required_fields
+    def mark_all_required_fields
       # Interface method
     end
 
     ##
-    # Display that the field have range.
+    # Mark that the field have range.
     #
     # @abstract
     # @param range_field [Hatemile::Util::Html::HTMLDOMElement] The range field.
     # @return [void]
-    def fix_range_field(range_field)
+    def mark_range_field(range_field)
       # Interface method
     end
 
     ##
-    # Display that the fields have range.
+    # Mark that the fields have range.
     #
     # @abstract
     # @return [void]
-    def fix_range_fields
+    def mark_all_range_fields
       # Interface method
     end
 
     ##
-    # Display that the field have autocomplete.
+    # Mark that the field have autocomplete.
     #
     # @abstract
     # @param autocomplete_field [Hatemile::Util::Html::HTMLDOMElement] The field
     #   with autocomplete.
     # @return [void]
-    def fix_autocomplete_field(autocomplete_field)
+    def mark_autocomplete_field(autocomplete_field)
       # Interface method
     end
 
     ##
-    # Display that the fields have autocomplete.
+    # Mark that the fields have autocomplete.
     #
     # @abstract
     # @return [void]
-    def fix_autocomplete_fields
+    def mark_all_autocomplete_fields
       # Interface method
     end
   end

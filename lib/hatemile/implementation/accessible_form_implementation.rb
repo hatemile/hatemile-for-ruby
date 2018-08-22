@@ -101,27 +101,27 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_required_field
-      def fix_required_field(required_field)
+      # @see Hatemile::AccessibleForm#mark_required_field
+      def mark_required_field(required_field)
         return unless required_field.has_attribute?('required')
 
         required_field.set_attribute('aria-required', 'true')
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_required_fields
-      def fix_required_fields
+      # @see Hatemile::AccessibleForm#mark_all_required_fields
+      def mark_all_required_fields
         required_fields = @parser.find('[required]').list_results
         required_fields.each do |required_field|
           if Hatemile::Util::CommonFunctions.is_valid_element?(required_field)
-            fix_required_field(required_field)
+            mark_required_field(required_field)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_range_field
-      def fix_range_field(range_field)
+      # @see Hatemile::AccessibleForm#mark_range_field
+      def mark_range_field(range_field)
         if range_field.has_attribute?('min')
           range_field.set_attribute(
             'aria-valuemin',
@@ -138,19 +138,19 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_range_fields
-      def fix_range_fields
+      # @see Hatemile::AccessibleForm#mark_all_range_fields
+      def mark_all_range_fields
         range_fields = @parser.find('[min],[max]').list_results
         range_fields.each do |range_field|
           if Hatemile::Util::CommonFunctions.is_valid_element?(range_field)
-            fix_range_field(range_field)
+            mark_range_field(range_field)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_autocomplete_field
-      def fix_autocomplete_field(autocomplete_field)
+      # @see Hatemile::AccessibleForm#mark_autocomplete_field
+      def mark_autocomplete_field(autocomplete_field)
         aria_autocomplete = get_aria_autocomplete(autocomplete_field)
 
         return if aria_autocomplete.nil?
@@ -159,15 +159,15 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleForm#fix_autocomplete_fields
-      def fix_autocomplete_fields
+      # @see Hatemile::AccessibleForm#mark_all_autocomplete_fields
+      def mark_all_autocomplete_fields
         elements = @parser.find(
           'input[autocomplete],textarea[autocomplete],form[autocomplete] ' \
           'input,form[autocomplete] textarea,[list],[form]'
         ).list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_autocomplete_field(element)
+            mark_autocomplete_field(element)
           end
         end
       end

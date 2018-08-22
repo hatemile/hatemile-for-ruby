@@ -27,7 +27,7 @@ module Hatemile
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
     #   shortcuts.
     # @return [void]
-    def fix_shortcut(element)
+    def display_shortcut(element)
       # Interface method
     end
 
@@ -36,7 +36,7 @@ module Hatemile
     #
     # @abstract
     # @return [void]
-    def fix_shortcuts
+    def display_all_shortcuts
       # Interface method
     end
   end

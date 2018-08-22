@@ -52,8 +52,8 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   CONFIGURE = Hatemile::Util::Configure.new.freeze
 
   ##
-  # Test fix_shortcuts method with container of shorcuts not defined.
-  def test_fix_shortcuts_container_not_defined
+  # Test display_all_shortcuts method with container of shorcuts not defined.
+  def test_display_all_shortcuts_container_not_defined
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -83,7 +83,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       html_parser,
       CONFIGURE
     )
-    display.fix_shortcuts
+    display.display_all_shortcuts
     accesskey_r = html_parser.find('[accesskey="r"]').first_result
     accesskey_w = html_parser.find('[accesskey="w"]').first_result
     accesskey_f = html_parser.find('[accesskey="f"]').first_result
@@ -119,8 +119,8 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_shortcuts method with container of shortcuts defined.
-  def test_fix_shortcuts_container_defined
+  # Test display_all_shortcuts method with container of shortcuts defined.
+  def test_display_all_shortcuts_container_defined
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -151,7 +151,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       html_parser,
       CONFIGURE
     )
-    display.fix_shortcuts
+    display.display_all_shortcuts
     accesskey_r = html_parser.find('[accesskey="r"]').first_result
     accesskey_w = html_parser.find('[accesskey="w"]').first_result
     accesskey_f = html_parser.find('[accesskey="f"]').first_result

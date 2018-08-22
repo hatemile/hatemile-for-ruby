@@ -156,16 +156,16 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_drop
-      def fix_drop(element)
+      # @see Hatemile::AccessibleEvent#make_accessible_drop_events
+      def make_accessible_drop_events(element)
         element.set_attribute('aria-dropeffect', 'none')
 
         add_event_in_element(element, 'drop')
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_drag
-      def fix_drag(element)
+      # @see Hatemile::AccessibleEvent#make_accessible_drag_events
+      def make_accessible_drag_events(element)
         keyboard_access(element)
 
         element.set_attribute('aria-grabbed', 'false')
@@ -174,8 +174,8 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_drags_and_drops
-      def fix_drags_and_drops
+      # @see Hatemile::AccessibleEvent#make_accessible_all_drag_and_drop_events
+      def make_accessible_all_drag_and_drop_events
         draggable_elements = @parser.find(
           '[ondrag],[ondragstart],[ondragend]'
         ).list_results
@@ -184,7 +184,7 @@ module Hatemile
             draggable_element
           )
 
-          fix_drag(draggable_element)
+          make_accessible_drag_events(draggable_element)
         end
         droppable_elements = @parser.find(
           '[ondrop],[ondragenter],[ondragleave],[ondragover]'
@@ -194,46 +194,46 @@ module Hatemile
             droppable_element
           )
 
-          fix_drop(droppable_element)
+          make_accessible_drop_events(droppable_element)
         end
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_hover
-      def fix_hover(element)
+      # @see Hatemile::AccessibleEvent#make_accessible_hover_events
+      def make_accessible_hover_events(element)
         keyboard_access(element)
 
         add_event_in_element(element, 'hover')
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_hovers
-      def fix_hovers
+      # @see Hatemile::AccessibleEvent#make_accessible_all_hover_events
+      def make_accessible_all_hover_events
         elements = @parser.find('[onmouseover],[onmouseout]').list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_hover(element)
+            make_accessible_hover_events(element)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_active
-      def fix_active(element)
+      # @see Hatemile::AccessibleEvent#make_accessible_click_events
+      def make_accessible_click_events(element)
         keyboard_access(element)
 
         add_event_in_element(element, 'active')
       end
 
       ##
-      # @see Hatemile::AccessibleEvent#fix_actives
-      def fix_actives
+      # @see Hatemile::AccessibleEvent#make_accessible_all_click_events
+      def make_accessible_all_click_events
         elements = @parser.find(
           '[onclick],[onmousedown],[onmouseup],[ondblclick]'
         ).list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_active(element)
+            make_accessible_click_events(element)
           end
         end
       end

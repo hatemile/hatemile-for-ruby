@@ -27,7 +27,7 @@ module Hatemile
     # @abstract
     # @param table [Hatemile::Util::Html::HTMLDOMElement] The table.
     # @return [void]
-    def fix_association_cells_table(table)
+    def associate_data_cells_with_header_cells(table)
       # Interface method
     end
 
@@ -36,7 +36,7 @@ module Hatemile
     #
     # @abstract
     # @return [void]
-    def fix_association_cells_tables
+    def associate_all_data_cells_with_header_cells
       # Interface method
     end
 
@@ -46,7 +46,7 @@ module Hatemile
     # @abstract
     # @param label [Hatemile::Util::Html::HTMLDOMElement] The label.
     # @return [void]
-    def fix_label(label)
+    def associate_label_with_field(label)
       # Interface method
     end
 
@@ -55,7 +55,7 @@ module Hatemile
     #
     # @abstract
     # @return [void]
-    def fix_labels
+    def associate_all_labels_with_fields
       # Interface method
     end
   end

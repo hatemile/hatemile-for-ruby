@@ -40,8 +40,8 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   DATA_IGNORE = 'data-ignoreaccessibilityfix="true"'.freeze
 
   ##
-  # Test fix_required_fields method.
-  def test_fix_required_fields
+  # Test mark_all_required_fields method.
+  def test_mark_all_required_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -61,7 +61,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
     ")
     accessibleform =
       Hatemile::Implementation::AccessibleFormImplementation.new(html_parser)
-    accessibleform.fix_required_fields
+    accessibleform.mark_all_required_fields
     field1 = html_parser.find('#field1').first_result
     field2 = html_parser.find('#field2').first_result
     field3 = html_parser.find('#field3').first_result
@@ -72,8 +72,8 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_range_fields method.
-  def test_fix_range_fields
+  # Test mark_all_range_fields method.
+  def test_mark_all_range_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -99,7 +99,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
     ")
     accessibleform =
       Hatemile::Implementation::AccessibleFormImplementation.new(html_parser)
-    accessibleform.fix_range_fields
+    accessibleform.mark_all_range_fields
     field1 = html_parser.find('#field1').first_result
     field2 = html_parser.find('#field2').first_result
     field3 = html_parser.find('#field3').first_result
@@ -118,8 +118,8 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_autocomplete_fields method.
-  def test_fix_autocomplete_fields
+  # Test mark_all_autocomplete_fields method.
+  def test_mark_all_autocomplete_fields
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -219,7 +219,7 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
     ")
     accessibleform =
       Hatemile::Implementation::AccessibleFormImplementation.new(html_parser)
-    accessibleform.fix_autocomplete_fields
+    accessibleform.mark_all_autocomplete_fields
     field1 = html_parser.find('#field1').first_result
     field2 = html_parser.find('#field2').first_result
     field3 = html_parser.find('#field3').first_result

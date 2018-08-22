@@ -14,81 +14,81 @@
 # The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
   ##
-  # The AccessibleEvent interface fixes accessibility problems associated with
-  # JavaScript events in elements.
+  # The AccessibleEvent interface improve the accessibility, making elements
+  # events available from a keyboard.
   #
   # @abstract
   class AccessibleEvent
     private_class_method :new
 
     ##
-    # Provide a solution for the element that has drop events.
+    # Make the drop events of element available from a keyboard.
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
     #   drop event.
     # @return [void]
-    def fix_drop(element)
+    def make_accessible_drop_events(element)
       # Interface method
     end
 
     ##
-    # Provide a solution for the element that has drag events.
+    # Make the drag events of element available from a keyboard.
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
     #   drag event.
     # @return [void]
-    def fix_drag(element)
+    def make_accessible_drag_events(element)
       # Interface method
     end
 
     ##
-    # Provide a solution for elements that has Drag-and-Drop events.
+    # Make all Drag-and-Drop events of page available from a keyboard.
     #
     # @abstract
     # @return [void]
-    def fix_drags_and_drops
+    def make_accessible_all_drag_and_drop_events
       # Interface method
     end
 
     ##
-    # Provide a solution for the element that has inaccessible hover events.
+    # Make the hover events of element available from a keyboard.
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
     #   hover event.
     # @return [void]
-    def fix_hover(element)
+    def make_accessible_hover_events(element)
       # Interface method
     end
 
     ##
-    # Provide a solution for elements that has inaccessible hover events.
+    # Make all hover events of page available from a keyboard.
     #
     # @abstract
     # @return [void]
-    def fix_hovers
+    def make_accessible_all_hover_events
       # Interface method
     end
 
     ##
-    # Provide a solution for the element that has inaccessible active events.
+    # Make the click events of element available from a keyboard.
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
-    #   active event.
+    #   click events.
     # @return [void]
-    def fix_active(element)
+    def make_accessible_click_events(element)
       # Interface method
     end
 
     ##
-    # Provide a solution for elements that has inaccessible active events.
+    # Make all click events of page available from a keyboard.
     #
     # @abstract
     # @return [void]
-    def fix_actives
+    def make_accessible_all_click_events
       # Interface method
     end
   end

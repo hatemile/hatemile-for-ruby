@@ -199,8 +199,8 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleDisplay#fix_shortcut
-      def fix_shortcut(element)
+      # @see Hatemile::AccessibleDisplay#display_shortcut
+      def display_shortcut(element)
         return unless element.has_attribute?('accesskey')
 
         description = get_description(element)
@@ -230,12 +230,12 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleDisplay#fix_shortcuts
-      def fix_shortcuts
+      # @see Hatemile::AccessibleDisplay#display_all_shortcuts
+      def display_all_shortcuts
         elements = @parser.find('[accesskey]').list_results
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            fix_shortcut(element)
+            display_shortcut(element)
           end
         end
       end

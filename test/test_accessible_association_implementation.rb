@@ -155,9 +155,9 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_association_cells_tables method.
-  def test_fix_association_cells_tables
-    @association.fix_association_cells_tables
+  # Test associate_all_data_cells_with_header_cells method.
+  def test_associate_all_data_cells_with_header_cells
+    @association.associate_all_data_cells_with_header_cells
     t1column11 = @html_parser.find('[data-id=t1column11]').first_result
     t1column12 = @html_parser.find('#t1column12').first_result
     t1column13 = @html_parser.find('#t1column13').first_result
@@ -206,8 +206,8 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_labels method.
-  def test_fix_labels
+  # Test associate_all_labels_with_fields method.
+  def test_associate_all_labels_with_fields
     field1 = @html_parser.find('#field1').first_result
     field2 = @html_parser.find('[name="field2"]').first_result
     field3 = @html_parser.find('#field3').first_result
@@ -216,7 +216,7 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
     field6 = @html_parser.find('#field6').first_result
     field7 = @html_parser.find('#field7').first_result
 
-    @association.fix_labels
+    @association.associate_all_labels_with_fields
 
     label1 = @html_parser.find(
       "##{field1.get_attribute('aria-labelledby')}"

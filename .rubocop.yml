@@ -24,3 +24,6 @@ Naming/AccessorMethodName:
 
 Naming/PredicateName:
   Enabled: false
+
+Metrics/LineLength:
+  IgnoredPatterns: ['\s*#']

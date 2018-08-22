@@ -236,8 +236,8 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleAssociation#fix_association_cells_table
-      def fix_association_cells_table(table)
+      # @see Hatemile::AccessibleAssociation#associate_data_cells_with_header_cells
+      def associate_data_cells_with_header_cells(table)
         header = @parser.find(table).find_children('thead').first_result
         body = @parser.find(table).find_children('tbody').first_result
         footer = @parser.find(table).find_children('tfoot').first_result
@@ -277,19 +277,19 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleAssociation#fix_association_cells_tables
-      def fix_association_cells_tables
+      # @see Hatemile::AccessibleAssociation#associate_all_data_cells_with_header_cells
+      def associate_all_data_cells_with_header_cells
         tables = @parser.find('table').list_results
         tables.each do |table|
           if Hatemile::Util::CommonFunctions.is_valid_element?(table)
-            fix_association_cells_table(table)
+            associate_data_cells_with_header_cells(table)
           end
         end
       end
 
       ##
-      # @see Hatemile::AccessibleAssociation#fix_label
-      def fix_label(label)
+      # @see Hatemile::AccessibleAssociation#associate_label_with_field
+      def associate_label_with_field(label)
         return unless label.get_tag_name == 'LABEL'
 
         if label.has_attribute?('for')
@@ -327,12 +327,12 @@ module Hatemile
       end
 
       ##
-      # @see Hatemile::AccessibleAssociation#fix_labels
-      def fix_labels
+      # @see Hatemile::AccessibleAssociation#associate_all_labels_with_fields
+      def associate_all_labels_with_fields
         labels = @parser.find('label').list_results
         labels.each do |label|
           if Hatemile::Util::CommonFunctions.is_valid_element?(label)
-            fix_label(label)
+            associate_label_with_field(label)
           end
         end
       end

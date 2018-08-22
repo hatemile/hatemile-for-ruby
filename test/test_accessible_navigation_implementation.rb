@@ -52,8 +52,8 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
   CONFIGURE = Hatemile::Util::Configure.new.freeze
 
   ##
-  # Test fix_skippers method.
-  def test_fix_skippers
+  # Test provide_navigation_by_all_skippers method.
+  def test_provide_navigation_by_all_skippers
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -75,7 +75,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         html_parser,
         CONFIGURE
       )
-    navigation.fix_skippers
+    navigation.provide_navigation_by_all_skippers
     body_children = html_parser.find('body').first_result.get_children_elements
     main_element = html_parser.find('main').first_result
     main_id = main_element.get_attribute('id')
@@ -114,8 +114,8 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_headings method.
-  def test_fix_headings
+  # Test provide_navigation_by_all_headings method.
+  def test_provide_navigation_by_all_headings
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -145,7 +145,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         html_parser,
         CONFIGURE
       )
-    navigation.fix_headings
+    navigation.provide_navigation_by_all_headings
     container = html_parser.find('#container-heading').first_result
     headings = html_parser.find('h1, h2, h3, h4').list_results
     container_list = html_parser.find(container).find_descendants(
@@ -181,8 +181,8 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test fix_long_descriptions method.
-  def test_fix_long_descriptions
+  # Test provide_navigation_to_all_long_descriptions method.
+  def test_provide_navigation_to_all_long_descriptions
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html>
@@ -204,7 +204,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         html_parser,
         CONFIGURE
       )
-    navigation.fix_long_descriptions
+    navigation.provide_navigation_to_all_long_descriptions
     long_description_links = html_parser.find(
       '[data-longdescriptionfor]'
     ).list_results

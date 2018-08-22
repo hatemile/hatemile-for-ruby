@@ -14,48 +14,47 @@
 # The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
   ##
-  # The AccessibleNavigation interface fixes accessibility problems associated
-  # with navigation.
+  # The AccessibleNavigation interface improve the accessibility of navigation.
   #
   # @abstract
   class AccessibleNavigation
     private_class_method :new
 
     ##
-    # Provide content skipper for element.
+    # Provide a content skipper for element.
     #
     # @abstract
     # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
     # @return [void]
-    def fix_skipper(element)
+    def provide_navigation_by_skipper(element)
       # Interface method
     end
 
     ##
-    # Provide content skippers.
+    # Provide navigation by content skippers.
     #
     # @abstract
     # @return [void]
-    def fix_skippers
+    def provide_navigation_by_all_skippers
       # Interface method
     end
 
     ##
-    # Provide a navigation by heading.
+    # Provide navigation by heading.
     #
     # @abstract
-    # @param element [Hatemile::Util::Html::HTMLDOMElement] The heading element.
+    # @param heading [Hatemile::Util::Html::HTMLDOMElement] The heading element.
     # @return [void]
-    def fix_heading(element)
+    def provide_navigation_by_heading(heading)
       # Interface method
     end
 
     ##
-    # Provide a navigation by headings.
+    # Provide navigation by headings of page.
     #
     # @abstract
     # @return [void]
-    def fix_headings
+    def provide_navigation_by_all_headings
       # Interface method
     end
 
@@ -63,19 +62,20 @@ module Hatemile
     # Provide an alternative way to access the long description of element.
     #
     # @abstract
-    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
-    #   long description.
+    # @param image [Hatemile::Util::Html::HTMLDOMElement] The image with long
+    #   description.
     # @return [void]
-    def fix_long_description(element)
+    def provide_navigation_to_long_description(image)
       # Interface method
     end
 
     ##
-    # Provide an alternative way to access the longs descriptions of elements.
+    # Provide an alternative way to access the longs descriptions of all
+    # elements of page.
     #
     # @abstract
     # @return [void]
-    def fix_long_descriptions
+    def provide_navigation_to_all_long_descriptions
       # Interface method
     end
   end
