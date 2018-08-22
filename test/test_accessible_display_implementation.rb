@@ -58,9 +58,9 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <a href=\"https://github.com/hatemile/\" accesskey=\"r\">
             HaTeMiLe in Github
@@ -125,9 +125,9 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <div id=\"container-shortcuts\"></div>
           <a href=\"https://github.com/hatemile/\" accesskey=\"r\">

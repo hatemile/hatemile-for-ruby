@@ -47,9 +47,9 @@ class TestAccessibleAssociationImplementation < Test::Unit::TestCase
       "<!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <table id=\"table1\">
             <thead>

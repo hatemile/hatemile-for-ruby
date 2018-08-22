@@ -46,9 +46,9 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <label for=\"field1\">Field1</label>
           <input type=\"text\" id=\"field1\" required />
@@ -78,9 +78,9 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <label for=\"field1\">Field1</label>
           <input type=\"number\" min=\"0\" id=\"field1\" />
@@ -124,9 +124,9 @@ class TestAccessibleFormImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <!-- Autocomplete ON -->
           <label for=\"field1\">Field1</label>

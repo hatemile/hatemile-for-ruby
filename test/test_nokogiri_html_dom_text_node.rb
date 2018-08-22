@@ -33,61 +33,61 @@ class TestNokogiriHTMLDOMTextNode < Test::Unit::TestCase
   def setup
     @html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new(
       "<!DOCTYPE html>
-	    <html>
-		    <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
-		    <body>
-		      <section>
-		        <header></header>
-		        <article>
-		        \n
-		        </article>
-		        <footer><!-- Footer --></footer>
-		      </section>
-		      <span attribute=\"value\" data-attribute=\"custom_value\">
-		        <!-- Comment -->
-		        Text node
-		        <strong>Strong text</strong>
-		        <hr />
-		      </span>
-		      <div></div>
-		      <p>
-		        <del>Deleted text</del>
-		      </p>
-		      <table>
-		        <thead><tr>
-		          <th>Table header</th>
-		        </tr></thead>
-		        <tbody class=\"table-body\">
-		          <tr>
-		            <td>Table <ins>cell</ins></td>
-		          </tr>
-		        </tbody>
-		        <tfoot><!-- Table footer --></tfoot>
-		      </table>
-		      <ul>
-		        <li id=\"li-1\">1</li>
-		        <li id=\"li-3\">3</li>
-		      </ul>
-		      <ol>
-		        <li>1</li>
-		        <li>2</li>
-		        <li>3</li>
-		        <li>4</li>
-		        <li>5</li>
-		      </ol>
-		      <form>
-		        <label>
-		          Text:
-		          <input type=\"text\" name=\"number\" />
-		        </label>
-		      </form>
-		      <h1></h1>
-		      <h2></h2>
-		    </body>
-		  </html>"
+      <html>
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <section>
+            <header></header>
+            <article>
+            \n
+            </article>
+            <footer><!-- Footer --></footer>
+          </section>
+          <span attribute=\"value\" data-attribute=\"custom_value\">
+            <!-- Comment -->
+            Text node
+            <strong>Strong text</strong>
+            <hr />
+          </span>
+          <div></div>
+          <p>
+            <del>Deleted text</del>
+          </p>
+          <table>
+            <thead><tr>
+              <th>Table header</th>
+            </tr></thead>
+            <tbody class=\"table-body\">
+              <tr>
+                <td>Table <ins>cell</ins></td>
+              </tr>
+            </tbody>
+            <tfoot><!-- Table footer --></tfoot>
+          </table>
+          <ul>
+            <li id=\"li-1\">1</li>
+            <li id=\"li-3\">3</li>
+          </ul>
+          <ol>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+          </ol>
+          <form>
+            <label>
+              Text:
+              <input type=\"text\" name=\"number\" />
+            </label>
+          </form>
+          <h1></h1>
+          <h2></h2>
+        </body>
+      </html>"
     )
   end
 

@@ -80,7 +80,7 @@ class TestCommonFunctions < Test::Unit::TestCase
       <html>
         <head>
           <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
+          <meta charset=\"UTF-8\" />
         </head>
         <body>
           <table>

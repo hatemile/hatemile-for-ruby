@@ -58,9 +58,9 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <main>Main content</main>
           <div id=\"container-shortcuts\">Container of shortcuts</div>
@@ -120,9 +120,9 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <div>
             <h1><span>Heading 1</span></h1>
@@ -187,9 +187,9 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
       <!DOCTYPE html>
       <html>
         <head>
-			    <title>HaTeMiLe Tests</title>
-			    <meta charset=\"UTF-8\" />
-		    </head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
         <body>
           <img src=\"i1.jpg\" alt=\"I1\" />
           <img src=\"i2.jpg\" alt=\"I2\" longdesc=\"i2.html\" />
