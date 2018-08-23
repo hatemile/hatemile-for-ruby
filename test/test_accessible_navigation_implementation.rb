@@ -206,27 +206,21 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
       )
     navigation.provide_navigation_to_all_long_descriptions
     long_description_links = html_parser.find(
-      '[data-longdescriptionfor]'
+      '[data-attributelongdescriptionof]'
     ).list_results
     image2_link = long_description_links.first
     image2 = html_parser.find(
-      '#' + image2_link.get_attribute('data-longdescriptionfor')
+      '#' + image2_link.get_attribute('data-attributelongdescriptionof')
     ).first_result
-    image3_link = long_description_links[1]
+    image3_link = long_description_links.last
     image3 = html_parser.find(
-      '#' + image3_link.get_attribute('data-longdescriptionfor')
-    ).first_result
-    image4_link = long_description_links.last
-    image4 = html_parser.find(
-      '#' + image4_link.get_attribute('data-longdescriptionfor')
+      '#' + image3_link.get_attribute('data-attributelongdescriptionof')
     ).first_result
 
-    assert_equal(3, long_description_links.length)
+    assert_equal(2, long_description_links.length)
     assert_equal('i2.jpg', image2.get_attribute('src'))
     assert_equal('i3.jpg', image3.get_attribute('src'))
-    assert_equal('i4.jpg', image4.get_attribute('src'))
-    assert_equal('I2 [d]', image2_link.get_text_content)
-    assert_equal('[d]', image3_link.get_text_content)
-    assert_equal('[d]', image4_link.get_text_content)
+    assert_equal(' (Long description of I2)', image2_link.get_text_content)
+    assert_equal(' (Long description of )', image3_link.get_text_content)
   end
 end
