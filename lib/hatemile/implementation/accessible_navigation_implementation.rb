@@ -430,7 +430,7 @@ module Hatemile
       ##
       # @see Hatemile::AccessibleNavigation#provide_navigation_to_long_description
       def provide_navigation_to_long_description(image)
-        unless image.has_attribute?('longdesc') and image.has_attribute?('alt')
+        unless image.has_attribute?('longdesc') && image.has_attribute?('alt')
           return
         end
 
@@ -444,10 +444,8 @@ module Hatemile
           /[ \n\t\r]+/,
           ' '
         ).strip
-        unless (
-          @attribute_long_description_prefix_before.empty? &&
-          @attribute_long_description_suffix_before.empty?
-        )
+        unless @attribute_long_description_prefix_before.empty? &&
+               @attribute_long_description_suffix_before.empty?
           before_text = "#{@attribute_long_description_prefix_before}" \
                         "#{alternative_text}" \
                         "#{@attribute_long_description_suffix_before}"
@@ -459,10 +457,8 @@ module Hatemile
           before_anchor.append_text(before_text)
           image.insert_after(before_anchor)
         end
-        unless (
-          @attribute_long_description_prefix_after.empty? &&
-          @attribute_long_description_suffix_after.empty?
-        )
+        unless @attribute_long_description_prefix_after.empty? &&
+               @attribute_long_description_suffix_after.empty?
           after_text = "#{@attribute_long_description_prefix_after}" \
                         "#{alternative_text}" \
                         "#{@attribute_long_description_suffix_after}"
