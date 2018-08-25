@@ -437,28 +437,28 @@ module Hatemile
             super_item_before = @parser.find(
               @list_heading_before
             ).find_descendants(selector).last_result
-            unless super_item_before.nil?
-              list_before = @parser.find(
-                super_item_before
-              ).find_children('ol').first_result
-              if list_before.nil?
-                list_before = @parser.create_element('ol')
-                super_item_before.append_element(list_before)
-              end
+          end
+          unless super_item_before.nil?
+            list_before = @parser.find(
+              super_item_before
+            ).find_children('ol').first_result
+            if list_before.nil?
+              list_before = @parser.create_element('ol')
+              super_item_before.append_element(list_before)
             end
           end
           unless @list_heading_after.nil?
             super_item_after = @parser.find(
               @list_heading_after
             ).find_descendants(selector).last_result
-            unless super_item_after.nil?
-              list_after = @parser.find(
-                super_item_after
-              ).find_children('ol').first_result
-              if list_after.nil?
-                list_after = @parser.create_element('ol')
-                super_item_after.append_element(list_after)
-              end
+          end
+          unless super_item_after.nil?
+            list_after = @parser.find(
+              super_item_after
+            ).find_children('ol').first_result
+            if list_after.nil?
+              list_after = @parser.create_element('ol')
+              super_item_after.append_element(list_after)
             end
           end
         end
@@ -471,12 +471,8 @@ module Hatemile
         link.append_text(heading.get_text_content)
         item.append_element(link)
 
-        unless list_before.nil?
-          list_before.append_element(item.clone_element)
-        end
-        unless list_after.nil?
-          list_after.append_element(item.clone_element)
-        end
+        list_before.append_element(item.clone_element) unless list_before.nil?
+        list_after.append_element(item.clone_element) unless list_after.nil?
       end
 
       ##
