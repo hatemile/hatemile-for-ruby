@@ -104,6 +104,12 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     reference_i = html_parser.find(
       '[data-attributeaccesskeyof="I"]'
     ).first_result
+    shortcut_description_r = html_parser.find(accesskey_r).find_children(
+      '[data-attributeaccesskeyof]'
+    ).first_result
+    shortcut_description_f = html_parser.find('[for="field1"]').find_children(
+      '[data-attributeaccesskeyof]'
+    ).first_result
 
     assert_not_nil(html_parser.find('#container-shortcuts-after').first_result)
     assert_equal('HaTeMiLe in Github', accesskey_r.get_attribute('title'))
@@ -122,6 +128,14 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       reference_s.get_text_content
     )
     assert_nil(reference_i)
+    assert_equal(
+      ' (Keyboard shortcut: ACCESS KEY PREFIX + R)',
+      shortcut_description_r.get_text_content
+    )
+    assert_equal(
+      ' (Keyboard shortcut: ACCESS KEY PREFIX + F)',
+      shortcut_description_f.get_text_content
+    )
   end
 
   ##
