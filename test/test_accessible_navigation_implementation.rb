@@ -64,7 +64,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         <body>
           <main>Main content</main>
           <div id=\"container-shortcuts\">Container of shortcuts</div>
-          <div id=\"container-heading\" #{DATA_IGNORE}>
+          <div id=\"container-heading-after\" #{DATA_IGNORE}>
             Container of headings
           </div>
         </body>
@@ -94,7 +94,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
       "#container-skippers a[href=\"##{container_shortcuts_id}\"]"
     ).first_result
     container_heading_anchor = html_parser.find(
-      '[data-anchorfor="container-heading"]'
+      '[data-anchorfor="container-heading-after"]'
     ).first_result
 
     assert_not_nil(html_parser.find('#container-skippers').first_result)
@@ -146,7 +146,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         CONFIGURE
       )
     navigation.provide_navigation_by_all_headings
-    container = html_parser.find('#container-heading').first_result
+    container = html_parser.find('#container-heading-after').first_result
     headings = html_parser.find('h1, h2, h3, h4').list_results
     container_list = html_parser.find(container).find_descendants(
       '[data-headinglevel]'

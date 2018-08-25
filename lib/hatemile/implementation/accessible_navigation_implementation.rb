@@ -41,12 +41,18 @@ module Hatemile
       ID_CONTAINER_SKIPPERS = 'container-skippers'.freeze
 
       ##
-      # The id of list element that contains the links for the headings.
-      ID_CONTAINER_HEADING = 'container-heading'.freeze
+      # The id of list element that contains the links for the headings, before
+      # the whole content of page.
+      ID_CONTAINER_HEADING_BEFORE = 'container-heading-before'.freeze
 
       ##
-      # The id of text of description of container of heading links.
-      ID_TEXT_HEADING = 'text-heading'.freeze
+      # The id of list element that contains the links for the headings, after
+      # the whole content of page.
+      ID_CONTAINER_HEADING_AFTER = 'container-heading-after'.freeze
+
+      ##
+      # The HTML class of text of description of container of heading links.
+      CLASS_TEXT_HEADING = 'text-heading'.freeze
 
       ##
       # The HTML class of anchor of skipper.
@@ -115,34 +121,60 @@ module Hatemile
 
       ##
       # Generate the list of heading links of page.
-      #
-      # @return [Hatemile::Util::Html::HTMLDOMElement] The list of heading links
-      #   of page.
       def generate_list_heading
-        container = @parser.find("##{ID_CONTAINER_HEADING}").first_result
-        html_list = nil
-        if container.nil?
-          local = @parser.find('body').first_result
-          unless local.nil?
-            container = @parser.create_element('div')
-            container.set_attribute('id', ID_CONTAINER_HEADING)
+        local = @parser.find('body').first_result
 
-            text_container = @parser.create_element('span')
-            text_container.set_attribute('id', ID_TEXT_HEADING)
-            text_container.append_text(@text_heading)
+        return if local.nil?
 
-            container.append_element(text_container)
-            local.append_element(container)
+        container_before = @parser.find(
+          "##{ID_CONTAINER_HEADING_BEFORE}"
+        ).first_result
+        if container_before.nil? && !@elements_heading_before.empty?
+          container_before = @parser.create_element('div')
+          container_before.set_attribute('id', ID_CONTAINER_HEADING_BEFORE)
+
+          text_container_before = @parser.create_element('span')
+          text_container_before.set_attribute('class', CLASS_TEXT_HEADING)
+          text_container_before.append_text(@elements_heading_before)
+
+          container_before.append_element(text_container_before)
+          local.prepend_element(container_before)
+        end
+        unless container_before.nil?
+          @list_heading_before = @parser.find(
+            container_before
+          ).find_children('ol').first_result
+          if @list_heading_before.nil?
+            @list_heading_before = @parser.create_element('ol')
+            container_before.append_element(@list_heading_before)
           end
         end
-        unless container.nil?
-          html_list = @parser.find(container).find_children('ol').first_result
-          if html_list.nil?
-            html_list = @parser.create_element('ol')
-            container.append_element(html_list)
+
+        container_after = @parser.find(
+          "##{ID_CONTAINER_HEADING_AFTER}"
+        ).first_result
+        if container_after.nil? && !@elements_heading_after.empty?
+          container_after = @parser.create_element('div')
+          container_after.set_attribute('id', ID_CONTAINER_HEADING_AFTER)
+
+          text_container_after = @parser.create_element('span')
+          text_container_after.set_attribute('class', CLASS_TEXT_HEADING)
+          text_container_after.append_text(@elements_heading_after)
+
+          container_after.append_element(text_container_after)
+          local.append_element(container_after)
+        end
+        unless container_after.nil?
+          @list_heading_after = @parser.find(
+            container_after
+          ).find_children('ol').first_result
+          if @list_heading_after.nil?
+            @list_heading_after = @parser.create_element('ol')
+            container_after.append_element(@list_heading_after)
           end
         end
-        html_list
+
+        @list_heading_added = true
       end
 
       ##
@@ -294,7 +326,12 @@ module Hatemile
       def initialize(parser, configure, skipper_file_name = nil)
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('navigation')
-        @text_heading = configure.get_parameter('text-heading')
+        @elements_heading_before = configure.get_parameter(
+          'elements-heading-before'
+        )
+        @elements_heading_after = configure.get_parameter(
+          'elements-heading-after'
+        )
         @attribute_long_description_prefix_before = configure.get_parameter(
           'attribute-longdescription-prefix-before'
         )
@@ -309,9 +346,12 @@ module Hatemile
         )
         @skippers = get_skippers(configure, skipper_file_name)
         @list_skippers_added = false
+        @list_heading_added = false
         @validate_heading = false
         @valid_heading = false
         @list_skippers = nil
+        @list_heading_before = nil
+        @list_heading_after = nil
       end
 
       ##
@@ -371,58 +411,81 @@ module Hatemile
 
       ##
       # @see Hatemile::AccessibleNavigation#provide_navigation_by_heading
-      def provide_navigation_by_heading(element)
+      def provide_navigation_by_heading(heading)
         @valid_heading = valid_heading? unless @validate_heading
 
         return unless @valid_heading
 
         anchor = generate_anchor_for(
-          element,
+          heading,
           DATA_HEADING_ANCHOR_FOR,
           CLASS_HEADING_ANCHOR
         )
 
         return if anchor.nil?
 
-        list = nil
-        level = get_heading_level(element)
+        generate_list_heading unless @list_heading_added
+        list_before = nil
+        list_after = nil
+        level = get_heading_level(heading)
         if level == 1
-          list = generate_list_heading
+          list_before = @list_heading_before
+          list_after = @list_heading_after
         else
-          super_item = @parser.find(
-            "##{ID_CONTAINER_HEADING}"
-          ).find_descendants(
-            "[#{DATA_HEADING_LEVEL}=\"#{level - 1}\"]"
-          ).last_result
-          unless super_item.nil?
-            list = @parser.find(super_item).find_children('ol').first_result
-            if list.nil?
-              list = @parser.create_element('ol')
-              super_item.append_element(list)
+          selector = "[#{DATA_HEADING_LEVEL}=\"#{level - 1}\"]"
+          unless @list_heading_before.nil?
+            super_item_before = @parser.find(
+              @list_heading_before
+            ).find_descendants(selector).last_result
+            unless super_item_before.nil?
+              list_before = @parser.find(
+                super_item_before
+              ).find_children('ol').first_result
+              if list_before.nil?
+                list_before = @parser.create_element('ol')
+                super_item_before.append_element(list_before)
+              end
+            end
+          end
+          unless @list_heading_after.nil?
+            super_item_after = @parser.find(
+              @list_heading_after
+            ).find_descendants(selector).last_result
+            unless super_item_after.nil?
+              list_after = @parser.find(
+                super_item_after
+              ).find_children('ol').first_result
+              if list_after.nil?
+                list_after = @parser.create_element('ol')
+                super_item_after.append_element(list_after)
+              end
             end
           end
         end
-
-        return if list.nil?
 
         item = @parser.create_element('li')
         item.set_attribute(DATA_HEADING_LEVEL, level.to_s)
 
         link = @parser.create_element('a')
         link.set_attribute('href', "##{anchor.get_attribute('name')}")
-        link.append_text(element.get_text_content)
-
+        link.append_text(heading.get_text_content)
         item.append_element(link)
-        list.append_element(item)
+
+        unless list_before.nil?
+          list_before.append_element(item.clone_element)
+        end
+        unless list_after.nil?
+          list_after.append_element(item.clone_element)
+        end
       end
 
       ##
       # @see Hatemile::AccessibleNavigation#provide_navigation_by_all_headings
       def provide_navigation_by_all_headings
-        elements = @parser.find('h1,h2,h3,h4,h5,h6').list_results
-        elements.each do |element|
-          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
-            provide_navigation_by_heading(element)
+        headings = @parser.find('h1,h2,h3,h4,h5,h6').list_results
+        headings.each do |heading|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(heading)
+            provide_navigation_by_heading(heading)
           end
         end
       end

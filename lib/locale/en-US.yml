@@ -2,11 +2,12 @@ en-US:
   hatemile:
     text-shortcuts: "Shortcuts:"
     text-standart-shortcut-prefix: "ALT"
-    text-heading: "Summary:"
     attribute-longdescription-prefix-before: ""
     attribute-longdescription-suffix-before: ""
     attribute-longdescription-prefix-after: " (Long description of "
     attribute-longdescription-suffix-after: ")"
+    elements-heading-before: ""
+    elements-heading-after: "Table of contents"
     skipper-main-content: "Go to main content"
     skipper-shortcuts-list: "Go to shortcuts list"
     skipper-table-contents: "Go to table of contents"
