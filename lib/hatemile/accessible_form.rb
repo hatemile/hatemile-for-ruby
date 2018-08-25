@@ -78,5 +78,24 @@ module Hatemile
     def mark_all_autocomplete_fields
       # Interface method
     end
+
+    ##
+    # Mark a solution to display that this field is invalid.
+    #
+    # @abstract
+    # @param field [Hatemile::Util::Html::HTMLDOMElement] The field.
+    # @return [void]
+    def mark_invalid_field(field)
+      # Interface method
+    end
+
+    ##
+    # Mark a solution to display that a fields are invalid.
+    #
+    # @abstract
+    # @return [void]
+    def mark_all_invalid_fields
+      # Interface method
+    end
   end
 end

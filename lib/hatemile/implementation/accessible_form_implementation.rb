@@ -11,6 +11,7 @@
 # limitations under the License.
 
 require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_form')
+require File.join(File.dirname(__FILE__), 'accessible_event_implementation')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
@@ -34,6 +35,60 @@ module Hatemile
     # AccessibleForm interface.
     class AccessibleFormImplementation < AccessibleForm
       public_class_method :new
+
+      ##
+      # The ID of script element that contains the list of IDs of fields with
+      # validation.
+      ID_SCRIPT_LIST_VALIDATION_FIELDS =
+        'hatemile-scriptlist-validation-fields'.freeze
+
+      ##
+      # The ID of script element that execute validations on fields.
+      ID_SCRIPT_EXECUTE_VALIDATION = 'hatemile-validation-script'.freeze
+
+      ##
+      # The client-site required fields list.
+      REQUIRED_FIELDS_LIST = 'required_fields'.freeze
+
+      ##
+      # The client-site pattern fields list.
+      PATTERN_FIELDS_LIST = 'pattern_fields'.freeze
+
+      ##
+      # The client-site fields with length list.
+      LIMITED_FIELDS_LIST = 'fields_with_length'.freeze
+
+      ##
+      # The client-site range fields list.
+      RANGE_FIELDS_LIST = 'range_fields'.freeze
+
+      ##
+      # The client-site week fields list.
+      WEEK_FIELDS_LIST = 'week_fields'.freeze
+
+      ##
+      # The client-site month fields list.
+      MONTH_FIELDS_LIST = 'month_fields'.freeze
+
+      ##
+      # The client-site datetime fields list.
+      DATETIME_FIELDS_LIST = 'datetime_fields'.freeze
+
+      ##
+      # The client-site time fields list.
+      TIME_FIELDS_LIST = 'time_fields'.freeze
+
+      ##
+      # The client-site date fields list.
+      DATE_FIELDS_LIST = 'date_fields'.freeze
+
+      ##
+      # The client-site email fields list.
+      EMAIL_FIELDS_LIST = 'email_fields'.freeze
+
+      ##
+      # The client-site URL fields list.
+      URL_FIELDS_LIST = 'url_fields'.freeze
 
       protected
 
@@ -88,6 +143,89 @@ module Hatemile
         nil
       end
 
+      ##
+      # Include the scripts used by solutions.
+      def generate_validation_scripts
+        local = @parser.find('head,body').first_result
+        unless local.nil?
+          if @parser.find(
+            "##{AccessibleEventImplementation::ID_SCRIPT_COMMON_FUNCTIONS}"
+          ).first_result.nil?
+            common_functions_script = @parser.create_element('script')
+            common_functions_script.set_attribute(
+              'id',
+              AccessibleEventImplementation::ID_SCRIPT_COMMON_FUNCTIONS
+            )
+            common_functions_script.set_attribute('type', 'text/javascript')
+            common_functions_script.append_text(
+              File.read(
+                File.join(
+                  File.dirname(File.dirname(File.dirname(__FILE__))),
+                  'js',
+                  'common.js'
+                )
+              )
+            )
+            local.prepend_element(common_functions_script)
+          end
+        end
+        @script_list_fields_with_validation = @parser.find(
+          "##{ID_SCRIPT_LIST_VALIDATION_FIELDS}"
+        ).first_result
+        if @script_list_fields_with_validation.nil?
+          @script_list_fields_with_validation = @parser.create_element('script')
+          @script_list_fields_with_validation.set_attribute(
+            'id',
+            ID_SCRIPT_LIST_VALIDATION_FIELDS
+          )
+          @script_list_fields_with_validation.set_attribute(
+            'type',
+            'text/javascript'
+          )
+          @script_list_fields_with_validation.append_text(
+            File.read(
+              File.join(
+                File.dirname(File.dirname(File.dirname(__FILE__))),
+                'js',
+                'scriptlist_validation_fields.js'
+              )
+            )
+          )
+          local.append_element(@script_list_fields_with_validation)
+        end
+        if @parser.find("##{ID_SCRIPT_EXECUTE_VALIDATION}").first_result.nil?
+          script_function = @parser.create_element('script')
+          script_function.set_attribute('id', ID_SCRIPT_EXECUTE_VALIDATION)
+          script_function.set_attribute('type', 'text/javascript')
+          script_function.append_text(
+            File.read(
+              File.join(
+                File.dirname(File.dirname(File.dirname(__FILE__))),
+                'js',
+                'validation.js'
+              )
+            )
+          )
+          @parser.find('body').first_result.append_element(script_function)
+        end
+        @scripts_added = true
+      end
+
+      ##
+      # Validate the field when its value change.
+      #
+      # @param field [Hatemile::Util::Html::HTMLDOMElement] The field.
+      # @param list_attribute [String] The list attribute of field with
+      #   validation.
+      def validate(field, list_attribute)
+        generate_validation_scripts unless @scripts_added
+        @id_generator.generate_id(field)
+        @script_list_fields_with_validation.append_text(
+          "hatemileValidationList.#{list_attribute}.push(" \
+          "'#{field.get_attribute('id')}');"
+        )
+      end
+
       public
 
       ##
@@ -98,6 +236,8 @@ module Hatemile
       def initialize(parser)
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('form')
+        @scripts_added = false
+        @script_list_fields_with_validation = nil
       end
 
       ##
@@ -168,6 +308,67 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             mark_autocomplete_field(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleForm#mark_invalid_field
+      def mark_invalid_field(field)
+        if field.has_attribute?('required') ||
+           (
+             field.has_attribute?('aria-required') &&
+             field.get_attribute('aria-required').casecmp('true').zero?
+           )
+          validate(field, REQUIRED_FIELDS_LIST)
+        end
+        validate(field, PATTERN_FIELDS_LIST) if field.has_attribute?('pattern')
+        if field.has_attribute?('minlength') ||
+           field.has_attribute?('maxlength')
+          validate(field, LIMITED_FIELDS_LIST)
+        end
+        if field.has_attribute?('aria-valuemin') ||
+           field.has_attribute?('aria-valuemax')
+          validate(field, RANGE_FIELDS_LIST)
+        end
+
+        return unless field.has_attribute?('type')
+
+        type_field = field.get_attribute('type').downcase
+        if type_field == 'week'
+          validate(field, WEEK_FIELDS_LIST)
+        elsif type_field == 'month'
+          validate(field, MONTH_FIELDS_LIST)
+        elsif %w[datetime-local datetime].include?(type_field)
+          validate(field, DATETIME_FIELDS_LIST)
+        elsif type_field == 'time'
+          validate(field, TIME_FIELDS_LIST)
+        elsif type_field == 'date'
+          validate(field, DATE_FIELDS_LIST)
+        elsif %w[number range].include?(type_field)
+          validate(field, RANGE_FIELDS_LIST)
+        elsif type_field == 'email'
+          validate(field, EMAIL_FIELDS_LIST)
+        elsif type_field == 'url'
+          validate(field, AccessibleFormImplementation.URL_FIELDS_LIST)
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleForm#mark_all_invalid_fields
+      def mark_all_invalid_fields
+        fields = @parser.find(
+          '[required],input[pattern],input[minlength],input[maxlength],' \
+          'textarea[minlength],textarea[maxlength],input[type=week],' \
+          'input[type=month],input[type=datetime-local],' \
+          'input[type=datetime],input[type=time],input[type=date],' \
+          'input[type=number],input[type=range],input[type=email],' \
+          'input[type=url],[aria-required=true],input[aria-valuemin],' \
+          'input[aria-valuemax]'
+        ).list_results
+        fields.each do |field|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(field)
+            mark_invalid_field(field)
           end
         end
       end

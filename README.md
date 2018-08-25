@@ -191,6 +191,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     forms.mark_all_autocomplete_fields
     forms.mark_all_range_fields
     forms.mark_all_required_fields
+    forms.mark_all_invalid_fields
 
     association.associate_all_data_cells_with_header_cells
     association.associate_all_labels_with_fields
