@@ -90,31 +90,37 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     accesskey_s = html_parser.find('[accesskey="s"]').first_result
     accesskey_i = html_parser.find('[accesskey="i"]').first_result
     reference_r = html_parser.find(
-      '[data-shortcutdescriptionfor="R"]'
+      '[data-attributeaccesskeyof="R"]'
     ).first_result
     reference_w = html_parser.find(
-      '[data-shortcutdescriptionfor="W"]'
+      '[data-attributeaccesskeyof="W"]'
     ).first_result
     reference_f = html_parser.find(
-      '[data-shortcutdescriptionfor="F"]'
+      '[data-attributeaccesskeyof="F"]'
     ).first_result
     reference_s = html_parser.find(
-      '[data-shortcutdescriptionfor="S"]'
+      '[data-attributeaccesskeyof="S"]'
     ).first_result
     reference_i = html_parser.find(
-      '[data-shortcutdescriptionfor="I"]'
+      '[data-attributeaccesskeyof="I"]'
     ).first_result
 
-    assert_not_nil(html_parser.find('#container-shortcuts').first_result)
+    assert_not_nil(html_parser.find('#container-shortcuts-after').first_result)
     assert_equal('HaTeMiLe in Github', accesskey_r.get_attribute('title'))
     assert_equal('Site', accesskey_w.get_attribute('title'))
     assert_equal('Field1', accesskey_f.get_attribute('title'))
     assert_equal('Submit', accesskey_s.get_attribute('title'))
     assert(!accesskey_i.has_attribute?('title'))
-    assert_equal('ALT + R: HaTeMiLe in Github', reference_r.get_text_content)
-    assert_equal('ALT + W: Site', reference_w.get_text_content)
-    assert_equal('ALT + F: Field1', reference_f.get_text_content)
-    assert_equal('ALT + S: Submit', reference_s.get_text_content)
+    assert_equal(
+      'ACCESS KEY PREFIX + R: HaTeMiLe in Github',
+      reference_r.get_text_content
+    )
+    assert_equal('ACCESS KEY PREFIX + W: Site', reference_w.get_text_content)
+    assert_equal('ACCESS KEY PREFIX + F: Field1', reference_f.get_text_content)
+    assert_equal(
+      'ACCESS KEY PREFIX + S: Submit',
+      reference_s.get_text_content
+    )
     assert_nil(reference_i)
   end
 
@@ -129,7 +135,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
           <meta charset=\"UTF-8\" />
         </head>
         <body>
-          <div id=\"container-shortcuts\"></div>
+          <div id=\"container-shortcuts-after\"></div>
           <a href=\"https://github.com/hatemile/\" accesskey=\"r\">
             HaTeMiLe in Github
           </a>
@@ -158,23 +164,23 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     accesskey_s = html_parser.find('[accesskey="s"]').first_result
     accesskey_i = html_parser.find('[accesskey="i"]').first_result
     reference_r = html_parser.find(
-      '#container-shortcuts [data-shortcutdescriptionfor="R"]'
+      '#container-shortcuts-after [data-attributeaccesskeyof="R"]'
     ).first_result
     reference_w = html_parser.find(
-      '#container-shortcuts [data-shortcutdescriptionfor="W"]'
+      '#container-shortcuts-after [data-attributeaccesskeyof="W"]'
     ).first_result
     reference_f = html_parser.find(
-      '#container-shortcuts [data-shortcutdescriptionfor="F"]'
+      '#container-shortcuts-after [data-attributeaccesskeyof="F"]'
     ).first_result
     reference_s = html_parser.find(
-      '#container-shortcuts [data-shortcutdescriptionfor="S"]'
+      '#container-shortcuts-after [data-attributeaccesskeyof="S"]'
     ).first_result
     reference_i = html_parser.find(
-      '#container-shortcuts [data-shortcutdescriptionfor="I"]'
+      '#container-shortcuts-after [data-attributeaccesskeyof="I"]'
     ).first_result
 
     assert_equal(
-      'container-shortcuts',
+      'container-shortcuts-after',
       html_parser.find(
         'body'
       ).first_result.get_first_element_child.get_attribute('id')
@@ -184,10 +190,13 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     assert_equal('Field1', accesskey_f.get_attribute('title'))
     assert_equal('Submit', accesskey_s.get_attribute('title'))
     assert(!accesskey_i.has_attribute?('title'))
-    assert_equal('ALT + R: HaTeMiLe in Github', reference_r.get_text_content)
-    assert_equal('ALT + W: Site', reference_w.get_text_content)
-    assert_equal('ALT + F: Field1', reference_f.get_text_content)
-    assert_equal('ALT + S: Submit', reference_s.get_text_content)
+    assert_equal(
+      'ACCESS KEY PREFIX + R: HaTeMiLe in Github',
+      reference_r.get_text_content
+    )
+    assert_equal('ACCESS KEY PREFIX + W: Site', reference_w.get_text_content)
+    assert_equal('ACCESS KEY PREFIX + F: Field1', reference_f.get_text_content)
+    assert_equal('ACCESS KEY PREFIX + S: Submit', reference_s.get_text_content)
     assert_nil(reference_i)
   end
 end

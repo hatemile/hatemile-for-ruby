@@ -37,16 +37,23 @@ module Hatemile
       public_class_method :new
 
       ##
-      # The id of list element that contains the description of shortcuts.
-      ID_CONTAINER_SHORTCUTS = 'container-shortcuts'.freeze
+      # The id of list element that contains the description of shortcuts,
+      # before the whole content of page.
+      ID_CONTAINER_SHORTCUTS_BEFORE = 'container-shortcuts-before'.freeze
 
       ##
-      # The id of text of description of container of shortcuts descriptions.
-      ID_TEXT_SHORTCUTS = 'text-shortcuts'.freeze
+      # The id of list element that contains the description of shortcuts, after
+      # the whole content of page.
+      ID_CONTAINER_SHORTCUTS_AFTER = 'container-shortcuts-after'.freeze
 
       ##
-      # The name of attribute that link the list item element with the shortcut.
-      DATA_ACCESS_KEY = 'data-shortcutdescriptionfor'.freeze
+      # The HTML class of text of description of container of shortcuts
+      # descriptions.
+      CLASS_TEXT_SHORTCUTS = 'text-shortcuts'.freeze
+
+      ##
+      # The name of attribute that links the description of shortcut of element.
+      DATA_ATTRIBUTE_ACCESSKEY_OF = 'data-attributeaccesskeyof'.freeze
 
       protected
 
@@ -113,36 +120,59 @@ module Hatemile
       ##
       # Generate the list of shortcuts of page.
       #
-      # @return [Hatemile::Util::Html::HTMLDOMElement] The list of shortcuts of
-      #   page.
+      # @return [void]
       def generate_list_shortcuts
-        container = @parser.find("##{ID_CONTAINER_SHORTCUTS}").first_result
+        local = @parser.find('body').first_result
 
-        html_list = nil
-        if container.nil?
-          local = @parser.find('body').first_result
-          unless local.nil?
-            container = @parser.create_element('div')
-            container.set_attribute('id', ID_CONTAINER_SHORTCUTS)
+        return if local.nil?
 
-            text_container = @parser.create_element('span')
-            text_container.set_attribute('id', ID_TEXT_SHORTCUTS)
-            text_container.append_text(@text_shortcuts)
+        container_before = @parser.find(
+          "##{ID_CONTAINER_SHORTCUTS_BEFORE}"
+        ).first_result
+        if container_before.nil? && !@attribute_accesskey_before.empty?
+          container_before = @parser.create_element('div')
+          container_before.set_attribute('id', ID_CONTAINER_SHORTCUTS_BEFORE)
 
-            container.append_element(text_container)
-            local.append_element(container)
+          text_container_before = @parser.create_element('span')
+          text_container_before.set_attribute('class', CLASS_TEXT_SHORTCUTS)
+          text_container_before.append_text(@attribute_accesskey_before)
+
+          container_before.append_element(text_container_before)
+          local.prepend_element(container_before)
+        end
+        unless container_before.nil?
+          @list_shortcuts_before = @parser.find(
+            container_before
+          ).find_children('ul').first_result
+          if @list_shortcuts_before.nil?
+            @list_shortcuts_before = @parser.create_element('ul')
+            container_before.append_element(@list_shortcuts_before)
           end
         end
-        unless container.nil?
-          html_list = @parser.find(container).find_children('ul').first_result
-          if html_list.nil?
-            html_list = @parser.create_element('ul')
-            container.append_element(html_list)
+        container_after = @parser.find(
+          "##{ID_CONTAINER_SHORTCUTS_AFTER}"
+        ).first_result
+        if container_after.nil? && !@attribute_accesskey_after.empty?
+          container_after = @parser.create_element('div')
+          container_after.set_attribute('id', ID_CONTAINER_SHORTCUTS_AFTER)
+
+          text_container_after = @parser.create_element('span')
+          text_container_after.set_attribute('class', CLASS_TEXT_SHORTCUTS)
+          text_container_after.append_text(@attribute_accesskey_after)
+
+          container_after.append_element(text_container_after)
+          local.append_element(container_after)
+        end
+        unless container_after.nil?
+          @list_shortcuts_after = @parser.find(
+            container_after
+          ).find_children('ul').first_result
+          if @list_shortcuts_after.nil?
+            @list_shortcuts_after = @parser.create_element('ul')
+            container_after.append_element(@list_shortcuts_after)
           end
         end
         @list_shortcuts_added = true
-
-        html_list
       end
 
       ##
@@ -189,13 +219,19 @@ module Hatemile
       def initialize(parser, configure, user_agent = nil)
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('display')
-        @text_shortcuts = configure.get_parameter('text-shortcuts')
         @shortcut_prefix = get_shortcut_prefix(
           user_agent,
-          configure.get_parameter('text-standart-shortcut-prefix')
+          configure.get_parameter('attribute-accesskey-default')
+        )
+        @attribute_accesskey_before = configure.get_parameter(
+          'attribute-accesskey-before'
+        )
+        @attribute_accesskey_after = configure.get_parameter(
+          'attribute-accesskey-after'
         )
         @list_shortcuts_added = false
-        @list_shortcuts = nil
+        @list_shortcuts_before = nil
+        @list_shortcuts_after = nil
       end
 
       ##
@@ -208,24 +244,29 @@ module Hatemile
           element.set_attribute('title', description)
         end
 
-        @list_shortcuts = generate_list_shortcuts unless @list_shortcuts_added
+        generate_list_shortcuts unless @list_shortcuts_added
 
-        return if @list_shortcuts.nil?
-
-        keys = element.get_attribute('accesskey').split(/[ \n\t\r]+/)
+        keys = element.get_attribute('accesskey').upcase.split(/[ \n\t\r]+/)
         keys.each do |key|
-          key = key.upcase
-
-          unless @parser.find(@list_shortcuts).find_children(
-            "[#{DATA_ACCESS_KEY}=\"#{key}\"]"
-          ).first_result.nil?
-            next
-          end
+          selector = "[#{DATA_ATTRIBUTE_ACCESSKEY_OF}=\"#{key}\"]"
 
           item = @parser.create_element('li')
-          item.set_attribute(DATA_ACCESS_KEY, key)
+          item.set_attribute(DATA_ATTRIBUTE_ACCESSKEY_OF, key)
           item.append_text("#{@shortcut_prefix} + #{key}: #{description}")
-          @list_shortcuts.append_element(item)
+
+          if !@list_shortcuts_before.nil? &&
+             @parser.find(@list_shortcuts_before).find_children(
+               selector
+             ).first_result.nil?
+            @list_shortcuts_before.append_element(item.clone_element)
+          end
+          unless !@list_shortcuts_after.nil? &&
+                 @parser.find(@list_shortcuts_after).find_children(
+                   selector
+                 ).first_result.nil?
+            next
+          end
+          @list_shortcuts_after.append_element(item.clone_element)
         end
       end
 

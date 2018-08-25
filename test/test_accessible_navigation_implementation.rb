@@ -63,7 +63,7 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
         </head>
         <body>
           <main>Main content</main>
-          <div id=\"container-shortcuts\">Container of shortcuts</div>
+          <div id=\"container-shortcuts-after\">Container of shortcuts</div>
           <div id=\"container-heading-after\" #{DATA_IGNORE}>
             Container of headings
           </div>
@@ -85,9 +85,11 @@ class TestAccessibleNavigationImplementation < Test::Unit::TestCase
     main_link = html_parser.find(
       "#container-skippers a[href=\"##{main_anchor.get_attribute('id')}\"]"
     ).first_result
-    container_shortcuts = html_parser.find('#container-shortcuts').first_result
+    container_shortcuts = html_parser.find(
+      '#container-shortcuts-after'
+    ).first_result
     container_shortcuts_anchor = html_parser.find(
-      '[data-anchorfor="container-shortcuts"]'
+      '[data-anchorfor="container-shortcuts-after"]'
     ).first_result
     container_shortcuts_id = container_shortcuts_anchor.get_attribute('id')
     container_shortcuts_link = html_parser.find(
