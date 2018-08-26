@@ -58,5 +58,24 @@ module Hatemile
     def display_all_roles
       # Interface method
     end
+
+    ##
+    # Display the headers of each data cell of table.
+    #
+    # @abstract
+    # @param table_cell [Hatemile::Util::Html::HTMLDOMElement] The table cell.
+    # @return [void]
+    def display_cell_header(table_cell)
+      # Interface method
+    end
+
+    ##
+    # Display the headers of each data cell of all tables of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_cell_headers
+      # Interface method
+    end
   end
 end

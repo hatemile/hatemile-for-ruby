@@ -215,7 +215,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   end
 
   ##
-  # Test display_all_roles method with container of shortcuts defined.
+  # Test display_all_roles method.
   def test_display_all_roles
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
@@ -273,5 +273,53 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
         '[data-roleof]'
       ).last_result.get_text_content
     )
+  end
+
+  ##
+  # Test display_all_cell_headers method.
+  def test_display_all_cell_headers
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html role=\"application\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <table>
+            <thead>
+              <tr>
+                <th id=\"th1\">THEAD TH1</th>
+                <th id=\"th2\">THEAD TH2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td headers=\"th1\">TD1</td>
+                <td headers=\"th2\">TD2</td>
+              </tr>
+              <tr>
+                <th id=\"th3\">TH3</th>
+                <td headers=\"th2 th3\">TD3</td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_cell_headers
+    td1 = html_parser.find('[headers="th1"]').first_result
+    td3 = html_parser.find('[headers="th2 th3"]').first_result
+    hc1 = html_parser.find(td1).find_children('[data-headersof]').first_result
+    hc3 = html_parser.find(td3).find_children('[data-headersof]').first_result
+
+    assert_not_nil(hc1)
+    assert_not_nil(hc3)
+    assert_equal('(Headers: THEAD TH1) ', hc1.get_text_content)
+    assert_equal('(Headers: THEAD TH2 TH3) ', hc3.get_text_content)
   end
 end

@@ -66,6 +66,11 @@ module Hatemile
       DATA_ATTRIBUTE_ACCESSKEY_OF = 'data-attributeaccesskeyof'.freeze
 
       ##
+      # The name of attribute that links the content of header cell with the
+      # data cell.
+      DATA_ATTRIBUTE_HEADERS_OF = 'data-headersof'.freeze
+
+      ##
       # The name of attribute that links the content of role of element with the
       # element.
       DATA_ROLE_OF = 'data-roleof'.freeze
@@ -402,6 +407,18 @@ module Hatemile
         @attribute_accesskey_suffix_after = configure.get_parameter(
           'attribute-accesskey-suffix-after'
         )
+        @attribute_headers_prefix_before = configure.get_parameter(
+          'attribute-headers-prefix-before'
+        )
+        @attribute_headers_suffix_before = configure.get_parameter(
+          'attribute-headers-suffix-before'
+        )
+        @attribute_headers_prefix_after = configure.get_parameter(
+          'attribute-headers-prefix-after'
+        )
+        @attribute_headers_suffix_after = configure.get_parameter(
+          'attribute-headers-suffix-after'
+        )
         @attribute_role_prefix_before = configure.get_parameter(
           'attribute-role-prefix-before'
         )
@@ -504,6 +521,49 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             display_role(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_cell_header
+      def display_cell_header(table_cell)
+        return unless table_cell.has_attribute?('headers')
+
+        text_header = ''
+        ids_headers = table_cell.get_attribute('headers').split(/[ \n\t\r]+/)
+        ids_headers.each do |id_header|
+          header = @parser.find("##{id_header}").first_result
+
+          next if header.nil?
+
+          text_header = if text_header.empty?
+                          header.get_text_content.strip
+                        else
+                          "#{text_header} #{header.get_text_content.strip}"
+                        end
+        end
+
+        return if text_header.strip.empty?
+
+        force_read(
+          table_cell,
+          text_header.gsub(/[ \n\t\r]+/, ' ').strip,
+          @attribute_headers_prefix_before,
+          @attribute_headers_suffix_before,
+          @attribute_headers_prefix_after,
+          @attribute_headers_suffix_after,
+          DATA_ATTRIBUTE_HEADERS_OF
+        )
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_cell_headers
+      def display_all_cell_headers
+        elements = @parser.find('td[headers],th[headers]').list_results
+        elements.each do |element|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            display_cell_header(element)
           end
         end
       end
