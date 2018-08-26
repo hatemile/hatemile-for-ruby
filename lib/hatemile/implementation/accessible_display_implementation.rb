@@ -65,6 +65,11 @@ module Hatemile
       # The name of attribute that links the description of shortcut of element.
       DATA_ATTRIBUTE_ACCESSKEY_OF = 'data-attributeaccesskeyof'.freeze
 
+      ##
+      # The name of attribute that links the content of role of element with the
+      # element.
+      DATA_ROLE_OF = 'data-roleof'.freeze
+
       protected
 
       ##
@@ -217,6 +222,19 @@ module Hatemile
       end
 
       ##
+      # Returns the description of role.
+      #
+      # @param role [String] The role.
+      # @return [String] The description of role.
+      def get_role_description(role)
+        parameter = "role-#{role.downcase}"
+        if @configure.has_parameter?(parameter)
+          return @configure.get_parameter(parameter)
+        end
+        nil
+      end
+
+      ##
       # Insert a element before or after other element.
       #
       # @param element [Hatemile::Util::Html::HTMLDOMElement] The reference
@@ -360,6 +378,7 @@ module Hatemile
       # @param user_agent [String] The user agent of the user.
       def initialize(parser, configure, user_agent = nil)
         @parser = parser
+        @configure = configure
         @id_generator = Hatemile::Util::IDGenerator.new('display')
         @shortcut_prefix = get_shortcut_prefix(
           user_agent,
@@ -382,6 +401,18 @@ module Hatemile
         )
         @attribute_accesskey_suffix_after = configure.get_parameter(
           'attribute-accesskey-suffix-after'
+        )
+        @attribute_role_prefix_before = configure.get_parameter(
+          'attribute-role-prefix-before'
+        )
+        @attribute_role_suffix_before = configure.get_parameter(
+          'attribute-role-suffix-before'
+        )
+        @attribute_role_prefix_after = configure.get_parameter(
+          'attribute-role-prefix-after'
+        )
+        @attribute_role_suffix_after = configure.get_parameter(
+          'attribute-role-suffix-after'
         )
         @list_shortcuts_added = false
         @list_shortcuts_before = nil
@@ -442,6 +473,37 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             display_shortcut(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_role
+      def display_role(element)
+        return unless element.has_attribute?('role')
+
+        role_description = get_role_description(element.get_attribute('role'))
+
+        return if role_description.nil?
+
+        force_read(
+          element,
+          role_description,
+          @attribute_role_prefix_before,
+          @attribute_role_suffix_before,
+          @attribute_role_prefix_after,
+          @attribute_role_suffix_after,
+          DATA_ROLE_OF
+        )
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_roles
+      def display_all_roles
+        elements = @parser.find('[role]').list_results
+        elements.each do |element|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            display_role(element)
           end
         end
       end

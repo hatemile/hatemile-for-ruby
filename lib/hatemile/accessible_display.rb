@@ -39,5 +39,24 @@ module Hatemile
     def display_all_shortcuts
       # Interface method
     end
+
+    ##
+    # Display the WAI-ARIA role of element.
+    #
+    # @abstract
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
+    # @return [void]
+    def display_role(element)
+      # Interface method
+    end
+
+    ##
+    # Display the WAI-ARIA roles of all elements of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_roles
+      # Interface method
+    end
   end
 end

@@ -213,4 +213,65 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     assert_equal('ACCESS KEY PREFIX + S: Submit', reference_s.get_text_content)
     assert_nil(reference_i)
   end
+
+  ##
+  # Test display_all_roles method with container of shortcuts defined.
+  def test_display_all_roles
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html role=\"application\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <a href=\"https://github.com/\" role=\"link\">Github</a>
+          <span role=\"note\">Span</span>
+          <label for=\"field1\">Field1</label>
+          <input type=\"number\" id=\"field1\" role=\"spinbutton\" />
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_roles
+    body = html_parser.find('body').first_result
+    a = html_parser.find('a').first_result
+    span = html_parser.find('span[role="note"]').first_result
+    index_span = body.get_children_elements.index(span)
+    label = html_parser.find('label').first_result
+
+    assert_equal(
+      '(Begin of application) ',
+      body.get_first_element_child.get_text_content
+    )
+    assert_equal(
+      ' (End of application)',
+      body.get_last_element_child.get_text_content
+    )
+    assert_equal('(Begin of link) ', a.get_first_element_child.get_text_content)
+    assert_equal(' (End of link)', a.get_last_element_child.get_text_content)
+    assert_equal(
+      '(Begin of note) ',
+      body.get_children_elements[index_span - 1].get_text_content
+    )
+    assert_equal(
+      ' (End of note)',
+      body.get_children_elements[index_span + 1].get_text_content
+    )
+    assert_equal(
+      '(Begin of spin button) ',
+      html_parser.find(label).find_children(
+        '[data-roleof]'
+      ).first_result.get_text_content
+    )
+    assert_equal(
+      ' (End of spin button)',
+      html_parser.find(label).find_children(
+        '[data-roleof]'
+      ).last_result.get_text_content
+    )
+  end
 end

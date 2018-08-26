@@ -89,7 +89,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 					</select>
 				</label>
 				<label for="field7">Field7</label>
-				<input type="number" min="0" value="0" max="10" id="field7" />
+				<input type="number" min="0" value="0" max="10" id="field7" role="spinbutton" />
 				<input type="submit" value="Submit" />
 			</form>
 			<input type="text" value="" required="" form="form1" />
@@ -197,6 +197,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     association.associate_all_labels_with_fields
 
     display.display_all_shortcuts
+    display.display_all_roles
 
     navigation.provide_navigation_by_all_headings
     navigation.provide_navigation_by_all_skippers
