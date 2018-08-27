@@ -322,4 +322,134 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     assert_equal('(Headers: THEAD TH1) ', hc1.get_text_content)
     assert_equal('(Headers: THEAD TH2 TH3) ', hc3.get_text_content)
   end
+
+  ##
+  # Test display_all_waiaria_states method.
+  def test_display_all_waiaria_states
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html role=\"application\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <a aria-busy=\"true\">ARIA-BUSY</a>
+          <a aria-checked=\"true\">ARIA-CHECKED</a>
+          <a aria-dropeffect=\"copy\">ARIA-DROPEFFECT</a>
+          <a aria-expanded=\"true\">ARIA-EXPANDED</a>
+          <a aria-grabbed=\"true\">ARIA-GRABBED</a>
+          <a aria-haspopup=\"true\">ARIA-HASPOPUP</a>
+          <a aria-level=\"1\">ARIA-LEVEL</a>
+          <a aria-orientation=\"vertical\">ARIA-ORIENTATION</a>
+          <a aria-pressed=\"true\">ARIA-PRESSED</a>
+          <a aria-selected=\"true\">ARIA-SELECTED</a>
+          <a aria-sort=\"ascending\">ARIA-SORT</a>
+          <a aria-required=\"true\">ARIA-REQUIRED</a>
+          <a aria-valuemin=\"2\">ARIA-VALUEMIN</a>
+          <a aria-valuemax=\"10\">ARIA-VALUEMAX</a>
+          <a aria-autocomplete=\"both\">ARIA-AUTOCOMPLETE</a>
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_waiaria_states
+    aria_busy = html_parser.find('[aria-busy]').first_result
+    aria_checked = html_parser.find('[aria-checked]').first_result
+    aria_dropeffect = html_parser.find('[aria-dropeffect]').first_result
+    aria_expanded = html_parser.find('[aria-expanded]').first_result
+    aria_grabbed = html_parser.find('[aria-grabbed]').first_result
+    aria_haspopup = html_parser.find('[aria-haspopup]').first_result
+    aria_level = html_parser.find('[aria-level]').first_result
+    aria_orientation = html_parser.find('[aria-orientation]').first_result
+    aria_pressed = html_parser.find('[aria-pressed]').first_result
+    aria_selected = html_parser.find('[aria-selected]').first_result
+    aria_sort = html_parser.find('[aria-sort]').first_result
+    aria_required = html_parser.find('[aria-required]').first_result
+    aria_valuemin = html_parser.find('[aria-valuemin]').first_result
+    aria_valuemax = html_parser.find('[aria-valuemax]').first_result
+    aria_autocomplete = html_parser.find('[aria-autocomplete]').first_result
+    span_busy = html_parser.find(aria_busy).find_children(
+      '.force-read-before[data-ariabusyof]'
+    ).first_result
+    span_checked = html_parser.find(aria_checked).find_children(
+      '.force-read-after[data-ariacheckedof]'
+    ).first_result
+    span_dropeffect = html_parser.find(aria_dropeffect).find_children(
+      '.force-read-after[data-ariadropeffectof]'
+    ).first_result
+    span_expanded = html_parser.find(aria_expanded).find_children(
+      '.force-read-after[data-ariaexpandedof]'
+    ).first_result
+    span_grabbed = html_parser.find(aria_grabbed).find_children(
+      '.force-read-after[data-ariagrabbedof]'
+    ).first_result
+    span_haspopup = html_parser.find(aria_haspopup).find_children(
+      '.force-read-after[data-ariahaspopupof]'
+    ).first_result
+    span_level = html_parser.find(aria_level).find_children(
+      '.force-read-before[data-arialevelof]'
+    ).first_result
+    span_orientation = html_parser.find(aria_orientation).find_children(
+      '.force-read-after[data-ariaorientationof]'
+    ).first_result
+    span_pressed = html_parser.find(aria_pressed).find_children(
+      '.force-read-after[data-ariapressedof]'
+    ).first_result
+    span_selected = html_parser.find(aria_selected).find_children(
+      '.force-read-after[data-ariaselectedof]'
+    ).first_result
+    span_sort = html_parser.find(aria_sort).find_children(
+      '.force-read-before[data-ariasortof]'
+    ).first_result
+    span_required = html_parser.find(aria_required).find_children(
+      '.force-read-after[data-attributerequiredof]'
+    ).first_result
+    span_valuemin = html_parser.find(aria_valuemin).find_children(
+      '.force-read-after[data-attributevalueminof]'
+    ).first_result
+    span_valuemax = html_parser.find(aria_valuemax).find_children(
+      '.force-read-after[data-attributevaluemaxof]'
+    ).first_result
+    span_autocomplete = html_parser.find(aria_autocomplete).find_children(
+      '.force-read-after[data-ariaautocompleteof]'
+    ).first_result
+
+    assert_not_nil(span_busy)
+    assert_not_nil(span_checked)
+    assert_not_nil(span_dropeffect)
+    assert_not_nil(span_expanded)
+    assert_not_nil(span_grabbed)
+    assert_not_nil(span_haspopup)
+    assert_not_nil(span_level)
+    assert_not_nil(span_orientation)
+    assert_not_nil(span_pressed)
+    assert_not_nil(span_selected)
+    assert_not_nil(span_sort)
+    assert_not_nil(span_required)
+    assert_not_nil(span_valuemin)
+    assert_not_nil(span_valuemax)
+    assert_not_nil(span_autocomplete)
+    assert_equal('(Updating) ', span_busy.get_text_content)
+    assert_equal(' (Checked)', span_checked.get_text_content)
+    assert_equal(' (Drop copy in target)', span_dropeffect.get_text_content)
+    assert_equal(' (Expanded)', span_expanded.get_text_content)
+    assert_equal(' (Dragging)', span_grabbed.get_text_content)
+    assert_equal(' (Has popup)', span_haspopup.get_text_content)
+    assert_equal('(Level: 1) ', span_level.get_text_content)
+    assert_equal(' (Vertical orientation)', span_orientation.get_text_content)
+    assert_equal(' (Pressed)', span_pressed.get_text_content)
+    assert_equal(' (Selected)', span_selected.get_text_content)
+    assert_equal('(Sorted ascending) ', span_sort.get_text_content)
+    assert_equal(' (Required)', span_required.get_text_content)
+    assert_equal(' (Minimum value: 2)', span_valuemin.get_text_content)
+    assert_equal(' (Maximum value: 10)', span_valuemax.get_text_content)
+    assert_equal(
+      ' (List or inline autocomplete)',
+      span_autocomplete.get_text_content
+    )
+  end
 end

@@ -77,5 +77,25 @@ module Hatemile
     def display_all_cell_headers
       # Interface method
     end
+
+    ##
+    # Display the WAI-ARIA attributes of element.
+    #
+    # @abstract
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
+    #   WAI-ARIA attributes.
+    # @return [void]
+    def display_waiaria_states(element)
+      # Interface method
+    end
+
+    ##
+    # Display the WAI-ARIA attributes of all elements of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_waiaria_states
+      # Interface method
+    end
   end
 end
