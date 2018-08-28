@@ -143,6 +143,11 @@ module Hatemile
       DATA_ATTRIBUTE_HEADERS_OF = 'data-headersof'.freeze
 
       ##
+      # The name of attribute that links the description of language with the
+      # element.
+      DATA_ATTRIBUTE_LANGUAGE_OF = 'data-languageof'.freeze
+
+      ##
       # The name of attribute that links the content of link that open a new
       # instance.
       DATA_ATTRIBUTE_TARGET_OF = 'data-attributetargetof'.freeze
@@ -316,6 +321,23 @@ module Hatemile
         parameter = "role-#{role.downcase}"
         if @configure.has_parameter?(parameter)
           return @configure.get_parameter(parameter)
+        end
+        nil
+      end
+
+      ##
+      # Returns the description of language.
+      #
+      # @param language_code [String] The BCP 47 code language.
+      # @return [String] The description of language.
+      def get_language_description(language_code)
+        language = language_code.downcase
+        p = "language-#{language}"
+        return @configure.get_parameter(p) if @configure.has_parameter?(p)
+        if language.include?('-')
+          codes = language.split(/\-/)
+          p = "language-#{codes.first}"
+          return @configure.get_parameter(p) if @configure.has_parameter?(p)
         end
         nil
       end
@@ -707,6 +729,18 @@ module Hatemile
         )
         @attribute_headers_suffix_after = configure.get_parameter(
           'attribute-headers-suffix-after'
+        )
+        @attribute_language_prefix_before = configure.get_parameter(
+          'attribute-language-prefix-before'
+        )
+        @attribute_language_suffix_before = configure.get_parameter(
+          'attribute-language-suffix-before'
+        )
+        @attribute_language_prefix_after = configure.get_parameter(
+          'attribute-language-prefix-after'
+        )
+        @attribute_language_suffix_after = configure.get_parameter(
+          'attribute-language-suffix-after'
         )
         @attribute_role_prefix_before = configure.get_parameter(
           'attribute-role-prefix-before'
@@ -1232,6 +1266,42 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             display_title(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_language
+      def display_language(element)
+        language_code = if element.has_attribute?('lang')
+                          element.get_attribute('lang')
+                        elsif element.has_attribute?('hreflang')
+                          element.get_attribute('hreflang')
+                        end
+        language = get_language_description(language_code)
+
+        return if language.nil?
+
+        force_read(
+          element,
+          language,
+          @attribute_language_prefix_before,
+          @attribute_language_suffix_before,
+          @attribute_language_prefix_after,
+          @attribute_language_suffix_after,
+          DATA_ATTRIBUTE_LANGUAGE_OF
+        )
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_languages
+      def display_all_languages
+        elements = @parser.find(
+          'html[lang],body[lang],body [lang],body [hreflang]'
+        ).list_results
+        elements.each do |element|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            display_language(element)
           end
         end
       end

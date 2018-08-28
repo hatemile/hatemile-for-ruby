@@ -280,7 +280,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   def test_display_all_cell_headers
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
-      <html role=\"application\">
+      <html>
         <head>
           <title>HaTeMiLe Tests</title>
           <meta charset=\"UTF-8\" />
@@ -328,7 +328,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   def test_display_all_waiaria_states
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
-      <html role=\"application\">
+      <html>
         <head>
           <title>HaTeMiLe Tests</title>
           <meta charset=\"UTF-8\" />
@@ -458,7 +458,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   def test_display_all_links_attributes
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
-      <html role=\"application\">
+      <html>
         <head>
           <title>HaTeMiLe Tests</title>
           <meta charset=\"UTF-8\" />
@@ -490,7 +490,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
   def test_display_all_titles
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
-      <html role=\"application\">
+      <html>
         <head>
           <title>HaTeMiLe Tests</title>
           <meta charset=\"UTF-8\" />
@@ -522,5 +522,74 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       body.get_children_elements[index_span - 1].get_text_content
     )
     assert_equal('(Title: Spin button) ', input.get_text_content)
+  end
+
+  ##
+  # Test display_all_languages method.
+  def test_display_all_languages
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html lang=\"en\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <a href=\"https://es.wikipedia.org/\" hreflang=\"es\">
+            Wikipedia
+          </a>
+          <span lang=\"pt-br\">Texto</span>
+          <label for=\"field1\">Contrôle1</label>
+          <input type=\"text\" id=\"field1\" lang=\"fr\" />
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_languages
+    body = html_parser.find('body').first_result
+    a = html_parser.find('a').first_result
+    span = html_parser.find('span[lang="pt-br"]').first_result
+    index_span = body.get_children_elements.index(span)
+    label = html_parser.find('label').first_result
+
+    assert_equal(
+      '(Begin of language: English) ',
+      body.get_first_element_child.get_text_content
+    )
+    assert_equal(
+      ' (End of language: English)',
+      body.get_last_element_child.get_text_content
+    )
+    assert_equal(
+      '(Begin of language: Spanish) ',
+      a.get_first_element_child.get_text_content
+    )
+    assert_equal(
+      ' (End of language: Spanish)',
+      a.get_last_element_child.get_text_content
+    )
+    assert_equal(
+      '(Begin of language: Portuguese) ',
+      body.get_children_elements[index_span - 1].get_text_content
+    )
+    assert_equal(
+      ' (End of language: Portuguese)',
+      body.get_children_elements[index_span + 1].get_text_content
+    )
+    assert_equal(
+      '(Begin of language: French) ',
+      html_parser.find(label).find_children(
+        '[data-languageof]'
+      ).first_result.get_text_content
+    )
+    assert_equal(
+      ' (End of language: French)',
+      html_parser.find(label).find_children(
+        '[data-languageof]'
+      ).last_result.get_text_content
+    )
   end
 end

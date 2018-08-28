@@ -136,5 +136,24 @@ module Hatemile
     def display_all_titles
       # Interface method
     end
+
+    ##
+    # Display the language of element.
+    #
+    # @abstract
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
+    # @return [void]
+    def display_language(element)
+      # Interface method
+    end
+
+    ##
+    # Display the language of all elements of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_languages
+      # Interface method
+    end
   end
 end
