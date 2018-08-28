@@ -1245,8 +1245,10 @@ module Hatemile
       ##
       # @see Hatemile::AccessibleDisplay#display_title
       def display_title(element)
-        if element.has_attribute?('title') &&
-           !element.get_attribute('title').empty?
+        if element.get_tag_name == 'IMG'
+          display_alternative_text_image(element)
+        elsif element.has_attribute?('title') &&
+              !element.get_attribute('title').empty?
           force_read(
             element,
             element.get_attribute('title').gsub(/[ \n\t\r]+/, ' ').strip,
@@ -1302,6 +1304,40 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             display_language(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_alternative_text_image
+      def display_alternative_text_image(image)
+        if image.has_attribute?('alt') || image.has_attribute?('title')
+          if image.has_attribute?('alt') &&
+             !image.has_attribute?('title')
+            image.set_attribute('title', image.get_attribute('alt'))
+          elsif image.has_attribute?('title') &&
+                !image.has_attribute?('alt')
+            image.set_attribute('alt', image.get_attribute('title'))
+          end
+          @id_generator.generate_id(image)
+          image.set_attribute(
+            DATA_ATTRIBUTE_TITLE_OF,
+            image.get_attribute('id')
+          )
+        else
+          image.set_attribute('alt', '')
+          image.set_attribute('role', 'presentation')
+          image.set_attribute('aria-hidden', 'true')
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_alternative_text_images
+      def display_all_alternative_text_images
+        images = @parser.find('img').list_results
+        images.each do |image|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(image)
+            display_alternative_text_image(image)
           end
         end
       end

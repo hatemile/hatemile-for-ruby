@@ -155,5 +155,24 @@ module Hatemile
     def display_all_languages
       # Interface method
     end
+
+    ##
+    # Display the alternative text of image.
+    #
+    # @abstract
+    # @param image The image.
+    # @return [void]
+    def display_alternative_text_image(image)
+      # Interface method
+    end
+
+    ##
+    # Display the alternative text of all images of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_alternative_text_images
+      # Interface method
+    end
   end
 end

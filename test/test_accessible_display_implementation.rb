@@ -500,6 +500,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
           <span title=\"Text\">Span</span>
           <label for=\"field1\">Field1</label>
           <input type=\"number\" id=\"field1\" title=\"Spin button\" />
+          <img src=\"https://github.com/fluidicon.png\" title=\"Image\" />
         </body>
       </html>
     ")
@@ -513,6 +514,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     span = html_parser.find('span[title]').first_result
     index_span = body.get_children_elements.index(span)
     input = html_parser.find('label [data-attributetitleof]').first_result
+    image = html_parser.find('img').first_result
 
     assert_not_nil(link)
     assert_not_nil(input)
@@ -522,6 +524,15 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       body.get_children_elements[index_span - 1].get_text_content
     )
     assert_equal('(Title: Spin button) ', input.get_text_content)
+    assert(image.has_attribute?('alt'))
+    assert_equal('Image', image.get_attribute('alt'))
+    assert(image.has_attribute?('data-attributetitleof'))
+    assert_equal(
+      image,
+      html_parser.find(
+        "##{image.get_attribute('data-attributetitleof')}"
+      ).first_result
+    )
   end
 
   ##
@@ -591,5 +602,44 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
         '[data-languageof]'
       ).last_result.get_text_content
     )
+  end
+
+  ##
+  # Test display_all_alternative_text_images method.
+  def test_display_all_alternative_text_images
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html lang=\"en\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <img src=\"image1.jpg\" title=\"Image1\" id=\"image1\" />
+          <img src=\"image2.jpg\" alt=\"Image2\" id=\"image2\" />
+          <img src=\"image3.jpg\" id=\"image3\" />
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_alternative_text_images
+    image1 = html_parser.find('#image1').first_result
+    image2 = html_parser.find('#image2').first_result
+    image3 = html_parser.find('#image3').first_result
+
+    assert(image1.has_attribute?('alt'))
+    assert_equal('Image1', image1.get_attribute('alt'))
+    assert(image2.has_attribute?('title'))
+    assert_equal('Image2', image2.get_attribute('title'))
+    assert(image3.has_attribute?('alt'))
+    assert('', image3.get_attribute('alt'))
+    assert(!image3.has_attribute?('title'))
+    assert(image3.has_attribute?('role'))
+    assert('presentation', image3.get_attribute('role'))
+    assert(image3.has_attribute?('aria-hidden'))
+    assert('true', image3.get_attribute('aria-hidden'))
   end
 end
