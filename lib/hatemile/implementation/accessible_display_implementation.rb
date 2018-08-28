@@ -148,6 +148,10 @@ module Hatemile
       DATA_ATTRIBUTE_TARGET_OF = 'data-attributetargetof'.freeze
 
       ##
+      # The name of attribute that links the content of title of element.
+      DATA_ATTRIBUTE_TITLE_OF = 'data-attributetitleof'.freeze
+
+      ##
       # The name of attribute that links the content of role of element with the
       # element.
       DATA_ROLE_OF = 'data-roleof'.freeze
@@ -722,6 +726,18 @@ module Hatemile
         @attribute_target_blank_after = configure.get_parameter(
           'attribute-target-blank-after'
         )
+        @attribute_title_prefix_before = configure.get_parameter(
+          'attribute-title-prefix-before'
+        )
+        @attribute_title_suffix_before = configure.get_parameter(
+          'attribute-title-suffix-before'
+        )
+        @attribute_title_prefix_after = configure.get_parameter(
+          'attribute-title-prefix-after'
+        )
+        @attribute_title_suffix_after = configure.get_parameter(
+          'attribute-title-suffix-after'
+        )
         @list_shortcuts_added = false
         @list_shortcuts_before = nil
         @list_shortcuts_after = nil
@@ -735,6 +751,12 @@ module Hatemile
         description = get_description(element)
         unless element.has_attribute?('title')
           element.set_attribute('title', description)
+
+          @id_generator.generate_id(element)
+          element.set_attribute(
+            DATA_ATTRIBUTE_TITLE_OF,
+            element.get_attribute('id')
+          )
         end
 
         generate_list_shortcuts unless @list_shortcuts_added
@@ -1182,6 +1204,34 @@ module Hatemile
         links.each do |link|
           if Hatemile::Util::CommonFunctions.is_valid_element?(link)
             display_link_attributes(link)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_title
+      def display_title(element)
+        if element.has_attribute?('title') &&
+           !element.get_attribute('title').empty?
+          force_read(
+            element,
+            element.get_attribute('title').gsub(/[ \n\t\r]+/, ' ').strip,
+            @attribute_title_prefix_before,
+            @attribute_title_suffix_before,
+            @attribute_title_prefix_after,
+            @attribute_title_suffix_after,
+            DATA_ATTRIBUTE_TITLE_OF
+          )
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_titles
+      def display_all_titles
+        elements = @parser.find('body [title]').list_results
+        elements.each do |element|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(element)
+            display_title(element)
           end
         end
       end

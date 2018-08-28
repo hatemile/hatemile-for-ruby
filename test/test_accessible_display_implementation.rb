@@ -484,4 +484,43 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
     assert_equal('(Open this link in new tab) ', link1.get_text_content)
     assert_equal('(Download) ', link2.get_text_content)
   end
+
+  ##
+  # Test display_all_titles method.
+  def test_display_all_titles
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html role=\"application\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <a href=\"https://github.com/\" title=\"Link\">Github</a>
+          <span title=\"Text\">Span</span>
+          <label for=\"field1\">Field1</label>
+          <input type=\"number\" id=\"field1\" title=\"Spin button\" />
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_titles
+    body = html_parser.find('body').first_result
+    link = html_parser.find('a [data-attributetitleof]').first_result
+    span = html_parser.find('span[title]').first_result
+    index_span = body.get_children_elements.index(span)
+    input = html_parser.find('label [data-attributetitleof]').first_result
+
+    assert_not_nil(link)
+    assert_not_nil(input)
+    assert_equal('(Title: Link) ', link.get_text_content)
+    assert_equal(
+      '(Title: Text) ',
+      body.get_children_elements[index_span - 1].get_text_content
+    )
+    assert_equal('(Title: Spin button) ', input.get_text_content)
+  end
 end

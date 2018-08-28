@@ -116,5 +116,25 @@ module Hatemile
     def display_all_links_attributes
       # Interface method
     end
+
+    ##
+    # Display the title of element.
+    #
+    # @abstract
+    # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
+    #   title.
+    # @return [void]
+    def display_title(element)
+      # Interface method
+    end
+
+    ##
+    # Display the titles of all elements of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_titles
+      # Interface method
+    end
   end
 end
