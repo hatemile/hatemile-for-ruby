@@ -455,7 +455,7 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
 
   ##
   # Test display_all_links_attributes method.
-  def display_all_links_attributes
+  def test_display_all_links_attributes
     html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
       <!DOCTYPE html>
       <html role=\"application\">
@@ -476,12 +476,12 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       CONFIGURE
     )
     display.display_all_links_attributes
-    link1 = html_parser.find('#id1 [data-attributetargetof]').first_result
-    link2 = html_parser.find('#id2 [data-attributedownloadof]').first_result
+    link1 = html_parser.find('#l1 [data-attributetargetof]').first_result
+    link2 = html_parser.find('#l2 [data-attributedownloadof]').first_result
 
     assert_not_nil(link1)
     assert_not_nil(link2)
     assert_equal('(Open this link in new tab) ', link1.get_text_content)
-    assert_equal('(Download) ', link1.get_text_content)
+    assert_equal('(Download) ', link2.get_text_content)
   end
 end
