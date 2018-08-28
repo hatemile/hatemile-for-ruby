@@ -103,7 +103,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 			<form action="http://www.webplatform.org/">
 				<h2>Test Shortcuts</h2>
 				<a href="http://www.w3.org/html/" title="Go to HTML5" accesskey="q">HTML5</a><br />
-				<a href="https://www.wikimedia.org/" accesskey="w">Go to Wikimidia</a><br />
+				<a href="https://www.wikimedia.org/" accesskey="w" target="_blank">Go to Wikimidia</a><br />
 				<label id="label1">Field1</label>
 				<input type="text" value="" aria-labelledby="label1" accesskey="e" /><br />
 				<input type="text" value="" aria-label="Field 2" accesskey="r" /><br />
@@ -200,6 +200,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
     display.display_all_roles
     display.display_all_cell_headers
     display.display_all_waiaria_states
+    display.display_all_links_attributes
 
     navigation.provide_navigation_by_all_headings
     navigation.provide_navigation_by_all_skippers

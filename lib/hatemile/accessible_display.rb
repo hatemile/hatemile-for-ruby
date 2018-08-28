@@ -97,5 +97,24 @@ module Hatemile
     def display_all_waiaria_states
       # Interface method
     end
+
+    ##
+    # Display the attributes of link.
+    #
+    # @abstract
+    # @param link [Hatemile::Util::Html::HTMLDOMElement] The link element.
+    # @return [void]
+    def display_link_attributes(link)
+      # Interface method
+    end
+
+    ##
+    # Display the attributes of all links of page.
+    #
+    # @abstract
+    # @return [void]
+    def display_all_links_attributes
+      # Interface method
+    end
   end
 end

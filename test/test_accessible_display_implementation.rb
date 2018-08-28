@@ -452,4 +452,36 @@ class TestAccessibleDisplayImplementation < Test::Unit::TestCase
       span_autocomplete.get_text_content
     )
   end
+
+  ##
+  # Test display_all_links_attributes method.
+  def display_all_links_attributes
+    html_parser = Hatemile::Util::Html::NokogiriLib::NokogiriHTMLDOMParser.new("
+      <!DOCTYPE html>
+      <html role=\"application\">
+        <head>
+          <title>HaTeMiLe Tests</title>
+          <meta charset=\"UTF-8\" />
+        </head>
+        <body>
+          <a id=\"l1\" href=\"https://github.com\" target=\"_blank\">Github</a>
+          <a id=\"l2\" href=\"https://github.com/fluidicon.png\" download>
+            Github icon
+          </a>
+        </body>
+      </html>
+    ")
+    display = Hatemile::Implementation::AccessibleDisplayImplementation.new(
+      html_parser,
+      CONFIGURE
+    )
+    display.display_all_links_attributes
+    link1 = html_parser.find('#id1 [data-attributetargetof]').first_result
+    link2 = html_parser.find('#id2 [data-attributedownloadof]').first_result
+
+    assert_not_nil(link1)
+    assert_not_nil(link2)
+    assert_equal('(Open this link in new tab) ', link1.get_text_content)
+    assert_equal('(Download) ', link1.get_text_content)
+  end
 end

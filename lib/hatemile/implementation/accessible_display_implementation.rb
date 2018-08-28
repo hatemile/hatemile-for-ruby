@@ -134,9 +134,18 @@ module Hatemile
       DATA_ATTRIBUTE_ACCESSKEY_OF = 'data-attributeaccesskeyof'.freeze
 
       ##
+      # The name of attribute that links the content of download link.
+      DATA_ATTRIBUTE_DOWNLOAD_OF = 'data-attributedownloadof'.freeze
+
+      ##
       # The name of attribute that links the content of header cell with the
       # data cell.
       DATA_ATTRIBUTE_HEADERS_OF = 'data-headersof'.freeze
+
+      ##
+      # The name of attribute that links the content of link that open a new
+      # instance.
+      DATA_ATTRIBUTE_TARGET_OF = 'data-attributetargetof'.freeze
 
       ##
       # The name of attribute that links the content of role of element with the
@@ -677,6 +686,12 @@ module Hatemile
         @attribute_accesskey_suffix_after = configure.get_parameter(
           'attribute-accesskey-suffix-after'
         )
+        @attribute_download_before = configure.get_parameter(
+          'attribute-download-before'
+        )
+        @attribute_download_after = configure.get_parameter(
+          'attribute-download-after'
+        )
         @attribute_headers_prefix_before = configure.get_parameter(
           'attribute-headers-prefix-before'
         )
@@ -700,6 +715,12 @@ module Hatemile
         )
         @attribute_role_suffix_after = configure.get_parameter(
           'attribute-role-suffix-after'
+        )
+        @attribute_target_blank_before = configure.get_parameter(
+          'attribute-target-blank-before'
+        )
+        @attribute_target_blank_after = configure.get_parameter(
+          'attribute-target-blank-after'
         )
         @list_shortcuts_added = false
         @list_shortcuts_before = nil
@@ -1128,6 +1149,39 @@ module Hatemile
         elements.each do |element|
           if Hatemile::Util::CommonFunctions.is_valid_element?(element)
             display_waiaria_states(element)
+          end
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_link_attributes
+      def display_link_attributes(link)
+        if link.has_attribute?('download')
+          force_read_simple(
+            link,
+            @attribute_download_before,
+            @attribute_download_after,
+            DATA_ATTRIBUTE_DOWNLOAD_OF
+          )
+        end
+        if link.has_attribute?('target') &&
+           link.get_attribute('target') == '_blank'
+          force_read_simple(
+            link,
+            @attribute_target_blank_before,
+            @attribute_target_blank_after,
+            DATA_ATTRIBUTE_TARGET_OF
+          )
+        end
+      end
+
+      ##
+      # @see Hatemile::AccessibleDisplay#display_all_links_attributes
+      def display_all_links_attributes
+        links = @parser.find('a[download],a[target="_blank"]').list_results
+        links.each do |link|
+          if Hatemile::Util::CommonFunctions.is_valid_element?(link)
+            display_link_attributes(link)
           end
         end
       end
