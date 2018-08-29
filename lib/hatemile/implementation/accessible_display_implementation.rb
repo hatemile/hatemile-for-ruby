@@ -352,6 +352,8 @@ module Hatemile
       # @param before [Boolean] To insert the element before the other element.
       # @return [void]
       def insert(element, new_element, before)
+        return unless Hatemile::Util::CommonFunctions.is_valid_element?(element)
+
         tag_name = element.get_tag_name
         append_tags = %w[BODY A FIGCAPTION LI DT DD LABEL OPTION TD TH]
         controls = %w[INPUT SELECT TEXTAREA]
@@ -388,8 +390,8 @@ module Hatemile
       #   element.
       # @param text_before [String] The text content to show before the element.
       # @param text_after [String] The text content to show after the element.
-      # @param data_of [String] The name of attribute that links the content with
-      #   element.
+      # @param data_of [String] The name of attribute that links the content
+      #   with element.
       # @return [void]
       def force_read_simple(element, text_before, text_after, data_of)
         @id_generator.generate_id(element)
