@@ -28,6 +28,7 @@ Gem::Specification.new do |gem|
     '{bin,lib,man,test,spec}/**/*'
   ]
 
+  gem.add_runtime_dependency('css_parser')
   gem.add_runtime_dependency('nokogiri')
 
   gem.add_development_dependency('bundler')
