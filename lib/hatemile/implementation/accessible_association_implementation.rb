@@ -168,7 +168,7 @@ module Hatemile
       end
 
       ##
-      # Fix the table body or table footer.
+      # Associate the data cell with header cell of row.
       #
       # @param element [Hatemile::Util::Html::HTMLDOMElement] The table body or
       #   table footer.
@@ -206,7 +206,7 @@ module Hatemile
       end
 
       ##
-      # Fix the table header.
+      # Set the scope of header cells of table header.
       #
       # @param table_header [Hatemile::Util::Html::HTMLDOMElement] The table
       #   header.

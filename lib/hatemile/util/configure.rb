@@ -59,7 +59,7 @@ module Hatemile
       ##
       # Check that the configuration has an parameter.
       #
-      # @param parameter [String] The name of parameter.
+      # @param parameter [String] The parameter.
       # @return [Boolean] True if the configuration has the parameter or false
       #   if the configuration not has the parameter.
       def has_parameter?(parameter)
@@ -72,7 +72,7 @@ module Hatemile
       ##
       # Returns the value of a parameter of configuration.
       #
-      # @param parameter [String] The name of parameter.
+      # @param parameter [String] The parameter.
       # @return [String] The value of the parameter.
       def get_parameter(parameter)
         @locales.each do |locale|

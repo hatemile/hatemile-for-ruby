@@ -43,8 +43,8 @@ module Hatemile
         #
         # @abstract
         # @param name [String] The name of attribute.
-        # @return [String] The value of the attribute, if the element not
-        #   contains the attribute returns nil.
+        # @return [String] The value of the attribute or nil if the element not
+        #   contains the attribute.
         def get_attribute(name)
           # Interface method
         end
@@ -71,7 +71,7 @@ module Hatemile
         end
 
         ##
-        # Returns if the element has an attribute.
+        # Check that the element has an attribute.
         #
         # @abstract
         # @param name [String] The name of attribute.
@@ -82,7 +82,7 @@ module Hatemile
         end
 
         ##
-        # Returns if the element has attributes.
+        # Check that the element has attributes.
         #
         # @abstract
         # @return [Boolean] True if the element has attributes or false if the

@@ -194,7 +194,7 @@ module Hatemile
       end
 
       ##
-      # Inform if the headings of page are sintatic correct.
+      # Check that the headings of page are sintatic correct.
       #
       # @return [Boolean] True if the headings of page are sintatic correct or
       #   false if not.

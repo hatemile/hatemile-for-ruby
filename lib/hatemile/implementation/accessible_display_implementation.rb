@@ -166,8 +166,7 @@ module Hatemile
       ##
       # Returns the description of element.
       #
-      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element with
-      #   description.
+      # @param element [Hatemile::Util::Html::HTMLDOMElement] The element.
       # @return [String] The description of element.
       def get_description(element)
         description = nil

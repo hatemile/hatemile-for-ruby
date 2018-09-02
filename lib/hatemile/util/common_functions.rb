@@ -42,12 +42,12 @@ module Hatemile
       end
 
       ##
-      # Increase a item in a list.
+      # Increase a item in a HTML list.
       #
       # @param list [String] The list.
       # @param string_to_increase [String] The value of item.
-      # @return [String] True if the list contains the item or false is not
-      #   contains.
+      # @return [String] The HTML list with the item added, if the item not was
+      #   contained in list.
       def self.increase_in_list(list, string_to_increase)
         if !list.nil? &&
            !list.empty? &&
