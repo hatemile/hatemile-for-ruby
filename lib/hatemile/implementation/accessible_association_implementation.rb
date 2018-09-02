@@ -47,45 +47,42 @@ module Hatemile
       #   table footer or table body.
       # @return [Array<Array<Hatemile::Util::Html::HTMLDOMElement>>] The list
       #   that represents the table.
-      def generate_part(part)
+      def get_model_table(part)
         rows = @parser.find(part).find_children('tr').list_results
         table = []
         rows.each do |row|
           table.push(
-            generate_colspan(
-              @parser.find(row).find_children('td,th').list_results
-            )
+            get_model_row(@parser.find(row).find_children('td,th').list_results)
           )
         end
-        generate_rowspan(table)
+        get_valid_model_table(table)
       end
 
       ##
       # Returns a list that represents the table with the rowspans.
       #
-      # @param rows [Array<Array<Hatemile::Util::Html::HTMLDOMElement>>] The
+      # @param table [Array<Array<Hatemile::Util::Html::HTMLDOMElement>>] The
       #   list that represents the table without the rowspans.
       # @return [Array<Array<Hatemile::Util::Html::HTMLDOMElement>>] The list
       #   that represents the table with the rowspans.
-      def generate_rowspan(rows)
-        copy = [].concat(rows)
-        table = []
-        unless rows.empty?
-          length_rows = rows.size
-          (0..length_rows - 1).each do |i|
-            column_index = 0
-            cells = [].concat(copy[i])
-            table[i] = [] if table.size <= i
-            length_cells = cells.size
-            (0..length_cells - 1).each do |j|
-              cell = cells[j]
-              m = j + column_index
-              row = table[i]
-              until row[m].nil?
-                column_index += 1
-                m = j + column_index
+      def get_valid_model_table(table)
+        new_table = []
+        unless table.empty?
+          length_table = table.size
+          (0..length_table - 1).each do |row_index|
+            cells_added = 0
+            original_row = [].concat(table[row_index])
+            new_table[row_index] = [] if new_table.size <= row_index
+            length_row = original_row.size
+            (0..length_row - 1).each do |cell_index|
+              cell = original_row[cell_index]
+              new_cell_index = cell_index + cells_added
+              new_row = new_table[row_index]
+              until new_row[new_cell_index].nil?
+                cells_added += 1
+                new_cell_index = cell_index + cells_added
               end
-              row[m] = cell
+              new_row[new_cell_index] = cell
 
               next unless cell.has_attribute?('rowspan')
 
@@ -93,15 +90,15 @@ module Hatemile
 
               next unless rowspan > 1
 
-              (1..rowspan - 1).each do |k|
-                n = i + k
-                table[n] = [] if table[n].nil?
-                table[n][m] = cell
+              (1..rowspan - 1).each do |rowspan_index|
+                new_row_index = row_index + rowspan_index
+                new_table[new_row_index] = [] if new_table[new_row_index].nil?
+                new_table[new_row_index][new_cell_index] = cell
               end
             end
           end
         end
-        table
+        new_table
       end
 
       ##
@@ -111,12 +108,11 @@ module Hatemile
       #   represents the line of table without the colspans.
       # @return [Array<Hatemile::Util::Html::HTMLDOMElement>] The list that
       #   represents the line of table with the colspans.
-      def generate_colspan(row)
-        copy = [].concat(row)
-        cells = [].concat(row)
+      def get_model_row(row)
+        new_row = [].concat(row)
         size = row.size
         (0..size - 1).each do |i|
-          cell = cells[i]
+          cell = row[i]
 
           next unless cell.has_attribute?('colspan')
 
@@ -125,10 +121,10 @@ module Hatemile
           next unless colspan > 1
 
           (1..colspan - 1).each do |j|
-            copy.insert(i + j, cell)
+            new_row.insert(i + j, cell)
           end
         end
-        copy
+        new_row
       end
 
       ##
@@ -156,7 +152,7 @@ module Hatemile
       #   list that represents the table header.
       # @param index [Integer] The index of columns.
       # @return [Array<String>] The list with ids of rows of same column.
-      def return_list_ids_columns(header, index)
+      def get_cells_headers_ids(header, index)
         ids = []
         header.each do |row|
           if row[index].has_attribute?('scope') &&
@@ -173,12 +169,12 @@ module Hatemile
       # @param element [Hatemile::Util::Html::HTMLDOMElement] The table body or
       #   table footer.
       # @return [void]
-      def fix_body_or_footer(element)
-        table = generate_part(element)
+      def associate_data_cells_with_header_cells_of_row(element)
+        table = get_model_table(element)
         headers_ids = []
-        table.each do |cells|
+        table.each do |row|
           headers_ids.clear
-          cells.each do |cell|
+          row.each do |cell|
             next unless cell.get_tag_name == 'TH' &&
                         Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
@@ -189,7 +185,7 @@ module Hatemile
 
           next if headers_ids.empty?
 
-          cells.each do |cell|
+          row.each do |cell|
             next unless cell.get_tag_name == 'TD' &&
                         Hatemile::Util::CommonFunctions.is_valid_element?(cell)
 
@@ -211,7 +207,7 @@ module Hatemile
       # @param table_header [Hatemile::Util::Html::HTMLDOMElement] The table
       #   header.
       # @return [void]
-      def fix_header(table_header)
+      def prepare_header_cells(table_header)
         cells = @parser.find(table_header).find_children('tr').find_children(
           'th'
         ).list_results
@@ -242,24 +238,24 @@ module Hatemile
         body = @parser.find(table).find_children('tbody').first_result
         footer = @parser.find(table).find_children('tfoot').first_result
         unless header.nil?
-          fix_header(header)
+          prepare_header_cells(header)
 
-          header_cells = generate_part(header)
-          if !body.nil? && valid_header?(header_cells)
-            length_header = header_cells[0].size
-            fake_table = generate_part(body)
+          header_rows = get_model_table(header)
+          if !body.nil? && valid_header?(header_rows)
+            length_header = header_rows.first.size
+            fake_table = get_model_table(body)
             unless footer.nil?
-              fake_table = fake_table.concat(generate_part(footer))
+              fake_table = fake_table.concat(get_model_table(footer))
             end
-            fake_table.each do |cells|
-              next unless cells.size == length_header
+            fake_table.each do |row|
+              next unless row.size == length_header
 
-              cells.each_with_index do |cell, index|
+              row.each_with_index do |cell, index|
                 unless Hatemile::Util::CommonFunctions.is_valid_element?(cell)
                   next
                 end
 
-                headers_ids = return_list_ids_columns(header_cells, index)
+                headers_ids = get_cells_headers_ids(header_rows, index)
                 headers = cell.get_attribute('headers')
                 headers_ids.each do |headers_id|
                   headers = Hatemile::Util::CommonFunctions.increase_in_list(
@@ -272,8 +268,8 @@ module Hatemile
             end
           end
         end
-        fix_body_or_footer(body) unless body.nil?
-        fix_body_or_footer(footer) unless footer.nil?
+        associate_data_cells_with_header_cells_of_row(body) unless body.nil?
+        associate_data_cells_with_header_cells_of_row(footer) unless footer.nil?
       end
 
       ##
