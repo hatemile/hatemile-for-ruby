@@ -17,7 +17,7 @@ module Hatemile
   # The Hatemile::Util module contains the utilities of library.
   module Util
     ##
-    # The CommonFuncionts module contains the used methods by HaTeMiLe classes.
+    # The CommonFunctions module contains the used methods by HaTeMiLe classes.
     module CommonFunctions
       ##
       # The name of attribute for not modify the elements.
