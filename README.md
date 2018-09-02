@@ -6,7 +6,7 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
 1.  Instanciate a new object with HTMLDOMParser interface, setting the HTML code;
 2.  Instanciate a new Configuration object;
-3.  Instanciate a new object with AccessibleForm, AccessibleDisplay, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
+3.  Instanciate a new object with AccessibleForm, AccessibleCSS, AccessibleDisplay, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
 4.  Get the HTML code of object with HTMLDOMParser interface.
 
 ## Example
@@ -31,6 +31,11 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 		<head>
 			<title>HaTeMiLe Tests</title>
 			<meta charset="UTF-8" />
+			<style>
+			  h2 {
+			    speak-as: spell-out;
+			  }
+			</style>
 		</head>
 		<body>
 			<h1>HaTeMiLe Tests</h1>
@@ -177,8 +182,10 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 			</div>
 		</body>
 	</html>')
+	  css_parser = Hatemile::Util::Css::Rcp::RCPParser.new(html_parser, 'http://localhost/')
     # Create instances of modifiers
     events = Hatemile::Implementation::AccessibleEventImplementation.new(parser)
+    css = Hatemile::Implementation::AccessibleCSSImplementation.new(html_parser, css_parser, configure)
     forms = Hatemile::Implementation::AccessibleFormImplementation.new(parser)
     navigation = Hatemile::Implementation::AccessibleNavigationImplementation.new(parser, configure)
     association = Hatemile::Implementation::AccessibleAssociationImplementation.new(parser)
@@ -195,6 +202,8 @@ HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible
 
     association.associate_all_data_cells_with_header_cells
     association.associate_all_labels_with_fields
+
+    css.provide_all_speak_properties
 
     display.display_all_shortcuts
     display.display_all_roles
