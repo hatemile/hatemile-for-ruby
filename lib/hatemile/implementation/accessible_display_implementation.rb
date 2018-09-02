@@ -12,15 +12,19 @@
 
 require 'rexml/document'
 require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_display')
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
   'common_functions'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'configure')
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'id_generator')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
-  'id_generator'
+  'html',
+  'html_dom_parser'
 )
 
 ##
@@ -486,6 +490,17 @@ module Hatemile
       #   HaTeMiLe.
       # @param user_agent [String] The user agent of the user.
       def initialize(parser, configure, user_agent = nil)
+        Hatemile::Helper.require_not_nil(parser, configure)
+        Hatemile::Helper.require_valid_type(
+          parser,
+          Hatemile::Util::Html::HTMLDOMParser
+        )
+        Hatemile::Helper.require_valid_type(
+          configure,
+          Hatemile::Util::Configure
+        )
+        Hatemile::Helper.require_valid_type(user_agent, String)
+
         @parser = parser
         @configure = configure
         @id_generator = Hatemile::Util::IDGenerator.new('display')

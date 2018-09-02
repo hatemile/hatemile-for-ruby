@@ -11,6 +11,7 @@
 # limitations under the License.
 
 require 'yaml'
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -27,6 +28,9 @@ module Hatemile
       # @param files_name [Array<String>] The path of files.
       # @param locales [Array<Symbol>] The locales.
       def initialize(files_name = nil, locales = [:'en-US'])
+        Hatemile::Helper.require_valid_type(files_name, Array)
+        Hatemile::Helper.require_valid_type(files_name, Array)
+
         if files_name.nil?
           pattern = File.join(
             File.dirname(File.dirname(File.dirname(__FILE__))),

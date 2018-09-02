@@ -11,6 +11,10 @@
 # limitations under the License.
 
 require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
+require File.join(
   File.dirname(File.dirname(__FILE__)),
   'style_sheet_declaration'
 )
@@ -41,6 +45,10 @@ module Hatemile
           # @param property_name [String] The property name of declaration.
           # @param value [String] The value of declaration.
           def initialize(property_name, value)
+            Hatemile::Helper.require_not_nil(property_name, value)
+            Hatemile::Helper.require_valid_type(property_name, String)
+            Hatemile::Helper.require_valid_type(value, String)
+
             @property_name = property_name
             @value = value
           end

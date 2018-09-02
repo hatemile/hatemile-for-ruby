@@ -11,6 +11,7 @@
 # limitations under the License.
 
 require 'securerandom'
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -27,6 +28,8 @@ module Hatemile
       #
       # @param prefix_part [String] A part of prefix id.
       def initialize(prefix_part = nil)
+        Hatemile::Helper.require_valid_type(prefix_part, String)
+
         @prefix_id = if prefix_part.nil?
                        "id-hatemile-#{SecureRandom.hex}-"
                      else

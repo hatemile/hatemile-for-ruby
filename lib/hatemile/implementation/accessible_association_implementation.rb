@@ -14,15 +14,18 @@ require File.join(
   File.dirname(File.dirname(__FILE__)),
   'accessible_association'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
   'common_functions'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'id_generator')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
-  'id_generator'
+  'html',
+  'html_dom_parser'
 )
 
 ##
@@ -227,6 +230,12 @@ module Hatemile
       #
       # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       def initialize(parser)
+        Hatemile::Helper.require_not_nil(parser)
+        Hatemile::Helper.require_valid_type(
+          parser,
+          Hatemile::Util::Html::HTMLDOMParser
+        )
+
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('association')
       end

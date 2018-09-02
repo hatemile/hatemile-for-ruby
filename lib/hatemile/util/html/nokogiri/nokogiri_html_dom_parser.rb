@@ -11,6 +11,10 @@
 # limitations under the License.
 
 require 'nokogiri'
+require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
 require File.join(File.dirname(File.dirname(__FILE__)), 'html_dom_parser')
 require File.join(File.dirname(__FILE__), 'nokogiri_html_dom_element')
 
@@ -40,6 +44,14 @@ module Hatemile
           #   code or the parser of Nokogiri.
           # @param encoding [String] The enconding of code.
           def initialize(code_or_parser, encoding = 'UTF-8')
+            Hatemile::Helper.require_not_nil(code_or_parser, encoding)
+            Hatemile::Helper.require_valid_type(
+              code_or_parser,
+              String,
+              Nokogiri::HTML::Document
+            )
+            Hatemile::Helper.require_valid_type(encoding, String)
+
             @document = if code_or_parser.class == String
                           Nokogiri::HTML::Document.parse(
                             code_or_parser,

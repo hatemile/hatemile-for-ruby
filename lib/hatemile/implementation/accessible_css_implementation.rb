@@ -10,26 +10,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require File.join(
-  File.dirname(File.dirname(__FILE__)),
-  'accessible_css'
-)
+require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_css')
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
   'common_functions'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'configure')
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'id_generator')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
-  'id_generator'
+  'css',
+  'style_sheet_parser'
 )
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
   'html',
-  'nokogiri',
-  'nokogiri_html_dom_text_node'
+  'html_dom_parser'
+)
+require File.join(
+  File.dirname(File.dirname(__FILE__)),
+  'util',
+  'html',
+  'html_dom_text_node'
 )
 
 ##
@@ -702,6 +708,21 @@ module Hatemile
       #   HaTeMiLe.
       # @param symbol_file_name [String] The file path of symbol configuration.
       def initialize(html_parser, css_parser, configure, symbol_file_name = nil)
+        Hatemile::Helper.require_not_nil(html_parser, css_parser, configure)
+        Hatemile::Helper.require_valid_type(
+          html_parser,
+          Hatemile::Util::Html::HTMLDOMParser
+        )
+        Hatemile::Helper.require_valid_type(
+          css_parser,
+          Hatemile::Util::Css::StyleSheetParser
+        )
+        Hatemile::Helper.require_valid_type(
+          configure,
+          Hatemile::Util::Configure
+        )
+        Hatemile::Helper.require_valid_type(symbol_file_name, String)
+
         @html_parser = html_parser
         @css_parser = css_parser
         @configure = configure

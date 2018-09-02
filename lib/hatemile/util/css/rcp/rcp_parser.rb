@@ -12,6 +12,10 @@
 
 require 'css_parser'
 require 'uri'
+require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
 require File.join(File.dirname(File.dirname(__FILE__)), 'style_sheet_parser')
 require File.join(File.dirname(__FILE__), 'rcp_rule')
 
@@ -67,6 +71,14 @@ module Hatemile
           #   HTML parser or CSS code of page.
           # @param current_url [String] The current URL of page.
           def initialize(css_or_hp, current_url = nil)
+            Hatemile::Helper.require_not_nil(css_or_hp)
+            Hatemile::Helper.require_valid_type(
+              css_or_hp,
+              Hatemile::Util::Html::HTMLDOMParser,
+              String
+            )
+            Hatemile::Helper.require_valid_type(current_url, String)
+
             @css_parser = CssParser::Parser.new
             if css_or_hp.is_a?(String)
               @css_parser.load_string!(css_or_hp)

@@ -10,6 +10,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
+
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
 module Hatemile
@@ -34,6 +39,13 @@ module Hatemile
           # @param hatemile_node [Hatemile::Util::Html::HTMLDOMNode] The
           #   HaTeMiLe node.
           def init(node, hatemile_node)
+            Hatemile::Helper.require_not_nil(node, hatemile_node)
+            Hatemile::Helper.require_valid_type(node, Nokogiri::XML::Node)
+            Hatemile::Helper.require_valid_type(
+              hatemile_node,
+              Hatemile::Util::Html::HTMLDOMNode
+            )
+
             @node = node
             @hatemile_node = hatemile_node
           end

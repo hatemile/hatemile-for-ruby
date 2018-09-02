@@ -27,3 +27,6 @@ Naming/PredicateName:
 
 Metrics/LineLength:
   IgnoredPatterns: ['\s*#']
+
+Style/RaiseArgs:
+  EnforcedStyle: compact

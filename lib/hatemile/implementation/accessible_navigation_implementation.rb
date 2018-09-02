@@ -12,15 +12,19 @@
 
 require 'rexml/document'
 require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_navigation')
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
   'common_functions'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'configure')
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'id_generator')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
-  'id_generator'
+  'html',
+  'html_dom_parser'
 )
 
 ##
@@ -324,6 +328,17 @@ module Hatemile
       # @param skipper_file_name [String] The file path of skippers
       #   configuration.
       def initialize(parser, configure, skipper_file_name = nil)
+        Hatemile::Helper.require_not_nil(parser, configure)
+        Hatemile::Helper.require_valid_type(
+          parser,
+          Hatemile::Util::Html::HTMLDOMParser
+        )
+        Hatemile::Helper.require_valid_type(
+          configure,
+          Hatemile::Util::Configure
+        )
+        Hatemile::Helper.require_valid_type(skipper_file_name, String)
+
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('navigation')
         @elements_heading_before = configure.get_parameter(

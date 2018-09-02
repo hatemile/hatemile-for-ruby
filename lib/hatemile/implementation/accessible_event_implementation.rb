@@ -11,6 +11,7 @@
 # limitations under the License.
 
 require File.join(File.dirname(File.dirname(__FILE__)), 'accessible_event')
+require File.join(File.dirname(File.dirname(__FILE__)), 'helper')
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
@@ -19,8 +20,10 @@ require File.join(
 require File.join(
   File.dirname(File.dirname(__FILE__)),
   'util',
-  'id_generator'
+  'html',
+  'html_dom_parser'
 )
+require File.join(File.dirname(File.dirname(__FILE__)), 'util', 'id_generator')
 
 ##
 # The Hatemile module contains the interfaces with the acessibility solutions.
@@ -176,6 +179,12 @@ module Hatemile
       #
       # @param parser [Hatemile::Util::Html::HTMLDOMParser] The HTML parser.
       def initialize(parser)
+        Hatemile::Helper.require_not_nil(parser)
+        Hatemile::Helper.require_valid_type(
+          parser,
+          Hatemile::Util::Html::HTMLDOMParser
+        )
+
         @parser = parser
         @id_generator = Hatemile::Util::IDGenerator.new('event')
         @main_script_added = false

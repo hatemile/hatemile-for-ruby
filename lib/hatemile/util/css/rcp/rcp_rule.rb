@@ -10,6 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
 require File.join(File.dirname(File.dirname(__FILE__)), 'style_sheet_rule')
 require File.join(File.dirname(__FILE__), 'rcp_declaration')
 
@@ -37,6 +41,9 @@ module Hatemile
           #
           # @param rule [CssParser::RuleSet] The Ruby CSS Parser rule.
           def initialize(rule)
+            Hatemile::Helper.require_not_nil(rule)
+            Hatemile::Helper.require_valid_type(rule, CssParser::RuleSet)
+
             @rule = rule
           end
 

@@ -10,6 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require File.join(
+  File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))),
+  'helper'
+)
 require File.join(File.dirname(File.dirname(__FILE__)), 'html_dom_text_node')
 require File.join(File.dirname(__FILE__), 'nokogiri_html_dom_node')
 
@@ -39,6 +43,9 @@ module Hatemile
           #
           # @param text_node [Nokogiri::XML::Text] The Nokogiri text node.
           def initialize(text_node)
+            Hatemile::Helper.require_not_nil(text_node)
+            Hatemile::Helper.require_valid_type(text_node, Nokogiri::XML::Text)
+
             @data = text_node
             init(text_node, self)
           end
