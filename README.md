@@ -240,3 +240,10 @@ To generate the full API documentation of HaTeMiLe of Ruby:
 ## Contributing
 
 If you want contribute with HaTeMiLe for Ruby, read [contributing guidelines](https://github.com/hatemile/hatemile-for-ruby/blob/master/CONTRIBUTING.md).
+
+## See also
+* [HaTeMiLe for CSS](https://github.com/hatemile/hatemile-for-css)
+* [HaTeMiLe for JavaScript](https://github.com/hatemile/hatemile-for-javascript)
+* [HaTeMiLe for Java](https://github.com/hatemile/hatemile-for-java)
+* [HaTeMiLe for PHP](https://github.com/hatemile/hatemile-for-php)
+* [HaTeMiLe for Python](https://github.com/hatemile/hatemile-for-python)
