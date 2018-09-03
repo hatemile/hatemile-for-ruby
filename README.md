@@ -1,6 +1,7 @@
-HaTeMiLe-for-Ruby
+HaTeMiLe for Ruby
 =================
-HaTeMiLe is a libary that can convert a HTML code in a HTML code more accessible. Increasing more informations for screen readers, forcing the browsers(olds and newers) show more informations, forcing that mouse events too be accessed by keyboard and more. But, for use HaTeMiLe is need that a correctly semantic HTML code.
+
+HaTeMiLe (HTML Accessible) is a library that can convert a HTML code in a HTML code more accessible.
 
 ## How to Use
 
