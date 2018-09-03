@@ -3,12 +3,14 @@ HaTeMiLe for Ruby
 
 HaTeMiLe (HTML Accessible) is a library that can convert a HTML code in a HTML code more accessible.
 
-## How to Use
+## Accessibility solutions
 
-1.  Instanciate a new object with HTMLDOMParser interface, setting the HTML code;
-2.  Instanciate a new Configuration object;
-3.  Instanciate a new object with AccessibleForm, AccessibleCSS, AccessibleDisplay, AccessibleNavigation, AccessibleAssociation or AccessibleEvent interface and call yours methods;
-4.  Get the HTML code of object with HTMLDOMParser interface.
+* [Associate HTML elements](https://github.com/hatemile/hatemile-for-ruby/wiki/Associate-HTML-elements);
+* [Provide a polyfill to CSS Speech and CSS Aural properties](https://github.com/hatemile/hatemile-for-ruby/wiki/Provide-a-polyfill-to-CSS-Speech-and-CSS-Aural-properties);
+* [Display inacessible informations of page](https://github.com/hatemile/hatemile-for-ruby/wiki/Display-inacessible-informations-of-page);
+* [Enable all functionality of page available from a keyboard](https://github.com/hatemile/hatemile-for-ruby/wiki/Enable-all-functionality-of-page-available-from-a-keyboard);
+* [Improve the acessibility of forms](https://github.com/hatemile/hatemile-for-ruby/wiki/Improve-the-acessibility-of-forms);
+* [Provide accessibility resources to navigate](https://github.com/hatemile/hatemile-for-ruby/wiki/Provide-accessibility-resources-to-navigate).
 
 ## Example
 
