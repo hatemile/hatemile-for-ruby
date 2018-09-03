@@ -12,6 +12,17 @@ HaTeMiLe (HTML Accessible) is a library that can convert a HTML code in a HTML c
 * [Improve the acessibility of forms](https://github.com/hatemile/hatemile-for-ruby/wiki/Improve-the-acessibility-of-forms);
 * [Provide accessibility resources to navigate](https://github.com/hatemile/hatemile-for-ruby/wiki/Provide-accessibility-resources-to-navigate).
 
+## Documentation
+
+To generate the full API documentation of HaTeMiLe of Ruby:
+
+1. [Install dependencies](https://bundler.io/man/bundle-install.1.html);
+2. Execute the Rake task `doc` in directory;
+    ```bash
+    rake doc
+    ```
+3. Open the `doc/index.html` with an internet browser.
+
 ## Example
 
     require 'rubygems'
