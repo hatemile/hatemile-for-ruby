@@ -3,7 +3,7 @@ require 'rubygems'
 
 Gem::Specification.new do |gem|
   gem.name = 'hatemile'
-  gem.version = '1.0'
+  gem.version = '2.0'
   gem.date = Date.today.to_s
 
   gem.summary = 'HaTeMiLe can convert HTML code in a code more accessible.'
