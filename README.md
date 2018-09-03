@@ -236,3 +236,7 @@ To generate the full API documentation of HaTeMiLe of Ruby:
 
     # Output the html code with the changes
     puts(parser.get_html)
+
+## Contributing
+
+If you want contribute with HaTeMiLe for Ruby, read [contributing guidelines](https://github.com/hatemile/hatemile-for-ruby/blob/master/CONTRIBUTING.md).
