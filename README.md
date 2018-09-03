@@ -23,6 +23,13 @@ To generate the full API documentation of HaTeMiLe of Ruby:
     ```
 3. Open the `doc/index.html` with an internet browser.
 
+## Import the library to your project
+
+To install the HaTeMiLe for Ruby library, execute these command in terminal:
+```bash
+gem install hatemile
+```
+
 ## Usage
 
 Import all needed classes:
